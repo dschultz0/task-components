@@ -10,6 +10,7 @@
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #ddd;
+  flex: 0 1 auto;
 }
 .close {
   margin: 0;
@@ -36,10 +37,13 @@
   transform: translateX(550px);
 }
 .body {
+  display: flex;
+  flex-direction: column;
   flex: max-content;
   background-color: #fff;
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow-y: hidden;
+  height: 100%;
   box-shadow: 0 2px 6px #777;
 }
 .tabbar {
@@ -61,9 +65,10 @@
   text-align:center;
 }
 .content {
-  position: relative;
-  flex-grow: 1;
+  flex: 1 1 auto;
   padding: 1.5rem;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 .contentSlot {
   width: 100%;

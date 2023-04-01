@@ -8,7 +8,6 @@ import { Component, Prop, h, State, Watch, Listen } from '@stencil/core';
 export class TaskInstructions {
   @Prop() tab: string = "Instructions"
   @Prop() header: string = "Task Instructions"
-  @Prop() markdown_url: string
 
   @State() open: boolean = false
   @State() visible: boolean = false
@@ -67,7 +66,9 @@ export class TaskInstructions {
               <button class="close" onClick={() => this.open = false}></button>
             </div>
             <div class="content">
-              <task-markdown markdown_url={this.markdown_url}></task-markdown>
+              <div class="contentSlot">
+                <slot></slot>
+              </div>
             </div>
           </div>
         </div>

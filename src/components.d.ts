@@ -20,9 +20,12 @@ export namespace Components {
          */
         "middle": string;
     }
+    interface TaskAsset {
+        "asset": string;
+        "value": string;
+    }
     interface TaskInstructions {
         "header": string;
-        "markdown_url": string;
         "tab": string;
     }
     interface TaskMarkdown {
@@ -35,6 +38,12 @@ declare global {
     var HTMLMyComponentElement: {
         prototype: HTMLMyComponentElement;
         new (): HTMLMyComponentElement;
+    };
+    interface HTMLTaskAssetElement extends Components.TaskAsset, HTMLStencilElement {
+    }
+    var HTMLTaskAssetElement: {
+        prototype: HTMLTaskAssetElement;
+        new (): HTMLTaskAssetElement;
     };
     interface HTMLTaskInstructionsElement extends Components.TaskInstructions, HTMLStencilElement {
     }
@@ -50,6 +59,7 @@ declare global {
     };
     interface HTMLElementTagNameMap {
         "my-component": HTMLMyComponentElement;
+        "task-asset": HTMLTaskAssetElement;
         "task-instructions": HTMLTaskInstructionsElement;
         "task-markdown": HTMLTaskMarkdownElement;
     }
@@ -69,9 +79,12 @@ declare namespace LocalJSX {
          */
         "middle"?: string;
     }
+    interface TaskAsset {
+        "asset"?: string;
+        "value"?: string;
+    }
     interface TaskInstructions {
         "header"?: string;
-        "markdown_url"?: string;
         "tab"?: string;
     }
     interface TaskMarkdown {
@@ -79,6 +92,7 @@ declare namespace LocalJSX {
     }
     interface IntrinsicElements {
         "my-component": MyComponent;
+        "task-asset": TaskAsset;
         "task-instructions": TaskInstructions;
         "task-markdown": TaskMarkdown;
     }
@@ -88,6 +102,7 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
+            "task-asset": LocalJSX.TaskAsset & JSXBase.HTMLAttributes<HTMLTaskAssetElement>;
             "task-instructions": LocalJSX.TaskInstructions & JSXBase.HTMLAttributes<HTMLTaskInstructionsElement>;
             "task-markdown": LocalJSX.TaskMarkdown & JSXBase.HTMLAttributes<HTMLTaskMarkdownElement>;
         }

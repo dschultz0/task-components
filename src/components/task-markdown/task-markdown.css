@@ -5,3 +5,6 @@
 .content {
   font-family: sans-serif;
 }
+.content img {
+  max-width: 100%;
+}

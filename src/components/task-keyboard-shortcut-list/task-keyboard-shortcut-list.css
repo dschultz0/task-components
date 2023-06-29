@@ -1,0 +1,71 @@
+:host {
+  display: block;
+}
+.key-combo{
+  display:-webkit-box;
+  display:-ms-flexbox;
+  display:flex;
+  -webkit-box-orient:horizontal;
+  -webkit-box-direction:normal;
+  -ms-flex-direction:row;
+  flex-direction:row;
+  -webkit-box-align:center;
+  -ms-flex-align:center;
+  align-items:center;
+}
+.key-combo > *{
+  -webkit-box-flex:0;
+  -ms-flex-positive:0;
+  flex-grow:0;
+  -ms-flex-negative:0;
+  flex-shrink:0;
+}
+
+.key-combo::before,
+.key-combo > *{
+  margin-right:5px;
+}
+.key-combo:empty::before,
+.key-combo > :last-child{
+  margin-right:0;
+}
+
+.hotkey{
+  -webkit-box-align:center;
+  -ms-flex-align:center;
+  align-items:center;
+  display:-webkit-box;
+  display:-ms-flexbox;
+  display:flex;
+  -webkit-box-pack:justify;
+  -ms-flex-pack:justify;
+  justify-content:space-between;
+  margin-left:0;
+  margin-right:0;
+}
+.hotkey:not(:last-child){
+  margin-bottom:10px;
+}
+.key {
+  -webkit-box-align:center;
+  -ms-flex-align:center;
+  align-items:center;
+  background:#fff;
+  border-radius:3px;
+  -webkit-box-shadow:0 0 0 1px rgba(17, 20, 24, 0.1), 0 0 0 rgba(17, 20, 24, 0), 0 1px 1px rgba(17, 20, 24, 0.2);
+  box-shadow:0 0 0 1px rgba(17, 20, 24, 0.1), 0 0 0 rgba(17, 20, 24, 0), 0 1px 1px rgba(17, 20, 24, 0.2);
+  color:#5f6b7c;
+  display:-webkit-inline-box;
+  display:-ms-inline-flexbox;
+  display:inline-flex;
+  font-family:inherit;
+  font-size:12px;
+  height:24px;
+  -webkit-box-pack:center;
+  -ms-flex-pack:center;
+  justify-content:center;
+  line-height:24px;
+  min-width:24px;
+  padding:3px 6px;
+  vertical-align:middle;
+}

@@ -1,0 +1,384 @@
+:host {
+  display: inline;
+}
+:host{
+  display:-webkit-inline-box;
+  display:-ms-inline-flexbox;
+  display:inline-flex;
+  -webkit-box-orient:horizontal;
+  -webkit-box-direction:normal;
+  -ms-flex-direction:row;
+  flex-direction:row;
+  -webkit-box-align:center;
+  -ms-flex-align:center;
+  align-items:center;
+  background-color:#5f6b7c;
+  border:none;
+  border-radius:3px;
+  -webkit-box-shadow:none;
+  box-shadow:none;
+  color:#f6f7f9;
+  font-size:12px;
+  line-height:16px;
+  max-width:100%;
+  min-height:20px;
+  min-width:20px;
+  padding:2px 6px;
+  position:relative;
+  /* TODO: Evaluate a better way to auto space tags */
+  margin-right: 4px;
+  margin-bottom: 4px;
+}
+:host.interactive{
+  cursor:pointer;
+}
+:host.interactive:hover{
+  background-color:rgba(95, 107, 124, 0);
+}
+:host.interactive.active, :host.interactive:active{
+  background-color:rgba(95, 107, 124, 0);
+}
+:host > *{
+  -webkit-box-flex:0;
+  -ms-flex-positive:0;
+  flex-grow:0;
+  -ms-flex-negative:0;
+  flex-shrink:0;
+}
+:host::before,
+task-tag > * {
+  margin-right:4px;
+}
+:host:empty::before,
+:host > :last-child{
+  margin-right:0;
+}
+:host:focus{
+  outline:rgba(45, 114, 210, 0.6) auto 2px;
+  outline-offset:0;
+  -moz-outline-radius:6px;
+}
+:host.round{
+  border-radius:30px;
+  padding-left:8px;
+  padding-right:8px;
+}
+:host.large, .large :host{
+  font-size:14px;
+  line-height:20px;
+  min-height:30px;
+  min-width:30px;
+  padding:5px 10px;
+}
+:host.large::before,
+:host.large > *, .large :host::before,
+.large :host > *{
+  margin-right:7px;
+}
+:host.large:empty::before,
+:host.large > :last-child, .large :host:empty::before,
+.large :host > :last-child{
+  margin-right:0;
+}
+:host.large.round, .large :host.round{
+  padding-left:12px;
+  padding-right:12px;
+}
+
+:host.small, .small :host{
+  font-size:11px;
+  line-height:14px;
+  min-height:14px;
+  min-width:18px;
+  padding:2px 6px;
+}
+:host.small::before,
+:host.small > *, .small :host::before,
+.small :host > *{
+  margin-right:4px;
+}
+:host.small:empty::before,
+:host.small > :last-child, .small :host:empty::before,
+.small :host > :last-child{
+  margin-right:0;
+}
+:host.small.round, .small :host.round{
+  padding-left:6px;
+  padding-right:6px;
+}
+:host.color-blue{
+  background:#2d72d2;
+  color:#fff;
+}
+:host.color-blue.interactive{
+  cursor:pointer;
+}
+:host.color-blue.interactive:hover{
+  background-color:rgba(45, 114, 210, 0);
+}
+:host.color-blue.interactive.active, :host.color-blue.interactive:active{
+  background-color:rgba(45, 114, 210, 0);
+}
+:host.color-green{
+  background:#238551;
+  color:#fff;
+}
+:host.color-green.interactive{
+  cursor:pointer;
+}
+:host.color-green.interactive:hover{
+  background-color:rgba(35, 133, 81, 0);
+}
+:host.color-green.interactive.active, :host.color-green.interactive:active{
+  background-color:rgba(35, 133, 81, 0);
+}
+:host.color-orange{
+  background:#c87619;
+  color:#fff;
+}
+:host.color-orange.interactive{
+  cursor:pointer;
+}
+:host.color-orange.interactive:hover{
+  background-color:rgba(200, 118, 25, 0);
+}
+:host.color-orange.interactive.active, :host.color-orange.interactive:active{
+  background-color:rgba(200, 118, 25, 0);
+}
+:host.color-red{
+  background:#cd4246;
+  color:#fff;
+}
+:host.color-red.interactive{
+  cursor:pointer;
+}
+:host.color-red.interactive:hover{
+  background-color:rgba(205, 66, 70, 0);
+}
+:host.color-red.interactive.active, :host.color-red.interactive:active{
+  background-color:rgba(205, 66, 70, 0);
+}
+:host.minimal:not([class*=bp4-intent-]){
+  background-color:rgba(143, 153, 168, 0.2);
+  color:#1c2127;
+}
+:host.minimal:not([class*=bp4-intent-]).interactive{
+  cursor:pointer;
+}
+:host.minimal:not([class*=bp4-intent-]).interactive:hover{
+  background-color:rgba(95, 107, 124, 0.102);
+}
+:host.minimal:not([class*=bp4-intent-]).interactive.active, :host.minimal:not([class*=bp4-intent-]).interactive:active{
+  background-color:rgba(95, 107, 124, 0.202);
+}
+:host.minimal.color-blue{
+  background-color:rgba(45, 114, 210, 0.15);
+  color:#215db0;
+}
+:host.minimal.color-blue.interactive{
+  cursor:pointer;
+}
+:host.minimal.color-blue.interactive:hover{
+  background-color:rgba(45, 114, 210, 0.1015);
+}
+:host.minimal.color-blue.interactive.active, :host.minimal.color-blue.interactive:active{
+  background-color:rgba(45, 114, 210, 0.2015);
+}
+:host.minimal.color-green{
+  background-color:rgba(35, 133, 81, 0.15);
+  color:#1c6e42;
+}
+:host.minimal.color-green.interactive{
+  cursor:pointer;
+}
+:host.minimal.color-green.interactive:hover{
+  background-color:rgba(35, 133, 81, 0.1015);
+}
+:host.minimal.color-green.interactive.active, :host.minimal.color-green.interactive:active{
+  background-color:rgba(35, 133, 81, 0.2015);
+}
+:host.minimal.color-orange{
+  background-color:rgba(200, 118, 25, 0.15);
+  color:#935610;
+}
+:host.minimal.color-orange.interactive{
+  cursor:pointer;
+}
+:host.minimal.color-orange.interactive:hover{
+  background-color:rgba(200, 118, 25, 0.1015);
+}
+:host.minimal.color-orange.interactive.active, :host.minimal.color-orange.interactive:active{
+  background-color:rgba(200, 118, 25, 0.2015);
+}
+:host.minimal.color-red{
+  background-color:rgba(205, 66, 70, 0.15);
+  color:#ac2f33;
+}
+:host.minimal.color-red.interactive{
+  cursor:pointer;
+}
+:host.minimal.color-red.interactive:hover{
+  background-color:rgba(205, 66, 70, 0.1015);
+}
+:host.minimal.color-red.interactive.active, :host.minimal.color-red.interactive:active{
+  background-color:rgba(205, 66, 70, 0.2015);
+}
+:host-remove{
+  background:none;
+  border:none;
+  color:inherit;
+  cursor:pointer;
+  display:-webkit-box;
+  display:-ms-flexbox;
+  display:flex;
+  margin-bottom:-2px;
+  margin-right:-6px !important;
+  margin-top:-2px;
+  opacity:0.5;
+  padding:2px;
+  padding-left:0;
+}
+:host-remove:hover{
+  background:none;
+  opacity:0.8;
+  text-decoration:none;
+}
+:host-remove:active{
+  opacity:1;
+}
+:host-remove:empty::before{
+  font-family:"blueprint-icons-16", sans-serif;
+  font-size:16px;
+  font-style:normal;
+  font-variant:normal;
+  font-weight:400;
+  line-height:1;
+  -moz-osx-font-smoothing:grayscale;
+  -webkit-font-smoothing:antialiased;
+  content:"\f2ba";
+}
+.large :host-remove{
+  margin-right:-10px !important;
+  padding:0 5px 0 0;
+}
+.large :host-remove:empty::before{
+  font-family:"blueprint-icons-20", sans-serif;
+  font-size:20px;
+  font-style:normal;
+  font-variant:normal;
+  font-weight:400;
+  line-height:1;
+}
+:host{
+  color:#fff;
+}
+:host :host-remove, :host :host-remove:hover, :host :host-remove:active{
+  opacity:1;
+}
+:host.interactive:hover{
+  background:#404854;
+}
+:host.interactive:active{
+  background:#383e47;
+}
+:host.color-blue{
+  background:#2d72d2;
+  color:#fff;
+}
+:host.color-blue.interactive:hover{
+  background-color:#215db0;
+}
+:host.color-blue.interactive:active{
+  background-color:#184a90;
+}
+:host.color-green{
+  background:#238551;
+  color:#fff;
+}
+:host.color-green.interactive:hover{
+  background-color:#1c6e42;
+}
+:host.color-green.interactive:active{
+  background-color:#165a36;
+}
+:host.color-orange{
+  background:#fbb360;
+  color:#1c2127;
+}
+:host.color-orange.interactive:hover{
+  background-color:#ec9a3c;
+}
+:host.color-orange.interactive:active{
+  background-color:#c87619;
+}
+:host.color-red{
+  background:#cd4246;
+  color:#fff;
+}
+:host.color-red.interactive:hover{
+  background-color:#ac2f33;
+}
+:host.color-red.interactive:active{
+  background-color:#8e292c;
+}
+:host.minimal{
+  background-color:rgba(143, 153, 168, 0.15);
+  color:#1c2127;
+}
+:host.minimal.interactive:hover{
+  background-color:rgba(143, 153, 168, 0.3);
+  color:#111418;
+}
+:host.minimal.interactive:active{
+  background-color:rgba(143, 153, 168, 0.35);
+  color:#111418;
+}
+:host.minimal.color-blue{
+  background-color:rgba(45, 114, 210, 0.1);
+  color:#215db0;
+}
+:host.minimal.color-blue.interactive:hover{
+  background-color:rgba(45, 114, 210, 0.2);
+  color:#184a90;
+}
+:host.minimal.color-blue.interactive:active{
+  background-color:rgba(45, 114, 210, 0.3);
+  color:#184a90;
+}
+:host.minimal.color-green{
+  background-color:rgba(35, 133, 81, 0.1);
+  color:#1c6e42;
+}
+:host.minimal.color-green.interactive:hover{
+  background-color:rgba(35, 133, 81, 0.2);
+  color:#165a36;
+}
+:host.minimal.color-green.interactive:active{
+  background-color:rgba(35, 133, 81, 0.3);
+  color:#165a36;
+}
+:host.minimal.color-orange{
+  background-color:rgba(200, 118, 25, 0.1);
+  color:#935610;
+}
+:host.minimal.color-orange.interactive:hover{
+  background-color:rgba(200, 118, 25, 0.2);
+  color:#77450d;
+}
+:host.minimal.color-orange.interactive:active{
+  background-color:rgba(200, 118, 25, 0.3);
+  color:#77450d;
+}
+:host.minimal.color-red{
+  background-color:rgba(205, 66, 70, 0.1);
+  color:#ac2f33;
+}
+:host.minimal.color-red.interactive:hover{
+  background-color:rgba(205, 66, 70, 0.2);
+  color:#8e292c;
+}
+:host.minimal.color-red.interactive:active{
+  background-color:rgba(205, 66, 70, 0.3);
+  color:#8e292c;
+}
+

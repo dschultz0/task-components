@@ -1,0 +1,6 @@
+:host {
+  display: inline-block;
+  color: inherit;
+  flex: 0 0 auto;
+  vertical-align: text-bottom;
+}

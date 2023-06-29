@@ -1,0 +1,65 @@
+:host {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+label {
+  cursor: pointer;
+  display: block;
+  margin-bottom: 10px;
+  position: relative;
+  text-transform: none;
+  padding-left: 26px;
+}
+
+label input {
+  left: 0;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  z-index: -1;
+}
+
+.indicator {
+  margin-left: -26px;
+  background-clip: padding-box;
+  background-color: transparent;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(17, 20, 24, 0)), to(rgba(17, 20, 24, 0.05)));
+  background-image: linear-gradient(to bottom, rgba(17, 20, 24, 0), rgba(17, 20, 24, 0.05));
+  border: none;
+  -webkit-box-shadow: inset 0 0 0 1px #738091;
+  box-shadow: inset 0 0 0 1px #738091;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 16px;
+  height: 1em;
+  margin-right: 10px;
+  margin-top: -3px;
+  position: relative;
+  -webkit-user-select: none;
+  user-select: none;
+  vertical-align: middle;
+  width: 1em;
+  text-transform: none;
+  border-radius: 50%;
+}
+
+label input:checked ~ .indicator {
+  background-color: #2d72d2;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(17, 20, 24, 0)), to(rgba(17, 20, 24, 0.05)));
+  background-image: linear-gradient(to bottom, rgba(17, 20, 24, 0), rgba(17, 20, 24, 0.05));
+  -webkit-box-shadow: inset 0 0 0 1px rgba(17, 20, 24, 0.2);
+  box-shadow: inset 0 0 0 1px rgba(17, 20, 24, 0.2);
+  color: #fff;
+}
+
+.indicator::before {
+  content: "";
+  display: block;
+  height: 1em;
+  width: 1em;
+}
+
+label input:checked ~ .indicator::before {
+  background-image: radial-gradient(#fff, #fff 28%, transparent 32%);
+}

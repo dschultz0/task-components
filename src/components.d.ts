@@ -5,39 +5,181 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
+import { KeyboardShortcut } from "./utils/utils";
+import { TaskAnswer } from "./components/task-answer/task-answer";
+import { TaskCard } from "./components/task-card/task-card";
+export { KeyboardShortcut } from "./utils/utils";
+export { TaskAnswer } from "./components/task-answer/task-answer";
+export { TaskCard } from "./components/task-card/task-card";
 export namespace Components {
-    interface MyComponent {
-        /**
-          * The first name
-         */
-        "first": string;
-        /**
-          * The last name
-         */
-        "last": string;
-        /**
-          * The middle name
-         */
-        "middle": string;
+    interface TaskAnswer {
+        "displayCorrection": boolean;
+        "onDisplayEvent": string;
+        "preventChanges": boolean;
+        "showAnswer": string;
+        "value": string;
     }
     interface TaskAsset {
         "asset": string;
         "value": string;
     }
+    interface TaskBody {
+    }
+    interface TaskCallout {
+        "intent": string;
+    }
+    interface TaskCard {
+        "active": boolean;
+        "readyToSubmit": () => Promise<boolean>;
+    }
+    interface TaskCardList {
+        "advanceWhenComplete": boolean;
+        "backKeyboardShortcut": string;
+        "forwardKeyboardShortcut": string;
+    }
+    interface TaskIcon {
+        "icon": string;
+    }
+    interface TaskImage {
+        "src": string;
+    }
+    interface TaskInfoPane {
+    }
+    interface TaskInfoSection {
+        "header": string;
+    }
+    interface TaskInput {
+        "active": boolean;
+        "cols": number;
+        "disabled": boolean;
+        "label": string;
+        "maxlength": number;
+        "name": string;
+        "placeholder": string;
+        "readyToSubmit": () => Promise<boolean>;
+        "required": boolean;
+        "rows": number;
+        "type": string;
+        "validateAgainstAnswer": () => Promise<boolean>;
+    }
+    interface TaskInputMultiselect {
+        "active": boolean;
+        "disabled": boolean;
+        "label": string;
+        "name": string;
+        "placeholder": string;
+        "readyToSubmit": () => Promise<boolean>;
+        "required": boolean;
+        "validateAgainstAnswer": () => Promise<boolean>;
+    }
+    interface TaskInputOption {
+        "keyboardShortcut": string;
+        "value": string;
+    }
+    interface TaskInputRadio {
+        "active": boolean;
+        "answerTag": string;
+        "disabled": boolean;
+        "label": string;
+        "name": string;
+        "readyToSubmit": () => Promise<boolean>;
+        "required": boolean;
+        "validateAgainstAnswer": () => Promise<boolean>;
+    }
+    interface TaskInputSelect {
+        "active": boolean;
+        "disabled": boolean;
+        "label": string;
+        "name": string;
+        "readyToSubmit": () => Promise<boolean>;
+        "required": boolean;
+        "validateAgainstAnswer": () => Promise<boolean>;
+    }
     interface TaskInstructions {
         "header": string;
         "tab": string;
     }
+    interface TaskKeyboardShortcut {
+        "keyboardShortcut": string;
+    }
+    interface TaskKeyboardShortcutList {
+        "addShortCut": (shortcut: KeyboardShortcut) => Promise<void>;
+    }
+    interface TaskLink {
+        "customStyle": string;
+        "href": string;
+        "type": string;
+    }
+    interface TaskMain {
+    }
     interface TaskMarkdown {
         "markdown_url": string;
     }
+    interface TaskProgressbar {
+        "completedCount": number;
+        "mode": string;
+        "refreshProgress": () => Promise<void>;
+        "taskCount": number;
+    }
+    interface TaskRow {
+    }
+    interface TaskSubmit {
+        "disableUntilCompleteMode": string;
+        "disabled": boolean;
+        "keyboardShortcut": string;
+        "refreshSubmitReady": () => Promise<void>;
+    }
+    interface TaskSummary {
+    }
+    interface TaskTag {
+        "color": string;
+        "interactive": boolean;
+        "large": boolean;
+        "minimal": boolean;
+        "onremove": () => void;
+        "removable": boolean;
+        "round": boolean;
+        "small": boolean;
+    }
+}
+export interface TaskAnswerCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLTaskAnswerElement;
+}
+export interface TaskCardCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLTaskCardElement;
+}
+export interface TaskCardListCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLTaskCardListElement;
+}
+export interface TaskInputCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLTaskInputElement;
+}
+export interface TaskInputMultiselectCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLTaskInputMultiselectElement;
+}
+export interface TaskInputRadioCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLTaskInputRadioElement;
+}
+export interface TaskInputSelectCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLTaskInputSelectElement;
+}
+export interface TaskSubmitCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLTaskSubmitElement;
 }
 declare global {
-    interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {
+    interface HTMLTaskAnswerElement extends Components.TaskAnswer, HTMLStencilElement {
     }
-    var HTMLMyComponentElement: {
-        prototype: HTMLMyComponentElement;
-        new (): HTMLMyComponentElement;
+    var HTMLTaskAnswerElement: {
+        prototype: HTMLTaskAnswerElement;
+        new (): HTMLTaskAnswerElement;
     };
     interface HTMLTaskAssetElement extends Components.TaskAsset, HTMLStencilElement {
     }
@@ -45,11 +187,113 @@ declare global {
         prototype: HTMLTaskAssetElement;
         new (): HTMLTaskAssetElement;
     };
+    interface HTMLTaskBodyElement extends Components.TaskBody, HTMLStencilElement {
+    }
+    var HTMLTaskBodyElement: {
+        prototype: HTMLTaskBodyElement;
+        new (): HTMLTaskBodyElement;
+    };
+    interface HTMLTaskCalloutElement extends Components.TaskCallout, HTMLStencilElement {
+    }
+    var HTMLTaskCalloutElement: {
+        prototype: HTMLTaskCalloutElement;
+        new (): HTMLTaskCalloutElement;
+    };
+    interface HTMLTaskCardElement extends Components.TaskCard, HTMLStencilElement {
+    }
+    var HTMLTaskCardElement: {
+        prototype: HTMLTaskCardElement;
+        new (): HTMLTaskCardElement;
+    };
+    interface HTMLTaskCardListElement extends Components.TaskCardList, HTMLStencilElement {
+    }
+    var HTMLTaskCardListElement: {
+        prototype: HTMLTaskCardListElement;
+        new (): HTMLTaskCardListElement;
+    };
+    interface HTMLTaskIconElement extends Components.TaskIcon, HTMLStencilElement {
+    }
+    var HTMLTaskIconElement: {
+        prototype: HTMLTaskIconElement;
+        new (): HTMLTaskIconElement;
+    };
+    interface HTMLTaskImageElement extends Components.TaskImage, HTMLStencilElement {
+    }
+    var HTMLTaskImageElement: {
+        prototype: HTMLTaskImageElement;
+        new (): HTMLTaskImageElement;
+    };
+    interface HTMLTaskInfoPaneElement extends Components.TaskInfoPane, HTMLStencilElement {
+    }
+    var HTMLTaskInfoPaneElement: {
+        prototype: HTMLTaskInfoPaneElement;
+        new (): HTMLTaskInfoPaneElement;
+    };
+    interface HTMLTaskInfoSectionElement extends Components.TaskInfoSection, HTMLStencilElement {
+    }
+    var HTMLTaskInfoSectionElement: {
+        prototype: HTMLTaskInfoSectionElement;
+        new (): HTMLTaskInfoSectionElement;
+    };
+    interface HTMLTaskInputElement extends Components.TaskInput, HTMLStencilElement {
+    }
+    var HTMLTaskInputElement: {
+        prototype: HTMLTaskInputElement;
+        new (): HTMLTaskInputElement;
+    };
+    interface HTMLTaskInputMultiselectElement extends Components.TaskInputMultiselect, HTMLStencilElement {
+    }
+    var HTMLTaskInputMultiselectElement: {
+        prototype: HTMLTaskInputMultiselectElement;
+        new (): HTMLTaskInputMultiselectElement;
+    };
+    interface HTMLTaskInputOptionElement extends Components.TaskInputOption, HTMLStencilElement {
+    }
+    var HTMLTaskInputOptionElement: {
+        prototype: HTMLTaskInputOptionElement;
+        new (): HTMLTaskInputOptionElement;
+    };
+    interface HTMLTaskInputRadioElement extends Components.TaskInputRadio, HTMLStencilElement {
+    }
+    var HTMLTaskInputRadioElement: {
+        prototype: HTMLTaskInputRadioElement;
+        new (): HTMLTaskInputRadioElement;
+    };
+    interface HTMLTaskInputSelectElement extends Components.TaskInputSelect, HTMLStencilElement {
+    }
+    var HTMLTaskInputSelectElement: {
+        prototype: HTMLTaskInputSelectElement;
+        new (): HTMLTaskInputSelectElement;
+    };
     interface HTMLTaskInstructionsElement extends Components.TaskInstructions, HTMLStencilElement {
     }
     var HTMLTaskInstructionsElement: {
         prototype: HTMLTaskInstructionsElement;
         new (): HTMLTaskInstructionsElement;
+    };
+    interface HTMLTaskKeyboardShortcutElement extends Components.TaskKeyboardShortcut, HTMLStencilElement {
+    }
+    var HTMLTaskKeyboardShortcutElement: {
+        prototype: HTMLTaskKeyboardShortcutElement;
+        new (): HTMLTaskKeyboardShortcutElement;
+    };
+    interface HTMLTaskKeyboardShortcutListElement extends Components.TaskKeyboardShortcutList, HTMLStencilElement {
+    }
+    var HTMLTaskKeyboardShortcutListElement: {
+        prototype: HTMLTaskKeyboardShortcutListElement;
+        new (): HTMLTaskKeyboardShortcutListElement;
+    };
+    interface HTMLTaskLinkElement extends Components.TaskLink, HTMLStencilElement {
+    }
+    var HTMLTaskLinkElement: {
+        prototype: HTMLTaskLinkElement;
+        new (): HTMLTaskLinkElement;
+    };
+    interface HTMLTaskMainElement extends Components.TaskMain, HTMLStencilElement {
+    }
+    var HTMLTaskMainElement: {
+        prototype: HTMLTaskMainElement;
+        new (): HTMLTaskMainElement;
     };
     interface HTMLTaskMarkdownElement extends Components.TaskMarkdown, HTMLStencilElement {
     }
@@ -57,54 +301,254 @@ declare global {
         prototype: HTMLTaskMarkdownElement;
         new (): HTMLTaskMarkdownElement;
     };
+    interface HTMLTaskProgressbarElement extends Components.TaskProgressbar, HTMLStencilElement {
+    }
+    var HTMLTaskProgressbarElement: {
+        prototype: HTMLTaskProgressbarElement;
+        new (): HTMLTaskProgressbarElement;
+    };
+    interface HTMLTaskRowElement extends Components.TaskRow, HTMLStencilElement {
+    }
+    var HTMLTaskRowElement: {
+        prototype: HTMLTaskRowElement;
+        new (): HTMLTaskRowElement;
+    };
+    interface HTMLTaskSubmitElement extends Components.TaskSubmit, HTMLStencilElement {
+    }
+    var HTMLTaskSubmitElement: {
+        prototype: HTMLTaskSubmitElement;
+        new (): HTMLTaskSubmitElement;
+    };
+    interface HTMLTaskSummaryElement extends Components.TaskSummary, HTMLStencilElement {
+    }
+    var HTMLTaskSummaryElement: {
+        prototype: HTMLTaskSummaryElement;
+        new (): HTMLTaskSummaryElement;
+    };
+    interface HTMLTaskTagElement extends Components.TaskTag, HTMLStencilElement {
+    }
+    var HTMLTaskTagElement: {
+        prototype: HTMLTaskTagElement;
+        new (): HTMLTaskTagElement;
+    };
     interface HTMLElementTagNameMap {
-        "my-component": HTMLMyComponentElement;
+        "task-answer": HTMLTaskAnswerElement;
         "task-asset": HTMLTaskAssetElement;
+        "task-body": HTMLTaskBodyElement;
+        "task-callout": HTMLTaskCalloutElement;
+        "task-card": HTMLTaskCardElement;
+        "task-card-list": HTMLTaskCardListElement;
+        "task-icon": HTMLTaskIconElement;
+        "task-image": HTMLTaskImageElement;
+        "task-info-pane": HTMLTaskInfoPaneElement;
+        "task-info-section": HTMLTaskInfoSectionElement;
+        "task-input": HTMLTaskInputElement;
+        "task-input-multiselect": HTMLTaskInputMultiselectElement;
+        "task-input-option": HTMLTaskInputOptionElement;
+        "task-input-radio": HTMLTaskInputRadioElement;
+        "task-input-select": HTMLTaskInputSelectElement;
         "task-instructions": HTMLTaskInstructionsElement;
+        "task-keyboard-shortcut": HTMLTaskKeyboardShortcutElement;
+        "task-keyboard-shortcut-list": HTMLTaskKeyboardShortcutListElement;
+        "task-link": HTMLTaskLinkElement;
+        "task-main": HTMLTaskMainElement;
         "task-markdown": HTMLTaskMarkdownElement;
+        "task-progressbar": HTMLTaskProgressbarElement;
+        "task-row": HTMLTaskRowElement;
+        "task-submit": HTMLTaskSubmitElement;
+        "task-summary": HTMLTaskSummaryElement;
+        "task-tag": HTMLTaskTagElement;
     }
 }
 declare namespace LocalJSX {
-    interface MyComponent {
-        /**
-          * The first name
-         */
-        "first"?: string;
-        /**
-          * The last name
-         */
-        "last"?: string;
-        /**
-          * The middle name
-         */
-        "middle"?: string;
+    interface TaskAnswer {
+        "displayCorrection"?: boolean;
+        "onDisplay"?: (event: TaskAnswerCustomEvent<boolean>) => void;
+        "onDisplayEvent"?: string;
+        "preventChanges"?: boolean;
+        "showAnswer"?: string;
+        "value"?: string;
     }
     interface TaskAsset {
         "asset"?: string;
         "value"?: string;
     }
+    interface TaskBody {
+    }
+    interface TaskCallout {
+        "intent"?: string;
+    }
+    interface TaskCard {
+        "active"?: boolean;
+        "onCardClicked"?: (event: TaskCardCustomEvent<TaskCard>) => void;
+        "onCardReadyToSubmit"?: (event: TaskCardCustomEvent<boolean>) => void;
+    }
+    interface TaskCardList {
+        "advanceWhenComplete"?: boolean;
+        "backKeyboardShortcut"?: string;
+        "forwardKeyboardShortcut"?: string;
+        "onRegisterKeyboardShortcut"?: (event: TaskCardListCustomEvent<KeyboardShortcut>) => void;
+    }
+    interface TaskIcon {
+        "icon"?: string;
+    }
+    interface TaskImage {
+        "src"?: string;
+    }
+    interface TaskInfoPane {
+    }
+    interface TaskInfoSection {
+        "header"?: string;
+    }
+    interface TaskInput {
+        "active"?: boolean;
+        "cols"?: number;
+        "disabled"?: boolean;
+        "label"?: string;
+        "maxlength"?: number;
+        "name"?: string;
+        "onInputUpdated"?: (event: TaskInputCustomEvent<HTMLElement>) => void;
+        "placeholder"?: string;
+        "required"?: boolean;
+        "rows"?: number;
+        "type"?: string;
+    }
+    interface TaskInputMultiselect {
+        "active"?: boolean;
+        "disabled"?: boolean;
+        "label"?: string;
+        "name"?: string;
+        "onInputUpdated"?: (event: TaskInputMultiselectCustomEvent<HTMLElement>) => void;
+        "onRegisterKeyboardShortcut"?: (event: TaskInputMultiselectCustomEvent<KeyboardShortcut>) => void;
+        "placeholder"?: string;
+        "required"?: boolean;
+    }
+    interface TaskInputOption {
+        "keyboardShortcut"?: string;
+        "value"?: string;
+    }
+    interface TaskInputRadio {
+        "active"?: boolean;
+        "answerTag"?: string;
+        "disabled"?: boolean;
+        "label"?: string;
+        "name"?: string;
+        "onInputUpdated"?: (event: TaskInputRadioCustomEvent<HTMLElement>) => void;
+        "onRegisterKeyboardShortcut"?: (event: TaskInputRadioCustomEvent<KeyboardShortcut>) => void;
+        "required"?: boolean;
+    }
+    interface TaskInputSelect {
+        "active"?: boolean;
+        "disabled"?: boolean;
+        "label"?: string;
+        "name"?: string;
+        "onInputUpdated"?: (event: TaskInputSelectCustomEvent<HTMLElement>) => void;
+        "onRegisterKeyboardShortcut"?: (event: TaskInputSelectCustomEvent<KeyboardShortcut>) => void;
+        "required"?: boolean;
+    }
     interface TaskInstructions {
         "header"?: string;
         "tab"?: string;
     }
+    interface TaskKeyboardShortcut {
+        "keyboardShortcut"?: string;
+    }
+    interface TaskKeyboardShortcutList {
+    }
+    interface TaskLink {
+        "customStyle"?: string;
+        "href"?: string;
+        "type"?: string;
+    }
+    interface TaskMain {
+    }
     interface TaskMarkdown {
         "markdown_url"?: string;
     }
+    interface TaskProgressbar {
+        "completedCount"?: number;
+        "mode"?: string;
+        "taskCount"?: number;
+    }
+    interface TaskRow {
+    }
+    interface TaskSubmit {
+        "disableUntilCompleteMode"?: string;
+        "disabled"?: boolean;
+        "keyboardShortcut"?: string;
+        "onRegisterKeyboardShortcut"?: (event: TaskSubmitCustomEvent<KeyboardShortcut>) => void;
+    }
+    interface TaskSummary {
+    }
+    interface TaskTag {
+        "color"?: string;
+        "interactive"?: boolean;
+        "large"?: boolean;
+        "minimal"?: boolean;
+        "onremove"?: () => void;
+        "removable"?: boolean;
+        "round"?: boolean;
+        "small"?: boolean;
+    }
     interface IntrinsicElements {
-        "my-component": MyComponent;
+        "task-answer": TaskAnswer;
         "task-asset": TaskAsset;
+        "task-body": TaskBody;
+        "task-callout": TaskCallout;
+        "task-card": TaskCard;
+        "task-card-list": TaskCardList;
+        "task-icon": TaskIcon;
+        "task-image": TaskImage;
+        "task-info-pane": TaskInfoPane;
+        "task-info-section": TaskInfoSection;
+        "task-input": TaskInput;
+        "task-input-multiselect": TaskInputMultiselect;
+        "task-input-option": TaskInputOption;
+        "task-input-radio": TaskInputRadio;
+        "task-input-select": TaskInputSelect;
         "task-instructions": TaskInstructions;
+        "task-keyboard-shortcut": TaskKeyboardShortcut;
+        "task-keyboard-shortcut-list": TaskKeyboardShortcutList;
+        "task-link": TaskLink;
+        "task-main": TaskMain;
         "task-markdown": TaskMarkdown;
+        "task-progressbar": TaskProgressbar;
+        "task-row": TaskRow;
+        "task-submit": TaskSubmit;
+        "task-summary": TaskSummary;
+        "task-tag": TaskTag;
     }
 }
 export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
-            "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
+            "task-answer": LocalJSX.TaskAnswer & JSXBase.HTMLAttributes<HTMLTaskAnswerElement>;
             "task-asset": LocalJSX.TaskAsset & JSXBase.HTMLAttributes<HTMLTaskAssetElement>;
+            "task-body": LocalJSX.TaskBody & JSXBase.HTMLAttributes<HTMLTaskBodyElement>;
+            "task-callout": LocalJSX.TaskCallout & JSXBase.HTMLAttributes<HTMLTaskCalloutElement>;
+            "task-card": LocalJSX.TaskCard & JSXBase.HTMLAttributes<HTMLTaskCardElement>;
+            "task-card-list": LocalJSX.TaskCardList & JSXBase.HTMLAttributes<HTMLTaskCardListElement>;
+            "task-icon": LocalJSX.TaskIcon & JSXBase.HTMLAttributes<HTMLTaskIconElement>;
+            "task-image": LocalJSX.TaskImage & JSXBase.HTMLAttributes<HTMLTaskImageElement>;
+            "task-info-pane": LocalJSX.TaskInfoPane & JSXBase.HTMLAttributes<HTMLTaskInfoPaneElement>;
+            "task-info-section": LocalJSX.TaskInfoSection & JSXBase.HTMLAttributes<HTMLTaskInfoSectionElement>;
+            "task-input": LocalJSX.TaskInput & JSXBase.HTMLAttributes<HTMLTaskInputElement>;
+            "task-input-multiselect": LocalJSX.TaskInputMultiselect & JSXBase.HTMLAttributes<HTMLTaskInputMultiselectElement>;
+            "task-input-option": LocalJSX.TaskInputOption & JSXBase.HTMLAttributes<HTMLTaskInputOptionElement>;
+            "task-input-radio": LocalJSX.TaskInputRadio & JSXBase.HTMLAttributes<HTMLTaskInputRadioElement>;
+            "task-input-select": LocalJSX.TaskInputSelect & JSXBase.HTMLAttributes<HTMLTaskInputSelectElement>;
             "task-instructions": LocalJSX.TaskInstructions & JSXBase.HTMLAttributes<HTMLTaskInstructionsElement>;
+            "task-keyboard-shortcut": LocalJSX.TaskKeyboardShortcut & JSXBase.HTMLAttributes<HTMLTaskKeyboardShortcutElement>;
+            "task-keyboard-shortcut-list": LocalJSX.TaskKeyboardShortcutList & JSXBase.HTMLAttributes<HTMLTaskKeyboardShortcutListElement>;
+            "task-link": LocalJSX.TaskLink & JSXBase.HTMLAttributes<HTMLTaskLinkElement>;
+            "task-main": LocalJSX.TaskMain & JSXBase.HTMLAttributes<HTMLTaskMainElement>;
             "task-markdown": LocalJSX.TaskMarkdown & JSXBase.HTMLAttributes<HTMLTaskMarkdownElement>;
+            "task-progressbar": LocalJSX.TaskProgressbar & JSXBase.HTMLAttributes<HTMLTaskProgressbarElement>;
+            "task-row": LocalJSX.TaskRow & JSXBase.HTMLAttributes<HTMLTaskRowElement>;
+            "task-submit": LocalJSX.TaskSubmit & JSXBase.HTMLAttributes<HTMLTaskSubmitElement>;
+            "task-summary": LocalJSX.TaskSummary & JSXBase.HTMLAttributes<HTMLTaskSummaryElement>;
+            "task-tag": LocalJSX.TaskTag & JSXBase.HTMLAttributes<HTMLTaskTagElement>;
         }
     }
 }

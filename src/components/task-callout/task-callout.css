@@ -1,0 +1,61 @@
+:host {
+  display: block;
+}
+
+:host{
+  font-size:14px;
+  line-height:1.5;
+  background-color:rgba(143, 153, 168, 0.15);
+  border-radius:3px;
+  padding:10px 12px 9px;
+  position:relative;
+  width:100%;
+  box-sizing: border-box;
+}
+:host .heading{
+  line-height:20px;
+  margin-bottom:5px;
+  margin-top:0;
+}
+:host .heading:last-child{
+  margin-bottom:0;
+}
+:host.intent-primary{
+  background-color:rgba(45, 114, 210, 0.15);
+}
+:host.intent-primary .heading{
+  color:#215db0;
+}
+:host.intent-success{
+  background-color:rgba(35, 133, 81, 0.15);
+}
+:host.intent-success .heading{
+  color:#1c6e42;
+}
+:host.intent-warning{
+  background-color:rgba(200, 118, 25, 0.15);
+}
+:host.intent-warning .heading{
+  color:#935610;
+}
+:host.intent-danger{
+  background-color:rgba(205, 66, 70, 0.15);
+}
+:host.intent-danger .heading{
+  color:#ac2f33;
+}
+:host{
+  background-color:rgba(143, 153, 168, 0.15);
+}
+:host.intent-primary{
+  background-color:rgba(45, 114, 210, 0.1);
+}
+:host.intent-success{
+  background-color:rgba(35, 133, 81, 0.1);
+}
+:host.intent-warning{
+  background-color:rgba(200, 118, 25, 0.1);
+}
+:host.intent-danger{
+  background-color:rgba(205, 66, 70, 0.1);
+}

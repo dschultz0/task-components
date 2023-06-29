@@ -1,0 +1,7 @@
+:host {
+  display: flex;
+}
+
+div {
+  margin-right: 1rem;
+}

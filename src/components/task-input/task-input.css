@@ -1,0 +1,35 @@
+:host {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.input {
+  display: block;
+  margin-top: 5px;
+  text-transform: none;
+  -webkit-appearance: none;
+  appearance: none;
+  background: #fff;
+  border: none;
+  border-radius: 3px;
+  -webkit-box-shadow: 0 0 0 0 rgba(45, 114, 210, 0), 0 0 0 0 rgba(45, 114, 210, 0), inset 0 0 0 1px rgba(17, 20, 24, 0.2), inset 0 1px 1px rgba(17, 20, 24, 0.5);
+  box-shadow: 0 0 0 0 rgba(45, 114, 210, 0), 0 0 0 0 rgba(45, 114, 210, 0), inset 0 0 0 1px rgba(17, 20, 24, 0.2), inset 0 1px 1px rgba(17, 20, 24, 0.5);
+  color: #1c2127;
+  font-size: 14px;
+  font-weight: 400;
+  height: 30px;
+  line-height: 30px;
+  outline: none;
+  padding: 0 10px;
+  -webkit-transition: -webkit-box-shadow 100ms cubic-bezier(0.4, 1, 0.75, 0.9);
+  transition: -webkit-box-shadow 100ms cubic-bezier(0.4, 1, 0.75, 0.9);
+  transition: box-shadow 100ms cubic-bezier(0.4, 1, 0.75, 0.9), -webkit-box-shadow 100ms cubic-bezier(0.4, 1, 0.75, 0.9);
+  vertical-align: middle;
+}
+
+textarea.input {
+  max-width: 100%;
+  padding: 10px;
+  height: auto;
+  line-height: inherit;
+}

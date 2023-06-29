@@ -1,0 +1,18 @@
+:host {
+  display: block;
+  margin-bottom: 0;
+  border-bottom: 2px solid black;
+  padding: 16px 0;
+}
+:host:last-of-type {
+  margin-bottom: 0;
+  border-bottom: none;
+}
+:host p {
+  line-height: 1.4rem;
+}
+.header {
+  font-weight: bold;
+  font-size: medium;
+  margin-bottom: 0.5rem;
+}

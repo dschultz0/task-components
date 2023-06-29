@@ -13,8 +13,9 @@ export class TaskInstructions {
   @State() visible: boolean = false
   @State() active: boolean = false
 
-  tabClicked() {
+  tabClicked(e: Event) {
     this.open = !this.open
+    e.preventDefault()
   }
 
   @Watch("open")
@@ -39,13 +40,12 @@ export class TaskInstructions {
 
   /*
   Remaining work:
-  * The padding and scroll on the content is a bit messed up
   * Make the tab button a functional component with its own listener that captures
     the click so it isn't transmitted to the tab bar, then add a close listener to the tabbar
   * Option for left and right
   * Option to set width
   * option to set tab color
-  * Option to insert images
+  * option to set size
    */
   render() {
     return (
@@ -56,7 +56,7 @@ export class TaskInstructions {
         <div class="overlay" tabindex="-1" onClick={() => this.open = false}></div>
         <div class="wrapper">
           <div class="tabbar">
-            <div class="tab" onClick={() => this.tabClicked()}>
+            <div class="tab" onClick={(e) => this.tabClicked(e)}>
               <div>{this.tab}</div>
             </div>
           </div>

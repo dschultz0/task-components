@@ -1,18 +1,18 @@
 {
   "name": "task-components",
-  "version": "0.0.1",
-  "description": "Stencil Component Starter",
+  "version": "0.0.11",
+  "description": "Components for crowdwork tasks (i.e. MTurk)",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
   "es2015": "dist/esm/index.mjs",
   "es2017": "dist/esm/index.mjs",
   "types": "dist/types/index.d.ts",
+  "unpkg": "dist/task-components/task-components.esm.js",
   "collection": "dist/collection/collection-manifest.json",
   "collection:main": "dist/collection/index.js",
-  "unpkg": "dist/task-components/task-components.esm.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ionic-team/stencil-component-starter.git"
+    "url": "https://github.com/dschultz0/task-components"
   },
   "files": [
     "dist/",
@@ -26,7 +26,8 @@
     "generate": "stencil generate"
   },
   "dependencies": {
-    "@stencil/core": "^3.0.0",
+    "@floating-ui/dom": "^1.4.2",
+    "@stencil/core": "^4.0.0",
     "marked": "^4.3.0"
   },
   "devDependencies": {

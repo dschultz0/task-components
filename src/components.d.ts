@@ -6,18 +6,20 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { KeyboardShortcut } from "./utils/utils";
-import { TaskAnswer } from "./components/task-answer/task-answer";
 import { TaskCard } from "./components/task-card/task-card";
 export { KeyboardShortcut } from "./utils/utils";
-export { TaskAnswer } from "./components/task-answer/task-answer";
 export { TaskCard } from "./components/task-card/task-card";
 export namespace Components {
     interface TaskAnswer {
+        "showAnswer": boolean;
+        "value": string;
+    }
+    interface TaskAnswerCorrection {
         "displayCorrection": boolean;
+        "displayOn": string;
         "onDisplayEvent": string;
         "preventChanges": boolean;
-        "showAnswer": string;
-        "value": string;
+        "showAnswer": boolean;
     }
     interface TaskAsset {
         "asset": string;
@@ -142,9 +144,9 @@ export namespace Components {
         "small": boolean;
     }
 }
-export interface TaskAnswerCustomEvent<T> extends CustomEvent<T> {
+export interface TaskAnswerCorrectionCustomEvent<T> extends CustomEvent<T> {
     detail: T;
-    target: HTMLTaskAnswerElement;
+    target: HTMLTaskAnswerCorrectionElement;
 }
 export interface TaskCardCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -180,6 +182,12 @@ declare global {
     var HTMLTaskAnswerElement: {
         prototype: HTMLTaskAnswerElement;
         new (): HTMLTaskAnswerElement;
+    };
+    interface HTMLTaskAnswerCorrectionElement extends Components.TaskAnswerCorrection, HTMLStencilElement {
+    }
+    var HTMLTaskAnswerCorrectionElement: {
+        prototype: HTMLTaskAnswerCorrectionElement;
+        new (): HTMLTaskAnswerCorrectionElement;
     };
     interface HTMLTaskAssetElement extends Components.TaskAsset, HTMLStencilElement {
     }
@@ -333,6 +341,7 @@ declare global {
     };
     interface HTMLElementTagNameMap {
         "task-answer": HTMLTaskAnswerElement;
+        "task-answer-correction": HTMLTaskAnswerCorrectionElement;
         "task-asset": HTMLTaskAssetElement;
         "task-body": HTMLTaskBodyElement;
         "task-callout": HTMLTaskCalloutElement;
@@ -362,12 +371,16 @@ declare global {
 }
 declare namespace LocalJSX {
     interface TaskAnswer {
+        "showAnswer"?: boolean;
+        "value"?: string;
+    }
+    interface TaskAnswerCorrection {
         "displayCorrection"?: boolean;
-        "onDisplay"?: (event: TaskAnswerCustomEvent<boolean>) => void;
+        "displayOn"?: string;
+        "onDisplay"?: (event: TaskAnswerCorrectionCustomEvent<boolean>) => void;
         "onDisplayEvent"?: string;
         "preventChanges"?: boolean;
-        "showAnswer"?: string;
-        "value"?: string;
+        "showAnswer"?: boolean;
     }
     interface TaskAsset {
         "asset"?: string;
@@ -492,6 +505,7 @@ declare namespace LocalJSX {
     }
     interface IntrinsicElements {
         "task-answer": TaskAnswer;
+        "task-answer-correction": TaskAnswerCorrection;
         "task-asset": TaskAsset;
         "task-body": TaskBody;
         "task-callout": TaskCallout;
@@ -524,6 +538,7 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "task-answer": LocalJSX.TaskAnswer & JSXBase.HTMLAttributes<HTMLTaskAnswerElement>;
+            "task-answer-correction": LocalJSX.TaskAnswerCorrection & JSXBase.HTMLAttributes<HTMLTaskAnswerCorrectionElement>;
             "task-asset": LocalJSX.TaskAsset & JSXBase.HTMLAttributes<HTMLTaskAssetElement>;
             "task-body": LocalJSX.TaskBody & JSXBase.HTMLAttributes<HTMLTaskBodyElement>;
             "task-callout": LocalJSX.TaskCallout & JSXBase.HTMLAttributes<HTMLTaskCalloutElement>;

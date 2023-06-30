@@ -1,12 +1,13 @@
 import { Component, Host, h, Prop, Element, State, Event, EventEmitter, Method, Watch } from '@stencil/core';
 import {
-  gatherInputOptions,
+  gatherInputOptions, getAnswerCorrectionElement, getAnswerElement,
   Input,
   InputOption,
   inputOptionKeyboardShortcuts,
   KeyboardShortcut,
 } from '../../utils/utils';
 import { TaskAnswer } from '../task-answer/task-answer';
+import { TaskAnswerCorrection } from '../task-answer-correction/task-answer-correction';
 import { computePosition, autoUpdate, flip, shift, offset } from '@floating-ui/dom';
 
 @Component({
@@ -27,7 +28,8 @@ export class TaskInputMultiselect implements Input {
   @State() value: string
   @State() values: string[] = [];
   @State() shortcutMap: Map<string, string> = new Map<string, string>();
-  @State() answer: string
+  @State() answer: TaskAnswer
+  @State() answerCorrection: TaskAnswerCorrection
   @State() preventChanges: boolean
   @State() optionsDisplayed: boolean
   @Event() inputUpdated: EventEmitter<HTMLElement>
@@ -46,6 +48,8 @@ export class TaskInputMultiselect implements Input {
       this.shortcutMap[ks.keys] = ks.value
       this.registerKeyboardShortcut.emit(ks)
     }
+    this.answer = getAnswerElement(this.host)
+    this.answerCorrection = getAnswerCorrectionElement(this.host)
   }
 
   componentDidLoad() {
@@ -106,20 +110,17 @@ export class TaskInputMultiselect implements Input {
 
   @Method()
   async validateAgainstAnswer() {
-    const answer = ((this.host.querySelector("TASK-ANSWER") as unknown) as TaskAnswer)
-    if (answer.preventChanges) {
-      this.preventChanges = true
-    }
-    if (this.value !== answer.value) {
-      answer.displayCorrection = true
-      if (answer.showAnswer) {
-        this.answer = answer.value
+    if (this.answer && this.answerCorrection && this.answerCorrection.displayOn === "submit") {
+      if (this.answerCorrection.preventChanges) {
+        this.preventChanges = true
       }
-      this.inputUpdated.emit(this.host)
-      return false
-    } else {
-      return true
+      if (this.value !== this.answer.value) {
+        this.answerCorrection.displayCorrection = true
+        this.inputUpdated.emit(this.host)
+        return false
+      }
     }
+    return true
   }
 
   @Watch("values")

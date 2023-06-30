@@ -6,8 +6,11 @@ import {
   InputOption,
   inputOptionKeyboardShortcuts,
   KeyboardShortcut,
+  getAnswerElement,
+  getAnswerCorrectionElement
 } from '../../utils/utils';
 import {TaskAnswer} from '../task-answer/task-answer';
+import { TaskAnswerCorrection } from '../task-answer-correction/task-answer-correction';
 
 @Component({
   tag: 'task-input-radio',
@@ -33,6 +36,7 @@ export class TaskInputRadio implements Input {
   @State() value: string;
   @State() shortcutMap: Map<string, string> = new Map<string, string>();
   @State() answer: TaskAnswer
+  @State() answerCorrection: TaskAnswerCorrection
   @State() preventChanges: boolean
   @Event() inputUpdated: EventEmitter<HTMLElement>
   @Event() registerKeyboardShortcut: EventEmitter<KeyboardShortcut>
@@ -43,7 +47,8 @@ export class TaskInputRadio implements Input {
       this.shortcutMap[ks.keys] = ks.value
       this.registerKeyboardShortcut.emit(ks)
     }
-    this.answer = ((this.host.querySelector("TASK-ANSWER") as unknown) as TaskAnswer)
+    this.answer = getAnswerElement(this.host)
+    this.answerCorrection = getAnswerCorrectionElement(this.host)
   }
 
   @Listen("keypress", { target: "document" })
@@ -64,8 +69,8 @@ export class TaskInputRadio implements Input {
 
   @Watch("value")
   handleValueUpdate(value) {
-    if (this.answer && this.answer.showAnswer === "true") {
-      this.answer.displayCorrection = (this.answer.value !== value)
+    if (this.answer && this.answerCorrection && this.answerCorrection.displayOn === "mismatch") {
+      this.answerCorrection.displayCorrection = (this.answer.value !== value)
     }
     this.inputUpdated.emit(this.host)
   }
@@ -77,20 +82,17 @@ export class TaskInputRadio implements Input {
 
   @Method()
   async validateAgainstAnswer() {
-    if (this.answer && this.answer.showAnswer !== "true") {
-      if (this.answer.preventChanges) {
+    if (this.answer && this.answerCorrection && this.answerCorrection.displayOn === "submit") {
+      if (this.answerCorrection.preventChanges) {
         this.preventChanges = true
       }
       if (this.value !== this.answer.value) {
-        this.answer.displayCorrection = true
+        this.answerCorrection.displayCorrection = true
         this.inputUpdated.emit(this.host)
         return false
-      } else {
-        return true
       }
-    } else {
-      return true
     }
+    return true
   }
 
   render() {
@@ -111,9 +113,9 @@ export class TaskInputRadio implements Input {
           {option.innerHTML}
           {this.answer &&
             this.answer.value === option.value &&
-            (this.answer.showAnswer === "true" || (
-              this.answer.showAnswer === "correction" &&
-                this.answer.displayCorrection)
+            (this.answer.showAnswer || (
+              this.answerCorrection.showAnswer &&
+                this.answerCorrection.displayCorrection)
             ) &&
             <task-tag round={true} color="red" small={true} style={{marginLeft: "4px"}}>{this.answerTag}</task-tag>}
         </label>)}

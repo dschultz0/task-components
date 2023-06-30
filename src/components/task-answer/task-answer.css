@@ -1,6 +1,3 @@
 :host {
-  display: block;
-}
-:host.correction-hidden {
   display: none;
 }

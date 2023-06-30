@@ -59,7 +59,7 @@ export class TaskCardList {
 
   @Listen("cardReadyToSubmit")
   cardReadyToSubmitHandler(event: CustomEvent<boolean>) {
-    if (event.detail) {
+    if (event.detail && !ignoreKeypress()) {
       this.active = Math.min(this.active + 1, this.cards.length - 1)
       this.scrollIntoView(this.active)
     }

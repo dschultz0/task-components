@@ -1,3 +1,6 @@
+import { TaskAnswer } from '../components/task-answer/task-answer';
+import { TaskAnswerCorrection } from '../components/task-answer-correction/task-answer-correction';
+
 export function format(first: string, middle: string, last: string): string {
   return (first || '') + (middle ? ` ${middle}` : '') + (last ? ` ${last}` : '');
 }
@@ -78,4 +81,11 @@ export function inputOptionKeyboardShortcuts(options: InputOption[]): KeyboardSh
     }
   }
   return shortcuts
+}
+
+export function getAnswerElement(host: Element) {
+  return (host.querySelector("TASK-ANSWER") as unknown) as TaskAnswer
+}
+export function getAnswerCorrectionElement(host: Element) {
+  return (host.querySelector("TASK-ANSWER-CORRECTION") as unknown) as TaskAnswerCorrection
 }

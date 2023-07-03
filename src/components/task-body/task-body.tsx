@@ -12,6 +12,28 @@ import {TaskKeyboardShortcutList} from '../task-keyboard-shortcut-list/task-keyb
 export class TaskBody {
   @Element() host;
 
+  componentDidLoad() {
+    this.hideUnnecessaryCrowdFormSubmit()
+  }
+
+  hideUnnecessaryCrowdFormSubmit() {
+    /*
+    Crowd HTML Elements will add a submit button if it doesn't detect one in your template.
+    Unfortunately, if it loads before Task Components, then it will add one, even if Task Components
+    will be adding one later. This checks for its presence and hides it.
+     */
+    const submitButtons = document.getElementsByTagName("task-submit")
+    if (submitButtons.length > 0) {
+      const els = document.getElementsByTagName("crowd-button")
+      for (let el of els) {
+        if (el.hasAttribute("form-action") &&
+          el.getAttribute("form-action") === "submit") {
+          (el as HTMLElement).style.display = "none"
+        }
+      }
+    }
+  }
+
   @Listen("cardReadyToSubmit")
   cardReadyToSubmitHandler() {
     const progressBars = (this.host as Element).querySelectorAll("TASK-PROGRESSBAR")

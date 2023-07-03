@@ -446,7 +446,7 @@ declare namespace LocalJSX {
         "disabled"?: boolean;
         "label"?: string;
         "name"?: string;
-        "onInputUpdated"?: (event: TaskInputRadioCustomEvent<HTMLElement>) => void;
+        "onInputUpdated"?: (event: TaskInputRadioCustomEvent<HTMLFormElement>) => void;
         "onRegisterKeyboardShortcut"?: (event: TaskInputRadioCustomEvent<KeyboardShortcut>) => void;
         "required"?: boolean;
     }

@@ -21,7 +21,7 @@
 
 | Event                      | Description | Type                                                            |
 | -------------------------- | ----------- | --------------------------------------------------------------- |
-| `inputUpdated`             |             | `CustomEvent<HTMLElement>`                                      |
+| `inputUpdated`             |             | `CustomEvent<HTMLFormElement>`                                  |
 | `registerKeyboardShortcut` |             | `CustomEvent<{ label: string; keys: string; value?: string; }>` |
 
 

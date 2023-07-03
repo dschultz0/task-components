@@ -38,8 +38,9 @@ export class TaskInputRadio implements Input {
   @State() answer: TaskAnswer
   @State() answerCorrection: TaskAnswerCorrection
   @State() preventChanges: boolean
-  @Event() inputUpdated: EventEmitter<HTMLElement>
+  @Event() inputUpdated: EventEmitter<HTMLFormElement>
   @Event() registerKeyboardShortcut: EventEmitter<KeyboardShortcut>
+  input!: HTMLInputElement
 
   componentWillLoad() {
     this.options = gatherInputOptions(this.host)
@@ -58,7 +59,7 @@ export class TaskInputRadio implements Input {
       this.value = this.shortcutMap[event.key]
       // If the value will not change as a result of the key press, trigger card advance from here
       if (advance) {
-        this.inputUpdated.emit(this.host)
+        this.inputUpdated.emit(this.input.form)
       }
     }
   }
@@ -72,7 +73,7 @@ export class TaskInputRadio implements Input {
     if (this.answer && this.answerCorrection && this.answerCorrection.displayOn === "mismatch") {
       this.answerCorrection.displayCorrection = (this.answer.value !== value)
     }
-    this.inputUpdated.emit(this.host)
+    this.inputUpdated.emit(this.input.form)
   }
 
   @Method()
@@ -88,7 +89,7 @@ export class TaskInputRadio implements Input {
       }
       if (this.value !== this.answer.value) {
         this.answerCorrection.displayCorrection = true
-        this.inputUpdated.emit(this.host)
+        this.inputUpdated.emit(this.input.form)
         return false
       }
     }
@@ -108,6 +109,7 @@ export class TaskInputRadio implements Input {
             onChange={e => this.handleChange(e)}
             checked={option.value === this.value}
             disabled={this.disabled || (this.preventChanges && option.value !== this.value)}
+            ref={el => this.input = el}
           />
           <span class="indicator"></span>
           {option.innerHTML}

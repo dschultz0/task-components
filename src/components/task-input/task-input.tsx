@@ -20,6 +20,7 @@ export class TaskInput implements Input {
   @Element() host
   @State() value: string
   @Event() inputUpdated: EventEmitter<HTMLElement>
+  input!: HTMLInputElement|HTMLTextAreaElement
 
   textarea() {
     return <textarea
@@ -31,6 +32,7 @@ export class TaskInput implements Input {
       maxLength={this.maxlength}
       required={this.required}
       onInput={e => this.handleChange(e)}
+      ref={el => this.input = el}
     >{this.value}</textarea>
   }
 
@@ -51,7 +53,7 @@ export class TaskInput implements Input {
 
   @Watch("value")
   handleValueUpdate() {
-    this.inputUpdated.emit(this.host)
+    this.inputUpdated.emit(this.input.form)
   }
 
   render() {

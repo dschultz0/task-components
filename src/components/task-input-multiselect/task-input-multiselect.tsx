@@ -36,6 +36,7 @@ export class TaskInputMultiselect implements Input {
   @Event() registerKeyboardShortcut: EventEmitter<KeyboardShortcut>
   button!: HTMLButtonElement
   optionsDropdown!: HTMLDivElement
+  input!: HTMLSelectElement
   cleanup!: Function
   ro: ResizeObserver
 
@@ -116,7 +117,7 @@ export class TaskInputMultiselect implements Input {
       }
       if (this.value !== this.answer.value) {
         this.answerCorrection.displayCorrection = true
-        this.inputUpdated.emit(this.host)
+        this.inputUpdated.emit(this.input.form)
         return false
       }
     }
@@ -126,7 +127,7 @@ export class TaskInputMultiselect implements Input {
   @Watch("values")
   handleValueUpdate() {
     this.value = this.values.join(",")
-    this.inputUpdated.emit(this.host)
+    this.inputUpdated.emit(this.input.form)
   }
 
   handleOptionSelect(e: Event, value: string) {
@@ -154,6 +155,7 @@ export class TaskInputMultiselect implements Input {
                       onChange={e => this.handleChange(e)}
                       multiple={true}
                       style={{display: "none"}}
+                      ref={el => this.input = el}
               >
                 {this.options.map(option =>
                   <option

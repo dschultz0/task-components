@@ -29,6 +29,7 @@ export class TaskInputSelect implements Input {
   @State() preventChanges: boolean
   @Event() inputUpdated: EventEmitter<HTMLElement>
   @Event() registerKeyboardShortcut: EventEmitter<KeyboardShortcut>
+  input!: HTMLSelectElement
 
   componentWillLoad() {
     this.options = gatherInputOptions(this.host)
@@ -57,7 +58,7 @@ export class TaskInputSelect implements Input {
       }
       if (this.value !== this.answer.value) {
         this.answerCorrection.displayCorrection = true
-        this.inputUpdated.emit(this.host)
+        this.inputUpdated.emit(this.input.form)
         return false
       }
     }
@@ -66,7 +67,7 @@ export class TaskInputSelect implements Input {
 
   @Watch("value")
   handleValueUpdate() {
-    this.inputUpdated.emit(this.host)
+    this.inputUpdated.emit(this.input.form)
   }
 
   render() {
@@ -75,7 +76,13 @@ export class TaskInputSelect implements Input {
         <label>
           {this.label}
           <div class="select">
-            <select name={this.name} required={this.required} disabled={this.disabled} onChange={e => this.handleChange(e)}>
+            <select
+              name={this.name}
+              required={this.required}
+              disabled={this.disabled}
+              onChange={e => this.handleChange(e)}
+              ref={el => this.input = el}
+            >
               {this.options.map(option =>
                 <option
                   value={option.value}

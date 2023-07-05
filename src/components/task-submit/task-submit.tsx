@@ -1,6 +1,7 @@
 import { Component, Event, EventEmitter, h, Host, Listen, Method, Prop, State } from '@stencil/core';
 import { TaskCard } from '../task-card/task-card';
 import { ignoreKeypress, inputsWithAnswers, KeyboardShortcut } from '../../utils/utils';
+import { TaskStep } from '../task-step/task-step';
 
 @Component({
   tag: 'task-submit',
@@ -40,6 +41,13 @@ export class TaskSubmit {
     if (this.disableUntilCompleteMode === "card") {
       const cards = document.querySelectorAll("TASK-CARD")
       Promise.all(Array.from(cards).map(card => ((card as unknown) as TaskCard).readyToSubmit()))
+        .then(values => {
+          this.disabled = !values.every(Boolean)
+        })
+    }
+    if (this.disableUntilCompleteMode === "step") {
+      const steps = document.querySelectorAll("TASK-STEP")
+      Promise.all(Array.from(steps).map(step => ((step as unknown) as TaskStep).readyToSubmit()))
         .then(values => {
           this.disabled = !values.every(Boolean)
         })

@@ -1,5 +1,7 @@
 import { Component, Host, h, Prop, Watch, State, Method } from '@stencil/core';
 import { TaskCard } from '../task-card/task-card';
+import { Components } from '../../components';
+import TaskStep = Components.TaskStep;
 
 @Component({
   tag: 'task-progressbar',
@@ -19,6 +21,10 @@ export class TaskProgressbar {
       const cards = document.querySelectorAll("TASK-CARD")
       this.taskCount = cards.length
     }
+    if (this.mode === "step") {
+      const steps = document.querySelectorAll("TASK-STEP")
+      this.taskCount = steps.length
+    }
   }
 
   @Watch("completedCount")
@@ -29,11 +35,20 @@ export class TaskProgressbar {
 
   @Method()
   async refreshProgress() {
-    const cards = document.querySelectorAll("TASK-CARD")
-    Promise.all(Array.from(cards).map(card => ((card as unknown) as TaskCard).readyToSubmit()))
-      .then(values => {
-        this.completedCount = values.reduce((n: number, v) => n + Number(v), 0)
-      })
+    if (this.mode === "card") {
+      const cards = document.querySelectorAll("TASK-CARD")
+      Promise.all(Array.from(cards).map(card => ((card as unknown) as TaskCard).readyToSubmit()))
+        .then(values => {
+          this.completedCount = values.reduce((n: number, v) => n + Number(v), 0)
+        })
+    }
+    if (this.mode === "step") {
+      const steps = document.querySelectorAll("TASK-STEP")
+      Promise.all(Array.from(steps).map(step => ((step as unknown) as TaskStep).readyToSubmit()))
+        .then(values => {
+          this.completedCount = values.reduce((n: number, v) => n + Number(v), 0)
+        })
+    }
   }
 
   computePercentage() {

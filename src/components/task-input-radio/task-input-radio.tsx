@@ -24,6 +24,8 @@ export class TaskInputRadio implements Input {
   @Prop() required: boolean;
   // A label that will be attached to the input
   @Prop() label: string;
+  // Display the options inline
+  @Prop() inline: boolean;
   // An attribute that is used in card layouts to indicate that this input is active.
   @Prop() active: boolean = true;
   // Indicates that the input is disabled and can't be edited
@@ -100,7 +102,7 @@ export class TaskInputRadio implements Input {
     return (
       <Host>
         {this.label && <div>{this.label}</div>}
-        {this.options.map(option => <label class="radio">
+        {this.options.map(option => <label class={"radio" + (this.inline ? " inline" : "")}>
           <input
             type="radio"
             name={this.name}
@@ -112,7 +114,7 @@ export class TaskInputRadio implements Input {
             ref={el => this.input = el}
           />
           <span class="indicator"></span>
-          {option.innerHTML}
+          <div class={"content" + (this.inline ? " inline" : "")} innerHTML={option.innerHTML}/>
           {this.answer &&
             this.answer.value === option.value &&
             (this.answer.showAnswer || (
@@ -121,7 +123,6 @@ export class TaskInputRadio implements Input {
             ) &&
             <task-tag round={true} color="red" small={true} style={{marginLeft: "4px"}}>{this.answerTag}</task-tag>}
         </label>)}
-        <slot></slot>
       </Host>
     )
   }

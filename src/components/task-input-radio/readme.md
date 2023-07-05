@@ -12,6 +12,7 @@
 | `active`    | `active`     |             | `boolean` | `true`      |
 | `answerTag` | `answer-tag` |             | `string`  | `"Answer"`  |
 | `disabled`  | `disabled`   |             | `boolean` | `false`     |
+| `inline`    | `inline`     |             | `boolean` | `undefined` |
 | `label`     | `label`      |             | `string`  | `undefined` |
 | `name`      | `name`       |             | `string`  | `undefined` |
 | `required`  | `required`   |             | `boolean` | `undefined` |

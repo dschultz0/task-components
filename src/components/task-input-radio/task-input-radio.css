@@ -12,6 +12,11 @@ label {
   padding-left: 26px;
 }
 
+label.inline {
+  display: inline-block;
+  margin-right: 20px;
+}
+
 label input {
   left: 0;
   opacity: 0;
@@ -62,4 +67,10 @@ label input:checked ~ .indicator {
 
 label input:checked ~ .indicator::before {
   background-image: radial-gradient(#fff, #fff 28%, transparent 32%);
+}
+.content {
+  display: initial;
+}
+.content.inline{
+  display: inline-block;
 }

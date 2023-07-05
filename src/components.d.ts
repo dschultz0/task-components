@@ -7,8 +7,10 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { KeyboardShortcut } from "./utils/utils";
 import { TaskCard } from "./components/task-card/task-card";
+import { TaskStep } from "./components/task-step/task-step";
 export { KeyboardShortcut } from "./utils/utils";
 export { TaskCard } from "./components/task-card/task-card";
+export { TaskStep } from "./components/task-step/task-step";
 export namespace Components {
     interface TaskAnswer {
         "showAnswer": boolean;
@@ -38,6 +40,10 @@ export namespace Components {
         "advanceWhenComplete": boolean;
         "backKeyboardShortcut": string;
         "forwardKeyboardShortcut": string;
+    }
+    interface TaskColumn {
+    }
+    interface TaskColumns {
     }
     interface TaskIcon {
         "icon": string;
@@ -82,6 +88,7 @@ export namespace Components {
         "active": boolean;
         "answerTag": string;
         "disabled": boolean;
+        "inline": boolean;
         "label": string;
         "name": string;
         "readyToSubmit": () => Promise<boolean>;
@@ -124,6 +131,13 @@ export namespace Components {
         "taskCount": number;
     }
     interface TaskRow {
+    }
+    interface TaskStep {
+        "active": boolean;
+        "label": string;
+        "readyToSubmit": () => Promise<boolean>;
+    }
+    interface TaskSteps {
     }
     interface TaskSubmit {
         "disableUntilCompleteMode": string;
@@ -172,6 +186,10 @@ export interface TaskInputSelectCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLTaskInputSelectElement;
 }
+export interface TaskStepCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLTaskStepElement;
+}
 export interface TaskSubmitCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLTaskSubmitElement;
@@ -218,6 +236,18 @@ declare global {
     var HTMLTaskCardListElement: {
         prototype: HTMLTaskCardListElement;
         new (): HTMLTaskCardListElement;
+    };
+    interface HTMLTaskColumnElement extends Components.TaskColumn, HTMLStencilElement {
+    }
+    var HTMLTaskColumnElement: {
+        prototype: HTMLTaskColumnElement;
+        new (): HTMLTaskColumnElement;
+    };
+    interface HTMLTaskColumnsElement extends Components.TaskColumns, HTMLStencilElement {
+    }
+    var HTMLTaskColumnsElement: {
+        prototype: HTMLTaskColumnsElement;
+        new (): HTMLTaskColumnsElement;
     };
     interface HTMLTaskIconElement extends Components.TaskIcon, HTMLStencilElement {
     }
@@ -321,6 +351,18 @@ declare global {
         prototype: HTMLTaskRowElement;
         new (): HTMLTaskRowElement;
     };
+    interface HTMLTaskStepElement extends Components.TaskStep, HTMLStencilElement {
+    }
+    var HTMLTaskStepElement: {
+        prototype: HTMLTaskStepElement;
+        new (): HTMLTaskStepElement;
+    };
+    interface HTMLTaskStepsElement extends Components.TaskSteps, HTMLStencilElement {
+    }
+    var HTMLTaskStepsElement: {
+        prototype: HTMLTaskStepsElement;
+        new (): HTMLTaskStepsElement;
+    };
     interface HTMLTaskSubmitElement extends Components.TaskSubmit, HTMLStencilElement {
     }
     var HTMLTaskSubmitElement: {
@@ -347,6 +389,8 @@ declare global {
         "task-callout": HTMLTaskCalloutElement;
         "task-card": HTMLTaskCardElement;
         "task-card-list": HTMLTaskCardListElement;
+        "task-column": HTMLTaskColumnElement;
+        "task-columns": HTMLTaskColumnsElement;
         "task-icon": HTMLTaskIconElement;
         "task-image": HTMLTaskImageElement;
         "task-info-pane": HTMLTaskInfoPaneElement;
@@ -364,6 +408,8 @@ declare global {
         "task-markdown": HTMLTaskMarkdownElement;
         "task-progressbar": HTMLTaskProgressbarElement;
         "task-row": HTMLTaskRowElement;
+        "task-step": HTMLTaskStepElement;
+        "task-steps": HTMLTaskStepsElement;
         "task-submit": HTMLTaskSubmitElement;
         "task-summary": HTMLTaskSummaryElement;
         "task-tag": HTMLTaskTagElement;
@@ -401,6 +447,10 @@ declare namespace LocalJSX {
         "backKeyboardShortcut"?: string;
         "forwardKeyboardShortcut"?: string;
         "onRegisterKeyboardShortcut"?: (event: TaskCardListCustomEvent<KeyboardShortcut>) => void;
+    }
+    interface TaskColumn {
+    }
+    interface TaskColumns {
     }
     interface TaskIcon {
         "icon"?: string;
@@ -444,6 +494,7 @@ declare namespace LocalJSX {
         "active"?: boolean;
         "answerTag"?: string;
         "disabled"?: boolean;
+        "inline"?: boolean;
         "label"?: string;
         "name"?: string;
         "onInputUpdated"?: (event: TaskInputRadioCustomEvent<HTMLFormElement>) => void;
@@ -485,6 +536,14 @@ declare namespace LocalJSX {
     }
     interface TaskRow {
     }
+    interface TaskStep {
+        "active"?: boolean;
+        "label"?: string;
+        "onCardClicked"?: (event: TaskStepCustomEvent<TaskStep>) => void;
+        "onCardReadyToSubmit"?: (event: TaskStepCustomEvent<boolean>) => void;
+    }
+    interface TaskSteps {
+    }
     interface TaskSubmit {
         "disableUntilCompleteMode"?: string;
         "disabled"?: boolean;
@@ -511,6 +570,8 @@ declare namespace LocalJSX {
         "task-callout": TaskCallout;
         "task-card": TaskCard;
         "task-card-list": TaskCardList;
+        "task-column": TaskColumn;
+        "task-columns": TaskColumns;
         "task-icon": TaskIcon;
         "task-image": TaskImage;
         "task-info-pane": TaskInfoPane;
@@ -528,6 +589,8 @@ declare namespace LocalJSX {
         "task-markdown": TaskMarkdown;
         "task-progressbar": TaskProgressbar;
         "task-row": TaskRow;
+        "task-step": TaskStep;
+        "task-steps": TaskSteps;
         "task-submit": TaskSubmit;
         "task-summary": TaskSummary;
         "task-tag": TaskTag;
@@ -544,6 +607,8 @@ declare module "@stencil/core" {
             "task-callout": LocalJSX.TaskCallout & JSXBase.HTMLAttributes<HTMLTaskCalloutElement>;
             "task-card": LocalJSX.TaskCard & JSXBase.HTMLAttributes<HTMLTaskCardElement>;
             "task-card-list": LocalJSX.TaskCardList & JSXBase.HTMLAttributes<HTMLTaskCardListElement>;
+            "task-column": LocalJSX.TaskColumn & JSXBase.HTMLAttributes<HTMLTaskColumnElement>;
+            "task-columns": LocalJSX.TaskColumns & JSXBase.HTMLAttributes<HTMLTaskColumnsElement>;
             "task-icon": LocalJSX.TaskIcon & JSXBase.HTMLAttributes<HTMLTaskIconElement>;
             "task-image": LocalJSX.TaskImage & JSXBase.HTMLAttributes<HTMLTaskImageElement>;
             "task-info-pane": LocalJSX.TaskInfoPane & JSXBase.HTMLAttributes<HTMLTaskInfoPaneElement>;
@@ -561,6 +626,8 @@ declare module "@stencil/core" {
             "task-markdown": LocalJSX.TaskMarkdown & JSXBase.HTMLAttributes<HTMLTaskMarkdownElement>;
             "task-progressbar": LocalJSX.TaskProgressbar & JSXBase.HTMLAttributes<HTMLTaskProgressbarElement>;
             "task-row": LocalJSX.TaskRow & JSXBase.HTMLAttributes<HTMLTaskRowElement>;
+            "task-step": LocalJSX.TaskStep & JSXBase.HTMLAttributes<HTMLTaskStepElement>;
+            "task-steps": LocalJSX.TaskSteps & JSXBase.HTMLAttributes<HTMLTaskStepsElement>;
             "task-submit": LocalJSX.TaskSubmit & JSXBase.HTMLAttributes<HTMLTaskSubmitElement>;
             "task-summary": LocalJSX.TaskSummary & JSXBase.HTMLAttributes<HTMLTaskSummaryElement>;
             "task-tag": LocalJSX.TaskTag & JSXBase.HTMLAttributes<HTMLTaskTagElement>;

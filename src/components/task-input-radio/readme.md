@@ -73,11 +73,13 @@ Type: `Promise<boolean>`
 
 ### Depends on
 
+- [task-label](../task-label)
 - [task-tag](../task-tag)
 
 ### Graph
 ```mermaid
 graph TD;
+  task-input-radio --> task-label
   task-input-radio --> task-tag
   style task-input-radio fill:#f9f,stroke:#333,stroke-width:4px
 ```

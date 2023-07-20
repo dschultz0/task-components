@@ -112,28 +112,30 @@ export class TaskInputRadio implements Input {
   render() {
     return (
       <Host>
-        {this.label && <div>{this.label}</div>}
-        {this.options.map(option => <label class={"radio" + (this.inline ? " inline" : "")}>
-          <input
-            type="radio"
-            name={this.name}
-            value={option.value}
-            required={this.required}
-            onChange={e => this.handleChange(e)}
-            checked={option.value === this.value}
-            disabled={this.disabled || (this.preventChanges && option.value !== this.value)}
-            ref={el => this.input = el}
-          />
-          <span class="indicator"></span>
-          <div class={"content" + (this.inline ? " inline" : "")} innerHTML={option.innerHTML}/>
-          {this.answer &&
-            this.answer.value === option.value &&
-            (this.answer.showAnswer || (
-              this.answerCorrection.showAnswer &&
-                this.answerCorrection.displayCorrection)
-            ) &&
-            <task-tag round={true} color="red" small={true} style={{marginLeft: "4px"}}>{this.answerTag}</task-tag>}
-        </label>)}
+        {this.label && <task-label>{this.label}</task-label>}
+        {this.options.map(option =>
+          <label class={"radio" + (this.inline ? " inline" : "")}>
+            <input
+              type="radio"
+              name={this.name}
+              value={option.value}
+              required={this.required}
+              onChange={e => this.handleChange(e)}
+              checked={option.value === this.value}
+              disabled={this.disabled || (this.preventChanges && option.value !== this.value)}
+              ref={el => this.input = el}
+            />
+            <span class="indicator"></span>
+            <div class={"content" + (this.inline ? " inline" : "")} innerHTML={option.innerHTML}/>
+            {this.answer &&
+              this.answer.value === option.value &&
+              (this.answer.showAnswer || (
+                  this.answerCorrection.showAnswer &&
+                  this.answerCorrection.displayCorrection)
+              ) &&
+              <task-tag round={true} color="red" small={true} style={{marginLeft: "4px"}}>{this.answerTag}</task-tag>}
+          </label>)}
+        <slot></slot>
       </Host>
     )
   }

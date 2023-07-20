@@ -1,0 +1,33 @@
+:host {
+  display: block;
+}
+:host label {
+  display:block;
+  margin-bottom:10px;
+  margin-top:0;
+}
+label .html-select,
+label .input,
+label .select {
+  display: block;
+  margin-top: 5px;
+  text-transform: none;
+}
+label .select select,
+label .html-select select{
+  font-weight:400;
+  vertical-align:top;
+  width:100%;
+}
+label.disabled {
+  color:rgba(95, 107, 124, 0.6);
+}
+label.label.inline {
+  line-height:30px;
+}
+label.inline .input,
+label.inline .select {
+  display:inline-block;
+  margin:0 0 0 5px;
+  vertical-align:top;
+}

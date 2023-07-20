@@ -55,7 +55,7 @@ export class TaskInputRadio implements Input {
 
   @Listen("keypress", { target: "document" })
   keypressHandler(event: KeyboardEvent) {
-    if (event.key in this.shortcutMap && this.active && !ignoreKeypress() && !this.disabled) {
+    if (event.key in this.shortcutMap && this.active && !ignoreKeypress() && !this.disabled && !this.preventChanges) {
       const advance = this.value === this.shortcutMap[event.key]
       this.value = this.shortcutMap[event.key]
       // If the value will not change as a result of the key press, trigger card advance from here

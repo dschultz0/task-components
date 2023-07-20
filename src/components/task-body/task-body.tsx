@@ -79,11 +79,9 @@ export class TaskBody {
   }
 
   writeFormData(form?: HTMLFormElement) {
-    console.log(form)
-    console.log(this.formElement)
     let f = form || this.formElement
     if (f) {
-      const formData = new FormData(form)
+      const formData = new FormData(f)
       const data = Object.fromEntries(formData.entries())
       data.showCorrections = String(this.showCorrections)
       localStorage.setItem(this.localStorageId(), JSON.stringify(data))

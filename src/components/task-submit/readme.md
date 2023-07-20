@@ -19,11 +19,23 @@
 | Event                      | Description | Type                                                            |
 | -------------------------- | ----------- | --------------------------------------------------------------- |
 | `registerKeyboardShortcut` |             | `CustomEvent<{ label: string; keys: string; value?: string; }>` |
+| `showCorrections`          |             | `CustomEvent<any>`                                              |
+| `taskSubmit`               |             | `CustomEvent<any>`                                              |
 
 
 ## Methods
 
 ### `refreshSubmitReady() => Promise<void>`
+
+
+
+#### Returns
+
+Type: `Promise<void>`
+
+
+
+### `setShowCorrections(value: boolean) => Promise<void>`
 
 
 

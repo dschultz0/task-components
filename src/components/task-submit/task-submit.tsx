@@ -13,7 +13,9 @@ export class TaskSubmit {
   @Prop({mutable: true}) disabled: boolean = false
   @Prop() disableUntilCompleteMode: string
   @Event() registerKeyboardShortcut: EventEmitter<KeyboardShortcut>
-  @State() displayMessage: boolean = false
+  @Event() showCorrections: EventEmitter
+  @Event() taskSubmit: EventEmitter
+  @State() correctionMode: boolean = false
   @State() readyToSubmit: boolean = false
   button!: HTMLButtonElement
 
@@ -59,17 +61,25 @@ export class TaskSubmit {
       this.readyToSubmit = true
       this.button.click()
     } else {
-      this.displayMessage = true
+      this.showCorrections.emit()
+      this.correctionMode = true
     }
   }
 
   handleSubmit(event: Event) {
     const inputs = inputsWithAnswers()
-    if (inputs && !this.readyToSubmit && !this.displayMessage) {
+    if (inputs && !this.readyToSubmit && !this.correctionMode) {
       event.preventDefault()
       Promise.all(inputs.map(input => input.validateAgainstAnswer()))
         .then(values => this.handleValidationResult(values))
+    } else {
+      this.taskSubmit.emit()
     }
+  }
+
+  @Method()
+  async setShowCorrections(value: boolean) {
+    this.correctionMode = value
   }
 
   render() {
@@ -80,7 +90,7 @@ export class TaskSubmit {
                 ref={el => this.button = el as HTMLButtonElement}
                 disabled={this.disabled}
                 onClick={this.handleSubmit.bind(this)}>Submit</button>
-        <div class={this.displayMessage ? "" : "message-hidden"}>
+        <div class={this.correctionMode ? "" : "message-hidden"}>
           <slot></slot>
         </div>
       </Host>

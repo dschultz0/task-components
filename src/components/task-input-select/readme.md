@@ -36,6 +36,26 @@ Type: `Promise<boolean>`
 
 
 
+### `setShowCorrections(value: boolean) => Promise<void>`
+
+
+
+#### Returns
+
+Type: `Promise<void>`
+
+
+
+### `setValue(value: string) => Promise<void>`
+
+
+
+#### Returns
+
+Type: `Promise<void>`
+
+
+
 ### `validateAgainstAnswer() => Promise<boolean>`
 
 

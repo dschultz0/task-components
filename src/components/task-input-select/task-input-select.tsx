@@ -50,19 +50,31 @@ export class TaskInputSelect implements Input {
     return Boolean(this.value)
   }
 
+  hasAnswerToValidate = () => {
+    return this.answer && this.answerCorrection && this.answerCorrection.displayOn === "submit"
+  }
+
   @Method()
   async validateAgainstAnswer() {
-    if (this.answer && this.answerCorrection && this.answerCorrection.displayOn === "submit") {
-      if (this.answerCorrection.preventChanges) {
-        this.preventChanges = true
-      }
+    return !(this.hasAnswerToValidate() && this.value !== this.answer.value)
+  }
+
+  @Method()
+  async setShowCorrections(value: boolean) {
+    if (this.hasAnswerToValidate()) {
+      this.preventChanges = this.answerCorrection.preventChanges && value
       if (this.value !== this.answer.value) {
-        this.answerCorrection.displayCorrection = true
-        this.inputUpdated.emit(this.input.form)
-        return false
+        this.answerCorrection.displayCorrection = value
+        if (value) {
+          this.inputUpdated.emit(this.input.form)
+        }
       }
     }
-    return true
+  }
+
+  @Method()
+  async setValue(value: string) {
+    this.value = value
   }
 
   @Watch("value")

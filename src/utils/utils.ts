@@ -40,6 +40,8 @@ export interface Input {
   name: string
   readyToSubmit(): Promise<boolean>
   validateAgainstAnswer(): Promise<boolean>
+  setValue(value: string): Promise<void>
+  setShowCorrections(value: boolean): Promise<void>
   required: boolean
   active: boolean
   disabled: boolean

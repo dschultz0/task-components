@@ -1,0 +1,54 @@
+:host {
+  display: block;
+}
+.button {
+  display: inline-flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 14px;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  padding: 5px 10px;
+  vertical-align: middle;
+  min-height: 30px;
+  min-width: 30px;
+  margin-bottom: 6px;
+
+  text-decoration: none;
+  text-align: center;
+  outline: none;
+  transition: 0.3s;
+  box-sizing: border-box;
+}
+.intent-primary {
+  background-color: #2d72d2;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(17, 20, 24, 0)), to(rgba(17, 20, 24, 0.05)));
+  background-image: linear-gradient(to bottom, rgba(17, 20, 24, 0), rgba(17, 20, 24, 0.05));
+  -webkit-box-shadow: inset 0 0 0 1px rgba(17, 20, 24, 0.4), inset 0 -1px 0 rgba(17, 20, 24, 0.2);
+  box-shadow: inset 0 0 0 1px rgba(17, 20, 24, 0.4), inset 0 -1px 0 rgba(17, 20, 24, 0.2);
+  color: #fff;
+}
+.intent-secondary {
+  background-color: #f6f7f9;
+  -webkit-box-shadow: inset 0 0 0 1px rgba(17, 20, 24, 0.4), inset 0 -1px 0 rgba(17, 20, 24, 0.2);
+  box-shadow: inset 0 0 0 1px rgba(17, 20, 24, 0.4), inset 0 -1px 0 rgba(17, 20, 24, 0.2);
+  color: #1c2127;
+}
+.button .disabled {
+  cursor: not-allowed;
+  background-color: rgba(45, 114, 210, 0.5);
+  background-image: none;
+  border-color: transparent;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  color: rgba(255, 255, 255, 0.6);
+}

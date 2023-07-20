@@ -1,8 +1,9 @@
-import { Component, Host, h, Listen, Element } from '@stencil/core';
+import { Component, Host, h, Listen, Element, Prop, State, Watch } from '@stencil/core';
 import {TaskProgressbar} from '../task-progressbar/task-progressbar';
 import {TaskSubmit} from '../task-submit/task-submit';
-import {KeyboardShortcut} from '../../utils/utils';
+import { KeyboardShortcut, childInputs, inputsWithAnswers } from '../../utils/utils';
 import {TaskKeyboardShortcutList} from '../task-keyboard-shortcut-list/task-keyboard-shortcut-list';
+import {context} from '../../utils/context'
 
 @Component({
   tag: 'task-body',
@@ -10,10 +11,32 @@ import {TaskKeyboardShortcutList} from '../task-keyboard-shortcut-list/task-keyb
   shadow: true,
 })
 export class TaskBody {
-  @Element() host;
+  @Prop() saveLocal: boolean = false
+  @Prop() localId: string
+  @State() showCorrections: boolean = false
+  @Element() host
+  formElement: HTMLFormElement
+  previous: any
+
+  componentWillLoad() {
+    if (this.saveLocal) {
+      this.previous = JSON.parse(localStorage.getItem(this.localStorageId()))
+      if (this.previous && "showCorrections" in this.previous) {
+        this.showCorrections = Boolean(this.previous.showCorrections)
+      }
+    }
+  }
 
   componentDidLoad() {
     this.hideUnnecessaryCrowdFormSubmit()
+    if (this.previous) {
+      for (let input of childInputs(this.host)) {
+        if (input.name in this.previous) {
+          input.setValue(this.previous[input.name])
+        }
+      }
+    }
+    this.formElement = document.querySelector("form")
   }
 
   hideUnnecessaryCrowdFormSubmit() {
@@ -31,6 +54,65 @@ export class TaskBody {
           (el as HTMLElement).style.display = "none"
         }
       }
+    }
+  }
+
+  localStorageId = () => {
+    // TODO: Figure out what the default id should be for smgt
+    if (this.localId) {
+      return this.localId
+    } else {
+      if (context.mode !== "working") {
+        return "PREVIEW"
+      } else {
+        return context.assignmentId
+      }
+    }
+  }
+
+  @Listen("inputUpdated")
+  handleInputUpdated(event: CustomEvent<HTMLFormElement>) {
+    // small delay to allow time for the value to propagate to the input
+    if (this.saveLocal) {
+      setTimeout(() => this.writeFormData(event.detail), 500)
+    }
+  }
+
+  writeFormData(form?: HTMLFormElement) {
+    console.log(form)
+    console.log(this.formElement)
+    let f = form || this.formElement
+    if (f) {
+      const formData = new FormData(form)
+      const data = Object.fromEntries(formData.entries())
+      data.showCorrections = String(this.showCorrections)
+      localStorage.setItem(this.localStorageId(), JSON.stringify(data))
+    }
+  }
+
+  @Listen("showCorrections")
+  handleShowCorrections() {
+    this.showCorrections = true
+    if (this.saveLocal) {
+      this.writeFormData()
+    }
+  }
+
+  @Watch("showCorrections")
+  handleShowCorrectionsUpdated(value: boolean) {
+    for (let input of inputsWithAnswers()) {
+      input.setShowCorrections(value)
+    }
+    const submitButtons = document.getElementsByTagName("task-submit")
+    for (let button of submitButtons) {
+      ((button as unknown) as TaskSubmit).setShowCorrections(value)
+    }
+  }
+
+  @Listen("taskSubmit")
+  handleTaskSubmit() {
+    if (this.saveLocal) {
+      localStorage.removeItem(this.localStorageId())
     }
   }
 

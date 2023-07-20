@@ -83,12 +83,12 @@ export class TaskInputRadio implements Input {
   }
 
   hasAnswerToValidate = () => {
-    return this.answer && this.answerCorrection && this.answerCorrection.displayOn === "submit"
+    return this.answer && this.answerCorrection
   }
 
   @Method()
   async validateAgainstAnswer() {
-    return !(this.hasAnswerToValidate() && this.value !== this.answer.value)
+    return !(this.hasAnswerToValidate() && this.answerCorrection.displayOn === "submit" && this.value !== this.answer.value)
   }
 
   @Method()

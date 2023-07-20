@@ -2,7 +2,6 @@ import { Component, Host, h, Prop, Element, State, Event, EventEmitter, Method, 
 import {
   gatherInputOptions, getAnswerCorrectionElement, getAnswerElement,
   Input,
-  InputOption,
   inputOptionKeyboardShortcuts,
   KeyboardShortcut,
 } from '../../utils/utils';
@@ -23,7 +22,7 @@ export class TaskInputMultiselect implements Input {
   @Prop() disabled: boolean = false;
   @Prop() placeholder: string = "Select options"
   @Element() host: HTMLElement;
-  @State() options: Array<InputOption> = [];
+  @State() options: HTMLTaskInputOptionElement[];
   @State() optionsMap: Map<string, string> = new Map<string, string>();
   @State() value: string
   @State() values: string[] = [];

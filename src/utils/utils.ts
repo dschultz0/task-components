@@ -53,30 +53,12 @@ export type KeyboardShortcut = {
   value?: string
 }
 
-export type InputOption = {
-  value: string;
-  innerHTML: string;
-  keyboardShortcut?: string;
-  keyboardShortcutLabel?: string
-}
-
 export function gatherInputOptions(parent: HTMLElement) {
-  const options: InputOption[] = []
-  for (let child of Array.from(parent.children)) {
-    if (child.nodeName === "TASK-INPUT-OPTION") {
-      const value = child.attributes.getNamedItem("value")
-      const shortcut = child.attributes.getNamedItem("keyboard-shortcut")
-      const option: InputOption = {value: value ? value.value : null, innerHTML: child.innerHTML}
-      if (shortcut) {
-        option.keyboardShortcut = shortcut.value
-      }
-      options.push(option)
-    }
-  }
-  return options
+  return Array.from(parent.getElementsByTagName("task-input-option"))
+    .filter(n => Array.from(parent.children).includes(n))
 }
 
-export function inputOptionKeyboardShortcuts(options: InputOption[]): KeyboardShortcut[] {
+export function inputOptionKeyboardShortcuts(options: HTMLTaskInputOptionElement[]): KeyboardShortcut[] {
   const shortcuts: KeyboardShortcut[] = []
   for (let option of options) {
     if (option.keyboardShortcut) {

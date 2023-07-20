@@ -3,7 +3,6 @@ import {
   gatherInputOptions,
   ignoreKeypress,
   Input,
-  InputOption,
   inputOptionKeyboardShortcuts,
   KeyboardShortcut,
   getAnswerElement,
@@ -34,7 +33,7 @@ export class TaskInputRadio implements Input {
   // The tag that will be used to indicate which value is contained in the task-answer
   @Prop() answerTag: string = "Answer"
   @Element() host: HTMLElement;
-  @State() options: Array<InputOption> = [];
+  @State() options: HTMLTaskInputOptionElement[];
   @State() value: string;
   @State() shortcutMap: Map<string, string> = new Map<string, string>();
   @State() answer: TaskAnswer

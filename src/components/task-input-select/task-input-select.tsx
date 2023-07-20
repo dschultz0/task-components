@@ -2,7 +2,6 @@ import { Component, Host, h, Prop, Element, State, Event, EventEmitter, Method, 
 import {
   gatherInputOptions, getAnswerCorrectionElement, getAnswerElement,
   Input,
-  InputOption,
   inputOptionKeyboardShortcuts,
   KeyboardShortcut,
 } from '../../utils/utils';
@@ -21,7 +20,7 @@ export class TaskInputSelect implements Input {
   @Prop() active: boolean = true;
   @Prop() disabled: boolean = false;
   @Element() host: HTMLElement;
-  @State() options: Array<InputOption> = [];
+  @State() options: HTMLTaskInputOptionElement[];
   @State() value: string;
   @State() shortcutMap: Map<string, string> = new Map<string, string>();
   @State() answer: TaskAnswer
@@ -106,5 +105,4 @@ export class TaskInputSelect implements Input {
       </Host>
     )
   }
-
 }

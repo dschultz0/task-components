@@ -57,6 +57,7 @@ export type InputOption = {
   value: string;
   innerHTML: string;
   keyboardShortcut?: string;
+  keyboardShortcutLabel?: string
 }
 
 export function gatherInputOptions(parent: HTMLElement) {
@@ -79,7 +80,11 @@ export function inputOptionKeyboardShortcuts(options: InputOption[]): KeyboardSh
   const shortcuts: KeyboardShortcut[] = []
   for (let option of options) {
     if (option.keyboardShortcut) {
-      shortcuts.push({label: option.innerHTML, keys: option.keyboardShortcut, value: option.value})
+      if (option.keyboardShortcutLabel) {
+        shortcuts.push({label: option.keyboardShortcutLabel, keys: option.keyboardShortcut, value: option.value})
+      } else {
+        shortcuts.push({label: option.innerHTML, keys: option.keyboardShortcut, value: option.value})
+      }
     }
   }
   return shortcuts

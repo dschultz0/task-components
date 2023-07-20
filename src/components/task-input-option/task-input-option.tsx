@@ -6,10 +6,11 @@ import { Component, Host, h, Prop } from '@stencil/core';
   scoped: true,
 })
 export class TaskInputOption {
-  @Prop() value: string;
-  @Prop() keyboardShortcut: string;
+  @Prop() value: string
+  @Prop() keyboardShortcut: string
+  @Prop() keyboardShortcutLabel: string
 
   render() {
-    return (<Host></Host>);
+    return (<Host></Host>)
   }
 }

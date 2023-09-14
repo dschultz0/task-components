@@ -1,0 +1,328 @@
+:host {
+  display: block;
+}
+.button-group.align-left .button-text,
+.button-group.align-right .button-text{
+  flex:1 1 auto;
+}
+.button-group{
+  display:inline-flex;
+}
+.button-group .button{
+  flex:0 0 auto;
+  position:relative;
+  z-index:4;
+}
+.button-group .button:focus{
+  z-index:5;
+}
+.button-group .button:hover{
+  z-index:6;
+}
+.button-group .button:active, .button-group .button.active{
+  z-index:7;
+}
+.button-group .button:disabled, .button-group .button.disabled{
+  z-index:3;
+}
+.button-group .button[class*=intent-]{
+  z-index:9;
+}
+.button-group .button[class*=intent-]:focus{
+  z-index:10;
+}
+.button-group .button[class*=intent-]:hover{
+  z-index:11;
+}
+.button-group .button[class*=intent-]:active, .button-group .button[class*=intent-].active{
+  z-index:12;
+}
+.button-group .button[class*=intent-]:disabled, .button-group .button[class*=intent-].disabled{
+  z-index:8;
+}
+.button-group:not(.minimal) > .popover-wrapper:not(:first-child) .button,
+.button-group:not(.minimal) > task-button:not(:first-child) > .button{
+  border-bottom-left-radius:0;
+  border-top-left-radius:0;
+}
+.button-group:not(.minimal) > .popover-wrapper:not(:last-child) .button,
+.button-group:not(.minimal) > task-button:not(:last-child) > .button{
+  border-bottom-right-radius:0;
+  border-top-right-radius:0;
+  margin-right:-1px;
+}
+.button-group.minimal .button{
+  background:none;
+  box-shadow:none;
+}
+.button-group.minimal .button:hover{
+  background:rgba(143, 153, 168, 0.15);
+  box-shadow:none;
+  color:#1c2127;
+  text-decoration:none;
+}
+.button-group.minimal .button:active, .button-group.minimal .button.active{
+  background:rgba(143, 153, 168, 0.3);
+  box-shadow:none;
+  color:#1c2127;
+}
+.button-group.minimal .button:disabled, .button-group.minimal .button:disabled:hover, .button-group.minimal .button.disabled, .button-group.minimal .button.disabled:hover{
+  background:none;
+  color:rgba(95, 107, 124, 0.6);
+  cursor:not-allowed;
+}
+.button-group.minimal .button:disabled.active, .button-group.minimal .button:disabled:hover.active, .button-group.minimal .button.disabled.active, .button-group.minimal .button.disabled:hover.active{
+  background:rgba(143, 153, 168, 0.3);
+}
+.dark .button-group.minimal .button{
+  background:none;
+  box-shadow:none;
+  color:#ffffff;
+}
+.dark .button-group.minimal .button:hover, .dark .button-group.minimal .button:active, .dark .button-group.minimal .button.active{
+  background:none;
+  box-shadow:none;
+  color:#ffffff;
+}
+.dark .button-group.minimal .button:hover{
+  background:rgba(143, 153, 168, 0.15);
+}
+.dark .button-group.minimal .button:active, .dark .button-group.minimal .button.active{
+  background:rgba(143, 153, 168, 0.3);
+}
+.dark .button-group.minimal .button:disabled, .dark .button-group.minimal .button:disabled:hover, .dark .button-group.minimal .button.disabled, .dark .button-group.minimal .button.disabled:hover{
+  background:none;
+  color:rgba(171, 179, 191, 0.6);
+  cursor:not-allowed;
+}
+.dark .button-group.minimal .button:disabled.active, .dark .button-group.minimal .button:disabled:hover.active, .dark .button-group.minimal .button.disabled.active, .dark .button-group.minimal .button.disabled:hover.active{
+  background:rgba(143, 153, 168, 0.3);
+}
+.button-group.minimal .button.intent-primary{
+  color:#215db0;
+}
+.button-group.minimal .button.intent-primary:hover, .button-group.minimal .button.intent-primary:active, .button-group.minimal .button.intent-primary.active{
+  background:none;
+  box-shadow:none;
+  color:#215db0;
+}
+.button-group.minimal .button.intent-primary:hover{
+  background:rgba(45, 114, 210, 0.15);
+  color:#215db0;
+}
+.button-group.minimal .button.intent-primary:active, .button-group.minimal .button.intent-primary.active{
+  background:rgba(45, 114, 210, 0.3);
+  color:#184a90;
+}
+.button-group.minimal .button.intent-primary:disabled, .button-group.minimal .button.intent-primary.disabled{
+  background:none;
+  color:rgba(33, 93, 176, 0.5);
+}
+.button-group.minimal .button.intent-primary:disabled.active, .button-group.minimal .button.intent-primary.disabled.active{
+  background:rgba(45, 114, 210, 0.3);
+}
+.button-group.minimal .button.intent-primary .button-spinner .spinner-head{
+  stroke:#215db0;
+}
+.dark .button-group.minimal .button.intent-primary{
+  color:#8abbff;
+}
+.dark .button-group.minimal .button.intent-primary:hover{
+  background:rgba(45, 114, 210, 0.2);
+  color:#8abbff;
+}
+.dark .button-group.minimal .button.intent-primary:active, .dark .button-group.minimal .button.intent-primary.active{
+  background:rgba(45, 114, 210, 0.3);
+  color:#99c4ff;
+}
+.dark .button-group.minimal .button.intent-primary:disabled, .dark .button-group.minimal .button.intent-primary.disabled{
+  background:none;
+  color:rgba(138, 187, 255, 0.5);
+}
+.dark .button-group.minimal .button.intent-primary:disabled.active, .dark .button-group.minimal .button.intent-primary.disabled.active{
+  background:rgba(45, 114, 210, 0.3);
+}
+.button-group.minimal .button.intent-success{
+  color:#1c6e42;
+}
+.button-group.minimal .button.intent-success:hover, .button-group.minimal .button.intent-success:active, .button-group.minimal .button.intent-success.active{
+  background:none;
+  box-shadow:none;
+  color:#1c6e42;
+}
+.button-group.minimal .button.intent-success:hover{
+  background:rgba(35, 133, 81, 0.15);
+  color:#1c6e42;
+}
+.button-group.minimal .button.intent-success:active, .button-group.minimal .button.intent-success.active{
+  background:rgba(35, 133, 81, 0.3);
+  color:#165a36;
+}
+.button-group.minimal .button.intent-success:disabled, .button-group.minimal .button.intent-success.disabled{
+  background:none;
+  color:rgba(28, 110, 66, 0.5);
+}
+.button-group.minimal .button.intent-success:disabled.active, .button-group.minimal .button.intent-success.disabled.active{
+  background:rgba(35, 133, 81, 0.3);
+}
+.button-group.minimal .button.intent-success .button-spinner .spinner-head{
+  stroke:#1c6e42;
+}
+.dark .button-group.minimal .button.intent-success{
+  color:#72ca9b;
+}
+.dark .button-group.minimal .button.intent-success:hover{
+  background:rgba(35, 133, 81, 0.2);
+  color:#72ca9b;
+}
+.dark .button-group.minimal .button.intent-success:active, .dark .button-group.minimal .button.intent-success.active{
+  background:rgba(35, 133, 81, 0.3);
+  color:#7cd7a2;
+}
+.dark .button-group.minimal .button.intent-success:disabled, .dark .button-group.minimal .button.intent-success.disabled{
+  background:none;
+  color:rgba(114, 202, 155, 0.5);
+}
+.dark .button-group.minimal .button.intent-success:disabled.active, .dark .button-group.minimal .button.intent-success.disabled.active{
+  background:rgba(35, 133, 81, 0.3);
+}
+.button-group.minimal .button.intent-warning{
+  color:#935610;
+}
+.button-group.minimal .button.intent-warning:hover, .button-group.minimal .button.intent-warning:active, .button-group.minimal .button.intent-warning.active{
+  background:none;
+  box-shadow:none;
+  color:#935610;
+}
+.button-group.minimal .button.intent-warning:hover{
+  background:rgba(200, 118, 25, 0.15);
+  color:#935610;
+}
+.button-group.minimal .button.intent-warning:active, .button-group.minimal .button.intent-warning.active{
+  background:rgba(200, 118, 25, 0.3);
+  color:#77450d;
+}
+.button-group.minimal .button.intent-warning:disabled, .button-group.minimal .button.intent-warning.disabled{
+  background:none;
+  color:rgba(147, 86, 16, 0.5);
+}
+.button-group.minimal .button.intent-warning:disabled.active, .button-group.minimal .button.intent-warning.disabled.active{
+  background:rgba(200, 118, 25, 0.3);
+}
+.button-group.minimal .button.intent-warning .button-spinner .spinner-head{
+  stroke:#935610;
+}
+.dark .button-group.minimal .button.intent-warning{
+  color:#fbb360;
+}
+.dark .button-group.minimal .button.intent-warning:hover{
+  background:rgba(200, 118, 25, 0.2);
+  color:#fbb360;
+}
+.dark .button-group.minimal .button.intent-warning:active, .dark .button-group.minimal .button.intent-warning.active{
+  background:rgba(200, 118, 25, 0.3);
+  color:#f5c186;
+}
+.dark .button-group.minimal .button.intent-warning:disabled, .dark .button-group.minimal .button.intent-warning.disabled{
+  background:none;
+  color:rgba(251, 179, 96, 0.5);
+}
+.dark .button-group.minimal .button.intent-warning:disabled.active, .dark .button-group.minimal .button.intent-warning.disabled.active{
+  background:rgba(200, 118, 25, 0.3);
+}
+.button-group.minimal .button.intent-danger{
+  color:#ac2f33;
+}
+.button-group.minimal .button.intent-danger:hover, .button-group.minimal .button.intent-danger:active, .button-group.minimal .button.intent-danger.active{
+  background:none;
+  box-shadow:none;
+  color:#ac2f33;
+}
+.button-group.minimal .button.intent-danger:hover{
+  background:rgba(205, 66, 70, 0.15);
+  color:#ac2f33;
+}
+.button-group.minimal .button.intent-danger:active, .button-group.minimal .button.intent-danger.active{
+  background:rgba(205, 66, 70, 0.3);
+  color:#8e292c;
+}
+.button-group.minimal .button.intent-danger:disabled, .button-group.minimal .button.intent-danger.disabled{
+  background:none;
+  color:rgba(172, 47, 51, 0.5);
+}
+.button-group.minimal .button.intent-danger:disabled.active, .button-group.minimal .button.intent-danger.disabled.active{
+  background:rgba(205, 66, 70, 0.3);
+}
+.button-group.minimal .button.intent-danger .button-spinner .spinner-head{
+  stroke:#ac2f33;
+}
+.dark .button-group.minimal .button.intent-danger{
+  color:#fa999c;
+}
+.dark .button-group.minimal .button.intent-danger:hover{
+  background:rgba(205, 66, 70, 0.2);
+  color:#fa999c;
+}
+.dark .button-group.minimal .button.intent-danger:active, .dark .button-group.minimal .button.intent-danger.active{
+  background:rgba(205, 66, 70, 0.3);
+  color:#ffa1a4;
+}
+.dark .button-group.minimal .button.intent-danger:disabled, .dark .button-group.minimal .button.intent-danger.disabled{
+  background:none;
+  color:rgba(250, 153, 156, 0.5);
+}
+.dark .button-group.minimal .button.intent-danger:disabled.active, .dark .button-group.minimal .button.intent-danger.disabled.active{
+  background:rgba(205, 66, 70, 0.3);
+}
+@media (forced-colors: active) and (prefers-color-scheme: dark){
+  .button-group.minimal:not(:first-child){
+    border-bottom-left-radius:0;
+    border-left:none;
+    border-top-left-radius:0;
+  }
+  .button-group.minimal:not(:last-child){
+    border-bottom-right-radius:0;
+    border-top-right-radius:0;
+    margin-right:-1px;
+  }
+}
+.button-group .popover-wrapper,
+.button-group .popover-target{
+  display:flex;
+  flex:1 1 auto;
+}
+.button-group.fill{
+  display:flex;
+  width:100%;
+}
+.button-group .button.fill, .button-group.fill .button:not(.fixed){
+  flex:1 1 auto;
+}
+.button-group.vertical{
+  align-items:stretch;
+  flex-direction:column;
+  vertical-align:top;
+}
+.button-group.vertical.fill{
+  height:100%;
+  width:unset;
+}
+.button-group.vertical .button{
+  margin-right:0 !important;
+  width:100%;
+}
+.button-group.vertical:not(.minimal) > .popover-wrapper:first-child .button,
+.button-group.vertical:not(.minimal) > .button:first-child{
+  border-radius:2px 2px 0 0;
+}
+.button-group.vertical:not(.minimal) > .popover-wrapper:last-child .button,
+.button-group.vertical:not(.minimal) > .button:last-child{
+  border-radius:0 0 2px 2px;
+}
+.button-group.vertical:not(.minimal) > .popover-wrapper:not(:last-child) .button,
+.button-group.vertical:not(.minimal) > .button:not(:last-child){
+  margin-bottom:-1px;
+}
+.button-group.align-left .button{
+  text-align:left;
+}

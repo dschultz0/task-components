@@ -1,0 +1,60 @@
+.overlay-portal {
+  bottom:0;
+  left:0;
+  position:absolute;
+  right:0;
+  top:0;
+}
+
+.overlay {
+  bottom:0;
+  left:0;
+  position:static;
+  right:0;
+  top:0;
+  z-index:20;
+}
+
+body.overlay-open {
+  overflow: hidden;
+}
+.overlay:not(.overlay-open) {
+  pointer-events:none;
+}
+.overlay.overlay-container {
+  overflow:hidden;
+  position:fixed;
+}
+.overlay.overlay-scroll-container {
+  overflow:auto;
+  position:fixed;
+}
+.overlay-content {
+  position:fixed;
+  z-index:20;
+}
+.overlay-closed {
+  display: none;
+}
+.overlay-scroll-container .overlay-content {
+  position:absolute;
+}
+
+.overlay-backdrop {
+  bottom:0;
+  left:0;
+  position:fixed;
+  right:0;
+  top:0;
+  opacity:1;
+  background-color:rgba(17, 20, 24, 0.7);
+  overflow:auto;
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
+  z-index:20;
+}
+.overlay-backdrop:focus {
+  outline:none;
+}

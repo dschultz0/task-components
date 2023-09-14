@@ -128,6 +128,8 @@ export class TaskInputRadio implements Input {
           checked={option.value === this.value}
           disabled={this.disabled || (this.preventChanges && option.value !== this.value)}
           ref={el => this.input = el}
+          // Prevents the input getting focus and changing values using arrow keys
+          onClick={(e) => (e.target as HTMLInputElement).blur()}
         />
         { this.mode === "radio" && <span class="indicator" key="indicator"></span> }
         <div
@@ -171,6 +173,8 @@ export class TaskInputRadio implements Input {
             checked={option.value === this.value}
             disabled={this.disabled || (this.preventChanges && option.value !== this.value)}
             ref={el => this.input = el}
+            // Prevents the input getting focus and changing values using arrow keys
+            onClick={(e) => (e.target as HTMLInputElement).blur()}
           />
           <div
             key="content"

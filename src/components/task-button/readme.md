@@ -7,12 +7,58 @@
 
 ## Properties
 
-| Property   | Attribute  | Description | Type      | Default     |
-| ---------- | ---------- | ----------- | --------- | ----------- |
-| `disabled` | `disabled` |             | `boolean` | `undefined` |
-| `href`     | `href`     |             | `string`  | `undefined` |
-| `intent`   | `intent`   |             | `string`  | `"primary"` |
+| Property    | Attribute    | Description | Type      | Default     |
+| ----------- | ------------ | ----------- | --------- | ----------- |
+| `active`    | `active`     |             | `boolean` | `false`     |
+| `alignText` | `align-text` |             | `string`  | `"center"`  |
+| `anchor`    | `anchor`     |             | `boolean` | `false`     |
+| `disabled`  | `disabled`   |             | `boolean` | `false`     |
+| `fill`      | `fill`       |             | `boolean` | `false`     |
+| `href`      | `href`       |             | `string`  | `undefined` |
+| `icon`      | `icon`       |             | `string`  | `undefined` |
+| `intent`    | `intent`     |             | `string`  | `undefined` |
+| `label`     | `label`      |             | `boolean` | `false`     |
+| `large`     | `large`      |             | `boolean` | `false`     |
+| `loading`   | `loading`    |             | `boolean` | `false`     |
+| `minimal`   | `minimal`    |             | `boolean` | `false`     |
+| `newWindow` | `new-window` |             | `boolean` | `false`     |
+| `outlined`  | `outlined`   |             | `boolean` | `false`     |
+| `rightIcon` | `right-icon` |             | `string`  | `undefined` |
+| `selected`  | `selected`   |             | `boolean` | `false`     |
+| `small`     | `small`      |             | `boolean` | `false`     |
+| `tabindex`  | `tabindex`   |             | `string`  | `undefined` |
+| `target`    | `target`     |             | `string`  | `undefined` |
+| `text`      | `text`       |             | `string`  | `undefined` |
+| `type`      | `type`       |             | `string`  | `"button"`  |
 
+
+## Events
+
+| Event   | Description | Type               |
+| ------- | ----------- | ------------------ |
+| `click` |             | `CustomEvent<any>` |
+| `focus` |             | `CustomEvent<any>` |
+
+
+## Dependencies
+
+### Used by
+
+ - [task-dialog](../task-dialog)
+ - [task-input-radio](../task-input-radio)
+
+### Depends on
+
+- [task-icon](../task-icon)
+
+### Graph
+```mermaid
+graph TD;
+  task-button --> task-icon
+  task-dialog --> task-button
+  task-input-radio --> task-button
+  style task-button fill:#f9f,stroke:#333,stroke-width:4px
+```
 
 ----------------------------------------------
 

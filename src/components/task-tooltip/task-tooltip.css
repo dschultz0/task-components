@@ -1,0 +1,23 @@
+:host {
+  display: inline-block;
+}
+.tooltip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  background-color: #fff;
+  border-bottom: none;
+  border-top: 1px solid #0000;
+  box-shadow: 0 4px 20px 1px #0007161a;
+  box-sizing: border-box;
+  outline: none;
+  overflow-y: auto;
+  height: max-content;
+  width: max-content;
+  max-height: 600px;
+  max-width: 600px;
+}
+.tooltip-hidden {
+  display: none;
+}

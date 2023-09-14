@@ -7,18 +7,20 @@
 
 ## Properties
 
-| Property      | Attribute     | Description | Type      | Default     |
-| ------------- | ------------- | ----------- | --------- | ----------- |
-| `active`      | `active`      |             | `boolean` | `undefined` |
-| `cols`        | `cols`        |             | `number`  | `undefined` |
-| `disabled`    | `disabled`    |             | `boolean` | `undefined` |
-| `label`       | `label`       |             | `string`  | `undefined` |
-| `maxlength`   | `maxlength`   |             | `number`  | `undefined` |
-| `name`        | `name`        |             | `string`  | `undefined` |
-| `placeholder` | `placeholder` |             | `string`  | `undefined` |
-| `required`    | `required`    |             | `boolean` | `undefined` |
-| `rows`        | `rows`        |             | `number`  | `undefined` |
-| `type`        | `type`        |             | `string`  | `undefined` |
+| Property            | Attribute            | Description | Type      | Default     |
+| ------------------- | -------------------- | ----------- | --------- | ----------- |
+| `active`            | `active`             |             | `boolean` | `undefined` |
+| `cols`              | `cols`               |             | `number`  | `undefined` |
+| `disabled`          | `disabled`           |             | `boolean` | `undefined` |
+| `label`             | `label`              |             | `string`  | `undefined` |
+| `maxlength`         | `maxlength`          |             | `number`  | `undefined` |
+| `name`              | `name`               |             | `string`  | `undefined` |
+| `placeholder`       | `placeholder`        |             | `string`  | `undefined` |
+| `requireIf`         | `require-if`         |             | `string`  | `undefined` |
+| `required`          | `required`           |             | `boolean` | `undefined` |
+| `requiredIndicator` | `required-indicator` |             | `string`  | `undefined` |
+| `rows`              | `rows`               |             | `number`  | `undefined` |
+| `type`              | `type`               |             | `string`  | `undefined` |
 
 
 ## Events

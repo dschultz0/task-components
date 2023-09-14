@@ -7,6 +7,8 @@ import {
 import { TaskAnswer } from '../task-answer/task-answer';
 import { TaskAnswerCorrection } from '../task-answer-correction/task-answer-correction';
 
+type CallbackFunction = (this: Window, ev: Event) => any
+
 @Component({
   tag: 'task-input',
   styleUrl: 'task-input.css',
@@ -20,9 +22,11 @@ export class TaskInput implements Input {
   @Prop() cols: number;
   @Prop() maxlength: number;
   @Prop() placeholder: string;
-  @Prop() required: boolean
+  @Prop({mutable: true}) required: boolean
   @Prop() active: boolean
   @Prop() disabled: boolean
+  @Prop() requireIf: string
+  @Prop() requiredIndicator: string
   @Element() host
   @State() value: string
   @State() preventChanges: boolean
@@ -30,10 +34,51 @@ export class TaskInput implements Input {
   @State() answerCorrection: TaskAnswerCorrection
   @Event() inputUpdated: EventEmitter<HTMLElement>
   input!: HTMLInputElement|HTMLTextAreaElement
+  loadCallback!: CallbackFunction
+  formCallback!: CallbackFunction
 
+  formUpdated() {
+    // console.log("formUpdated")
+    if (this.requireIf.includes("=")) {
+      const parts = this.requireIf.split("=")
+      if (parts[0].startsWith("any(")) {
+        const inputNames = parts[0].substring(4, parts[0].length-1).split(",")
+        // console.log(inputNames.map(name => this.input.form.elements[name].value))
+        const matching = inputNames.filter(name => this.input.form.elements[name].value === parts[1])
+        this.required = matching.length > 0
+      }
+    }
+  }
+
+  setupDependentInputs() {
+    if (this.requireIf && this.input) {
+      this.formCallback = this.formUpdated.bind(this)
+      this.input.form.addEventListener('input', this.formCallback)
+    }
+  }
+
+  connectedCallback() {
+    if (this.requireIf) {
+      if (['loaded', 'interactive', 'complete'].includes(document.readyState)) {
+        this.setupDependentInputs()
+      } else {
+        this.loadCallback = this.setupDependentInputs.bind(this)
+        document.addEventListener("load", this.setupDependentInputs)
+      }
+    }
+  }
   componentWillLoad() {
     this.answer = getAnswerElement(this.host)
     this.answerCorrection = getAnswerCorrectionElement(this.host)
+  }
+
+  disconnectedCallback() {
+    if (this.loadCallback) {
+      document.removeEventListener("load", this.loadCallback)
+    }
+    if (this.formCallback) {
+      this.input.form.removeEventListener("input", this.formCallback)
+    }
   }
 
   textarea() {
@@ -87,6 +132,7 @@ export class TaskInput implements Input {
   }
 
   @Watch("value")
+  @Watch("required")
   handleValueUpdate() {
     this.inputUpdated.emit(this.input.form)
   }
@@ -94,7 +140,7 @@ export class TaskInput implements Input {
   render() {
     return (
       <label>
-        {this.label}
+        {this.label} {this.required && this.requiredIndicator ? this.requiredIndicator : ""}
         {this.type === "textarea" && this.textarea()}
       </label>
     );

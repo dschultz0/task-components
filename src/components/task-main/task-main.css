@@ -1,6 +1,18 @@
 :host {
-  display: block;
-  padding: 6px;
-  overflow-y: scroll;
   flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  height: 100%;
+}
+
+.header {
+  padding: 6px;
+  flex: 0 0 auto;
+}
+
+.main {
+  padding: 6px;
+  flex: 1 1 auto;
+  overflow-y: auto;
 }

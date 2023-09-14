@@ -10,7 +10,8 @@ export class TaskMain {
   render() {
     return (
       <Host>
-        <slot></slot>
+        <div class="header"><slot name="header"></slot></div>
+        <div class="main"><slot></slot></div>
       </Host>
     );
   }

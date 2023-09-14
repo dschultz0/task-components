@@ -1,3 +1,10 @@
 :host {
   display: block;
 }
+
+.zoomBox {
+  position: absolute;
+  z-index: 99999;
+  background-color: white;
+  cursor: zoom-in;
+}

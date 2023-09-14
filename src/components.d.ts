@@ -28,6 +28,38 @@ export namespace Components {
         "value": string;
     }
     interface TaskBody {
+        "localId": string;
+        "saveLocal": boolean;
+    }
+    interface TaskButton {
+        "active": boolean;
+        "alignText": string;
+        "anchor": boolean;
+        "disabled": boolean;
+        "fill": boolean;
+        "href": string;
+        "icon": string;
+        "intent": string;
+        "label": boolean;
+        "large": boolean;
+        "loading": boolean;
+        "minimal": boolean;
+        "newWindow": boolean;
+        "outlined": boolean;
+        "rightIcon": string;
+        "selected": boolean;
+        "small": boolean;
+        "tabindex": string;
+        "target": string;
+        "text": string;
+        "type": string;
+    }
+    interface TaskButtonGroup {
+        "alignText": string;
+        "fill": boolean;
+        "large": boolean;
+        "minimal": boolean;
+        "vertical": boolean;
     }
     interface TaskCallout {
         "intent": string;
@@ -45,11 +77,37 @@ export namespace Components {
     }
     interface TaskColumns {
     }
+    interface TaskDialog {
+        "headerText": string;
+        "isCloseButtonShown": boolean;
+        "isOpen": boolean;
+    }
     interface TaskIcon {
         "icon": string;
+        "size": number;
     }
     interface TaskImage {
+        "cropCoordinates": string;
+        "cropHeight": number;
+        "cropLeft": number;
+        "cropTop": number;
+        "cropWidth": number;
+        "height": string;
+        "hoverZoom": boolean;
         "src": string;
+        "width": string;
+        "zoomPercentage": number;
+        "zoomSize": string;
+    }
+    interface TaskImageBox {
+        "color": string;
+        "coordinates": string;
+        "drawBox": (context: CanvasRenderingContext2D, scalar?: number, xOffset?: number, yOffset?: number) => Promise<void>;
+        "height": number;
+        "left": number;
+        "lineWidth": number;
+        "top": number;
+        "width": number;
     }
     interface TaskInfoPane {
     }
@@ -65,8 +123,12 @@ export namespace Components {
         "name": string;
         "placeholder": string;
         "readyToSubmit": () => Promise<boolean>;
+        "requireIf": string;
         "required": boolean;
+        "requiredIndicator": string;
         "rows": number;
+        "setShowCorrections": (value: boolean) => Promise<void>;
+        "setValue": (value: string) => Promise<void>;
         "type": string;
         "validateAgainstAnswer": () => Promise<boolean>;
     }
@@ -78,10 +140,13 @@ export namespace Components {
         "placeholder": string;
         "readyToSubmit": () => Promise<boolean>;
         "required": boolean;
+        "setShowCorrections": (value: boolean) => Promise<void>;
+        "setValue": (value: string) => Promise<void>;
         "validateAgainstAnswer": () => Promise<boolean>;
     }
     interface TaskInputOption {
         "keyboardShortcut": string;
+        "keyboardShortcutLabel": string;
         "value": string;
     }
     interface TaskInputRadio {
@@ -90,9 +155,12 @@ export namespace Components {
         "disabled": boolean;
         "inline": boolean;
         "label": string;
+        "mode": string;
         "name": string;
         "readyToSubmit": () => Promise<boolean>;
         "required": boolean;
+        "setShowCorrections": (value: boolean) => Promise<void>;
+        "setValue": (value: string) => Promise<void>;
         "validateAgainstAnswer": () => Promise<boolean>;
     }
     interface TaskInputSelect {
@@ -102,6 +170,8 @@ export namespace Components {
         "name": string;
         "readyToSubmit": () => Promise<boolean>;
         "required": boolean;
+        "setShowCorrections": (value: boolean) => Promise<void>;
+        "setValue": (value: string) => Promise<void>;
         "validateAgainstAnswer": () => Promise<boolean>;
     }
     interface TaskInstructions {
@@ -114,6 +184,8 @@ export namespace Components {
     interface TaskKeyboardShortcutList {
         "addShortCut": (shortcut: KeyboardShortcut) => Promise<void>;
     }
+    interface TaskLabel {
+    }
     interface TaskLink {
         "customStyle": string;
         "href": string;
@@ -123,6 +195,19 @@ export namespace Components {
     }
     interface TaskMarkdown {
         "markdown_url": string;
+    }
+    interface TaskOverlay {
+        "autoFocus": boolean;
+        "backdropClass": string;
+        "canEscapeKeyClose": boolean;
+        "canOutsideClickClose": boolean;
+        "containerClass": string;
+        "enforceFocus": boolean;
+        "hasBackdrop": boolean;
+        "isOpen": boolean;
+        "shouldReturnFocusOnClose": boolean;
+        "transitionDuration": number;
+        "transitionName": string;
     }
     interface TaskProgressbar {
         "completedCount": number;
@@ -144,6 +229,7 @@ export namespace Components {
         "disabled": boolean;
         "keyboardShortcut": string;
         "refreshSubmitReady": () => Promise<void>;
+        "setShowCorrections": (value: boolean) => Promise<void>;
     }
     interface TaskSummary {
     }
@@ -157,10 +243,17 @@ export namespace Components {
         "round": boolean;
         "small": boolean;
     }
+    interface TaskTooltip {
+        "icon": string;
+    }
 }
 export interface TaskAnswerCorrectionCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLTaskAnswerCorrectionElement;
+}
+export interface TaskButtonCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLTaskButtonElement;
 }
 export interface TaskCardCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -169,6 +262,10 @@ export interface TaskCardCustomEvent<T> extends CustomEvent<T> {
 export interface TaskCardListCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLTaskCardListElement;
+}
+export interface TaskDialogCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLTaskDialogElement;
 }
 export interface TaskInputCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -185,6 +282,10 @@ export interface TaskInputRadioCustomEvent<T> extends CustomEvent<T> {
 export interface TaskInputSelectCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLTaskInputSelectElement;
+}
+export interface TaskOverlayCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLTaskOverlayElement;
 }
 export interface TaskStepCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -219,6 +320,18 @@ declare global {
         prototype: HTMLTaskBodyElement;
         new (): HTMLTaskBodyElement;
     };
+    interface HTMLTaskButtonElement extends Components.TaskButton, HTMLStencilElement {
+    }
+    var HTMLTaskButtonElement: {
+        prototype: HTMLTaskButtonElement;
+        new (): HTMLTaskButtonElement;
+    };
+    interface HTMLTaskButtonGroupElement extends Components.TaskButtonGroup, HTMLStencilElement {
+    }
+    var HTMLTaskButtonGroupElement: {
+        prototype: HTMLTaskButtonGroupElement;
+        new (): HTMLTaskButtonGroupElement;
+    };
     interface HTMLTaskCalloutElement extends Components.TaskCallout, HTMLStencilElement {
     }
     var HTMLTaskCalloutElement: {
@@ -249,6 +362,12 @@ declare global {
         prototype: HTMLTaskColumnsElement;
         new (): HTMLTaskColumnsElement;
     };
+    interface HTMLTaskDialogElement extends Components.TaskDialog, HTMLStencilElement {
+    }
+    var HTMLTaskDialogElement: {
+        prototype: HTMLTaskDialogElement;
+        new (): HTMLTaskDialogElement;
+    };
     interface HTMLTaskIconElement extends Components.TaskIcon, HTMLStencilElement {
     }
     var HTMLTaskIconElement: {
@@ -260,6 +379,12 @@ declare global {
     var HTMLTaskImageElement: {
         prototype: HTMLTaskImageElement;
         new (): HTMLTaskImageElement;
+    };
+    interface HTMLTaskImageBoxElement extends Components.TaskImageBox, HTMLStencilElement {
+    }
+    var HTMLTaskImageBoxElement: {
+        prototype: HTMLTaskImageBoxElement;
+        new (): HTMLTaskImageBoxElement;
     };
     interface HTMLTaskInfoPaneElement extends Components.TaskInfoPane, HTMLStencilElement {
     }
@@ -321,6 +446,12 @@ declare global {
         prototype: HTMLTaskKeyboardShortcutListElement;
         new (): HTMLTaskKeyboardShortcutListElement;
     };
+    interface HTMLTaskLabelElement extends Components.TaskLabel, HTMLStencilElement {
+    }
+    var HTMLTaskLabelElement: {
+        prototype: HTMLTaskLabelElement;
+        new (): HTMLTaskLabelElement;
+    };
     interface HTMLTaskLinkElement extends Components.TaskLink, HTMLStencilElement {
     }
     var HTMLTaskLinkElement: {
@@ -338,6 +469,12 @@ declare global {
     var HTMLTaskMarkdownElement: {
         prototype: HTMLTaskMarkdownElement;
         new (): HTMLTaskMarkdownElement;
+    };
+    interface HTMLTaskOverlayElement extends Components.TaskOverlay, HTMLStencilElement {
+    }
+    var HTMLTaskOverlayElement: {
+        prototype: HTMLTaskOverlayElement;
+        new (): HTMLTaskOverlayElement;
     };
     interface HTMLTaskProgressbarElement extends Components.TaskProgressbar, HTMLStencilElement {
     }
@@ -381,18 +518,28 @@ declare global {
         prototype: HTMLTaskTagElement;
         new (): HTMLTaskTagElement;
     };
+    interface HTMLTaskTooltipElement extends Components.TaskTooltip, HTMLStencilElement {
+    }
+    var HTMLTaskTooltipElement: {
+        prototype: HTMLTaskTooltipElement;
+        new (): HTMLTaskTooltipElement;
+    };
     interface HTMLElementTagNameMap {
         "task-answer": HTMLTaskAnswerElement;
         "task-answer-correction": HTMLTaskAnswerCorrectionElement;
         "task-asset": HTMLTaskAssetElement;
         "task-body": HTMLTaskBodyElement;
+        "task-button": HTMLTaskButtonElement;
+        "task-button-group": HTMLTaskButtonGroupElement;
         "task-callout": HTMLTaskCalloutElement;
         "task-card": HTMLTaskCardElement;
         "task-card-list": HTMLTaskCardListElement;
         "task-column": HTMLTaskColumnElement;
         "task-columns": HTMLTaskColumnsElement;
+        "task-dialog": HTMLTaskDialogElement;
         "task-icon": HTMLTaskIconElement;
         "task-image": HTMLTaskImageElement;
+        "task-image-box": HTMLTaskImageBoxElement;
         "task-info-pane": HTMLTaskInfoPaneElement;
         "task-info-section": HTMLTaskInfoSectionElement;
         "task-input": HTMLTaskInputElement;
@@ -403,9 +550,11 @@ declare global {
         "task-instructions": HTMLTaskInstructionsElement;
         "task-keyboard-shortcut": HTMLTaskKeyboardShortcutElement;
         "task-keyboard-shortcut-list": HTMLTaskKeyboardShortcutListElement;
+        "task-label": HTMLTaskLabelElement;
         "task-link": HTMLTaskLinkElement;
         "task-main": HTMLTaskMainElement;
         "task-markdown": HTMLTaskMarkdownElement;
+        "task-overlay": HTMLTaskOverlayElement;
         "task-progressbar": HTMLTaskProgressbarElement;
         "task-row": HTMLTaskRowElement;
         "task-step": HTMLTaskStepElement;
@@ -413,6 +562,7 @@ declare global {
         "task-submit": HTMLTaskSubmitElement;
         "task-summary": HTMLTaskSummaryElement;
         "task-tag": HTMLTaskTagElement;
+        "task-tooltip": HTMLTaskTooltipElement;
     }
 }
 declare namespace LocalJSX {
@@ -433,6 +583,40 @@ declare namespace LocalJSX {
         "value"?: string;
     }
     interface TaskBody {
+        "localId"?: string;
+        "saveLocal"?: boolean;
+    }
+    interface TaskButton {
+        "active"?: boolean;
+        "alignText"?: string;
+        "anchor"?: boolean;
+        "disabled"?: boolean;
+        "fill"?: boolean;
+        "href"?: string;
+        "icon"?: string;
+        "intent"?: string;
+        "label"?: boolean;
+        "large"?: boolean;
+        "loading"?: boolean;
+        "minimal"?: boolean;
+        "newWindow"?: boolean;
+        "onClick"?: (event: TaskButtonCustomEvent<any>) => void;
+        "onFocus"?: (event: TaskButtonCustomEvent<any>) => void;
+        "outlined"?: boolean;
+        "rightIcon"?: string;
+        "selected"?: boolean;
+        "small"?: boolean;
+        "tabindex"?: string;
+        "target"?: string;
+        "text"?: string;
+        "type"?: string;
+    }
+    interface TaskButtonGroup {
+        "alignText"?: string;
+        "fill"?: boolean;
+        "large"?: boolean;
+        "minimal"?: boolean;
+        "vertical"?: boolean;
     }
     interface TaskCallout {
         "intent"?: string;
@@ -452,11 +636,37 @@ declare namespace LocalJSX {
     }
     interface TaskColumns {
     }
+    interface TaskDialog {
+        "headerText"?: string;
+        "isCloseButtonShown"?: boolean;
+        "isOpen"?: boolean;
+        "onClose"?: (event: TaskDialogCustomEvent<any>) => void;
+    }
     interface TaskIcon {
         "icon"?: string;
+        "size"?: number;
     }
     interface TaskImage {
+        "cropCoordinates"?: string;
+        "cropHeight"?: number;
+        "cropLeft"?: number;
+        "cropTop"?: number;
+        "cropWidth"?: number;
+        "height"?: string;
+        "hoverZoom"?: boolean;
         "src"?: string;
+        "width"?: string;
+        "zoomPercentage"?: number;
+        "zoomSize"?: string;
+    }
+    interface TaskImageBox {
+        "color"?: string;
+        "coordinates"?: string;
+        "height"?: number;
+        "left"?: number;
+        "lineWidth"?: number;
+        "top"?: number;
+        "width"?: number;
     }
     interface TaskInfoPane {
     }
@@ -472,7 +682,9 @@ declare namespace LocalJSX {
         "name"?: string;
         "onInputUpdated"?: (event: TaskInputCustomEvent<HTMLElement>) => void;
         "placeholder"?: string;
+        "requireIf"?: string;
         "required"?: boolean;
+        "requiredIndicator"?: string;
         "rows"?: number;
         "type"?: string;
     }
@@ -488,6 +700,7 @@ declare namespace LocalJSX {
     }
     interface TaskInputOption {
         "keyboardShortcut"?: string;
+        "keyboardShortcutLabel"?: string;
         "value"?: string;
     }
     interface TaskInputRadio {
@@ -496,6 +709,7 @@ declare namespace LocalJSX {
         "disabled"?: boolean;
         "inline"?: boolean;
         "label"?: string;
+        "mode"?: string;
         "name"?: string;
         "onInputUpdated"?: (event: TaskInputRadioCustomEvent<HTMLFormElement>) => void;
         "onRegisterKeyboardShortcut"?: (event: TaskInputRadioCustomEvent<KeyboardShortcut>) => void;
@@ -519,6 +733,8 @@ declare namespace LocalJSX {
     }
     interface TaskKeyboardShortcutList {
     }
+    interface TaskLabel {
+    }
     interface TaskLink {
         "customStyle"?: string;
         "href"?: string;
@@ -528,6 +744,24 @@ declare namespace LocalJSX {
     }
     interface TaskMarkdown {
         "markdown_url"?: string;
+    }
+    interface TaskOverlay {
+        "autoFocus"?: boolean;
+        "backdropClass"?: string;
+        "canEscapeKeyClose"?: boolean;
+        "canOutsideClickClose"?: boolean;
+        "containerClass"?: string;
+        "enforceFocus"?: boolean;
+        "hasBackdrop"?: boolean;
+        "isOpen"?: boolean;
+        "onClose"?: (event: TaskOverlayCustomEvent<any>) => void;
+        "onClosed"?: (event: TaskOverlayCustomEvent<any>) => void;
+        "onClosing"?: (event: TaskOverlayCustomEvent<any>) => void;
+        "onOpened"?: (event: TaskOverlayCustomEvent<any>) => void;
+        "onOpening"?: (event: TaskOverlayCustomEvent<any>) => void;
+        "shouldReturnFocusOnClose"?: boolean;
+        "transitionDuration"?: number;
+        "transitionName"?: string;
     }
     interface TaskProgressbar {
         "completedCount"?: number;
@@ -549,6 +783,8 @@ declare namespace LocalJSX {
         "disabled"?: boolean;
         "keyboardShortcut"?: string;
         "onRegisterKeyboardShortcut"?: (event: TaskSubmitCustomEvent<KeyboardShortcut>) => void;
+        "onShowCorrections"?: (event: TaskSubmitCustomEvent<any>) => void;
+        "onTaskSubmit"?: (event: TaskSubmitCustomEvent<any>) => void;
     }
     interface TaskSummary {
     }
@@ -562,18 +798,25 @@ declare namespace LocalJSX {
         "round"?: boolean;
         "small"?: boolean;
     }
+    interface TaskTooltip {
+        "icon"?: string;
+    }
     interface IntrinsicElements {
         "task-answer": TaskAnswer;
         "task-answer-correction": TaskAnswerCorrection;
         "task-asset": TaskAsset;
         "task-body": TaskBody;
+        "task-button": TaskButton;
+        "task-button-group": TaskButtonGroup;
         "task-callout": TaskCallout;
         "task-card": TaskCard;
         "task-card-list": TaskCardList;
         "task-column": TaskColumn;
         "task-columns": TaskColumns;
+        "task-dialog": TaskDialog;
         "task-icon": TaskIcon;
         "task-image": TaskImage;
+        "task-image-box": TaskImageBox;
         "task-info-pane": TaskInfoPane;
         "task-info-section": TaskInfoSection;
         "task-input": TaskInput;
@@ -584,9 +827,11 @@ declare namespace LocalJSX {
         "task-instructions": TaskInstructions;
         "task-keyboard-shortcut": TaskKeyboardShortcut;
         "task-keyboard-shortcut-list": TaskKeyboardShortcutList;
+        "task-label": TaskLabel;
         "task-link": TaskLink;
         "task-main": TaskMain;
         "task-markdown": TaskMarkdown;
+        "task-overlay": TaskOverlay;
         "task-progressbar": TaskProgressbar;
         "task-row": TaskRow;
         "task-step": TaskStep;
@@ -594,6 +839,7 @@ declare namespace LocalJSX {
         "task-submit": TaskSubmit;
         "task-summary": TaskSummary;
         "task-tag": TaskTag;
+        "task-tooltip": TaskTooltip;
     }
 }
 export { LocalJSX as JSX };
@@ -604,13 +850,17 @@ declare module "@stencil/core" {
             "task-answer-correction": LocalJSX.TaskAnswerCorrection & JSXBase.HTMLAttributes<HTMLTaskAnswerCorrectionElement>;
             "task-asset": LocalJSX.TaskAsset & JSXBase.HTMLAttributes<HTMLTaskAssetElement>;
             "task-body": LocalJSX.TaskBody & JSXBase.HTMLAttributes<HTMLTaskBodyElement>;
+            "task-button": LocalJSX.TaskButton & JSXBase.HTMLAttributes<HTMLTaskButtonElement>;
+            "task-button-group": LocalJSX.TaskButtonGroup & JSXBase.HTMLAttributes<HTMLTaskButtonGroupElement>;
             "task-callout": LocalJSX.TaskCallout & JSXBase.HTMLAttributes<HTMLTaskCalloutElement>;
             "task-card": LocalJSX.TaskCard & JSXBase.HTMLAttributes<HTMLTaskCardElement>;
             "task-card-list": LocalJSX.TaskCardList & JSXBase.HTMLAttributes<HTMLTaskCardListElement>;
             "task-column": LocalJSX.TaskColumn & JSXBase.HTMLAttributes<HTMLTaskColumnElement>;
             "task-columns": LocalJSX.TaskColumns & JSXBase.HTMLAttributes<HTMLTaskColumnsElement>;
+            "task-dialog": LocalJSX.TaskDialog & JSXBase.HTMLAttributes<HTMLTaskDialogElement>;
             "task-icon": LocalJSX.TaskIcon & JSXBase.HTMLAttributes<HTMLTaskIconElement>;
             "task-image": LocalJSX.TaskImage & JSXBase.HTMLAttributes<HTMLTaskImageElement>;
+            "task-image-box": LocalJSX.TaskImageBox & JSXBase.HTMLAttributes<HTMLTaskImageBoxElement>;
             "task-info-pane": LocalJSX.TaskInfoPane & JSXBase.HTMLAttributes<HTMLTaskInfoPaneElement>;
             "task-info-section": LocalJSX.TaskInfoSection & JSXBase.HTMLAttributes<HTMLTaskInfoSectionElement>;
             "task-input": LocalJSX.TaskInput & JSXBase.HTMLAttributes<HTMLTaskInputElement>;
@@ -621,9 +871,11 @@ declare module "@stencil/core" {
             "task-instructions": LocalJSX.TaskInstructions & JSXBase.HTMLAttributes<HTMLTaskInstructionsElement>;
             "task-keyboard-shortcut": LocalJSX.TaskKeyboardShortcut & JSXBase.HTMLAttributes<HTMLTaskKeyboardShortcutElement>;
             "task-keyboard-shortcut-list": LocalJSX.TaskKeyboardShortcutList & JSXBase.HTMLAttributes<HTMLTaskKeyboardShortcutListElement>;
+            "task-label": LocalJSX.TaskLabel & JSXBase.HTMLAttributes<HTMLTaskLabelElement>;
             "task-link": LocalJSX.TaskLink & JSXBase.HTMLAttributes<HTMLTaskLinkElement>;
             "task-main": LocalJSX.TaskMain & JSXBase.HTMLAttributes<HTMLTaskMainElement>;
             "task-markdown": LocalJSX.TaskMarkdown & JSXBase.HTMLAttributes<HTMLTaskMarkdownElement>;
+            "task-overlay": LocalJSX.TaskOverlay & JSXBase.HTMLAttributes<HTMLTaskOverlayElement>;
             "task-progressbar": LocalJSX.TaskProgressbar & JSXBase.HTMLAttributes<HTMLTaskProgressbarElement>;
             "task-row": LocalJSX.TaskRow & JSXBase.HTMLAttributes<HTMLTaskRowElement>;
             "task-step": LocalJSX.TaskStep & JSXBase.HTMLAttributes<HTMLTaskStepElement>;
@@ -631,6 +883,7 @@ declare module "@stencil/core" {
             "task-submit": LocalJSX.TaskSubmit & JSXBase.HTMLAttributes<HTMLTaskSubmitElement>;
             "task-summary": LocalJSX.TaskSummary & JSXBase.HTMLAttributes<HTMLTaskSummaryElement>;
             "task-tag": LocalJSX.TaskTag & JSXBase.HTMLAttributes<HTMLTaskTagElement>;
+            "task-tooltip": LocalJSX.TaskTooltip & JSXBase.HTMLAttributes<HTMLTaskTooltipElement>;
         }
     }
 }

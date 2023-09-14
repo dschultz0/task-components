@@ -62,6 +62,10 @@ export class TaskInputRadio implements Input {
       if (advance) {
         this.inputUpdated.emit(this.input.form)
       }
+      // The following addresses an issue observed with dependent form elements
+      // not receiving form updated events when the value is changed via keypress
+      this.input.form.elements[this.name].value = this.shortcutMap[event.key]
+      this.input.form.dispatchEvent(new InputEvent("input"))
     }
   }
 

@@ -1,0 +1,874 @@
+{
+  "version": 1.1,
+  "tags": [
+    {
+      "name": "task-answer",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "show-answer",
+          "description": ""
+        },
+        {
+          "name": "value",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "task-answer-correction",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "display-correction",
+          "description": ""
+        },
+        {
+          "name": "display-on",
+          "description": ""
+        },
+        {
+          "name": "on-display-event",
+          "description": ""
+        },
+        {
+          "name": "prevent-changes",
+          "description": ""
+        },
+        {
+          "name": "show-answer",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "task-asset",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "asset",
+          "description": ""
+        },
+        {
+          "name": "value",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "task-body",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "local-id",
+          "description": ""
+        },
+        {
+          "name": "save-local",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "task-button",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "active",
+          "description": ""
+        },
+        {
+          "name": "align-text",
+          "description": ""
+        },
+        {
+          "name": "anchor",
+          "description": ""
+        },
+        {
+          "name": "disabled",
+          "description": ""
+        },
+        {
+          "name": "fill",
+          "description": ""
+        },
+        {
+          "name": "href",
+          "description": ""
+        },
+        {
+          "name": "icon",
+          "description": ""
+        },
+        {
+          "name": "intent",
+          "description": ""
+        },
+        {
+          "name": "label",
+          "description": ""
+        },
+        {
+          "name": "large",
+          "description": ""
+        },
+        {
+          "name": "loading",
+          "description": ""
+        },
+        {
+          "name": "minimal",
+          "description": ""
+        },
+        {
+          "name": "new-window",
+          "description": ""
+        },
+        {
+          "name": "outlined",
+          "description": ""
+        },
+        {
+          "name": "right-icon",
+          "description": ""
+        },
+        {
+          "name": "selected",
+          "description": ""
+        },
+        {
+          "name": "small",
+          "description": ""
+        },
+        {
+          "name": "tabindex",
+          "description": ""
+        },
+        {
+          "name": "target",
+          "description": ""
+        },
+        {
+          "name": "text",
+          "description": ""
+        },
+        {
+          "name": "type",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "task-button-group",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "align-text",
+          "description": ""
+        },
+        {
+          "name": "fill",
+          "description": ""
+        },
+        {
+          "name": "large",
+          "description": ""
+        },
+        {
+          "name": "minimal",
+          "description": ""
+        },
+        {
+          "name": "vertical",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "task-callout",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "intent",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "task-card",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "active",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "task-card-list",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "advance-when-complete",
+          "description": ""
+        },
+        {
+          "name": "back-keyboard-shortcut",
+          "description": ""
+        },
+        {
+          "name": "forward-keyboard-shortcut",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "task-column",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": []
+    },
+    {
+      "name": "task-columns",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": []
+    },
+    {
+      "name": "task-dialog",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "header-text",
+          "description": ""
+        },
+        {
+          "name": "is-close-button-shown",
+          "description": ""
+        },
+        {
+          "name": "is-open",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "task-icon",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "icon",
+          "description": ""
+        },
+        {
+          "name": "size",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "task-image",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "crop-coordinates",
+          "description": ""
+        },
+        {
+          "name": "crop-height",
+          "description": ""
+        },
+        {
+          "name": "crop-left",
+          "description": ""
+        },
+        {
+          "name": "crop-top",
+          "description": ""
+        },
+        {
+          "name": "crop-width",
+          "description": ""
+        },
+        {
+          "name": "height",
+          "description": ""
+        },
+        {
+          "name": "hover-zoom",
+          "description": ""
+        },
+        {
+          "name": "src",
+          "description": ""
+        },
+        {
+          "name": "width",
+          "description": ""
+        },
+        {
+          "name": "zoom-percentage",
+          "description": ""
+        },
+        {
+          "name": "zoom-size",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "task-image-box",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "color",
+          "description": ""
+        },
+        {
+          "name": "coordinates",
+          "description": ""
+        },
+        {
+          "name": "height",
+          "description": ""
+        },
+        {
+          "name": "left",
+          "description": ""
+        },
+        {
+          "name": "line-width",
+          "description": ""
+        },
+        {
+          "name": "top",
+          "description": ""
+        },
+        {
+          "name": "width",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "task-info-pane",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": []
+    },
+    {
+      "name": "task-info-section",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "header",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "task-input",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "active",
+          "description": ""
+        },
+        {
+          "name": "cols",
+          "description": ""
+        },
+        {
+          "name": "disabled",
+          "description": ""
+        },
+        {
+          "name": "label",
+          "description": ""
+        },
+        {
+          "name": "maxlength",
+          "description": ""
+        },
+        {
+          "name": "name",
+          "description": ""
+        },
+        {
+          "name": "placeholder",
+          "description": ""
+        },
+        {
+          "name": "require-if",
+          "description": ""
+        },
+        {
+          "name": "required",
+          "description": ""
+        },
+        {
+          "name": "required-indicator",
+          "description": ""
+        },
+        {
+          "name": "rows",
+          "description": ""
+        },
+        {
+          "name": "type",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "task-input-multiselect",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "active",
+          "description": ""
+        },
+        {
+          "name": "disabled",
+          "description": ""
+        },
+        {
+          "name": "label",
+          "description": ""
+        },
+        {
+          "name": "name",
+          "description": ""
+        },
+        {
+          "name": "placeholder",
+          "description": ""
+        },
+        {
+          "name": "required",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "task-input-option",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "keyboard-shortcut",
+          "description": ""
+        },
+        {
+          "name": "keyboard-shortcut-label",
+          "description": ""
+        },
+        {
+          "name": "value",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "task-input-radio",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "active",
+          "description": ""
+        },
+        {
+          "name": "answer-tag",
+          "description": ""
+        },
+        {
+          "name": "disabled",
+          "description": ""
+        },
+        {
+          "name": "inline",
+          "description": ""
+        },
+        {
+          "name": "label",
+          "description": ""
+        },
+        {
+          "name": "mode",
+          "description": ""
+        },
+        {
+          "name": "name",
+          "description": ""
+        },
+        {
+          "name": "required",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "task-input-select",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "active",
+          "description": ""
+        },
+        {
+          "name": "disabled",
+          "description": ""
+        },
+        {
+          "name": "label",
+          "description": ""
+        },
+        {
+          "name": "name",
+          "description": ""
+        },
+        {
+          "name": "required",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "task-instructions",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "header",
+          "description": ""
+        },
+        {
+          "name": "tab",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "task-keyboard-shortcut",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "keyboard-shortcut",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "task-keyboard-shortcut-list",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": []
+    },
+    {
+      "name": "task-label",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": []
+    },
+    {
+      "name": "task-link",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "custom-style",
+          "description": ""
+        },
+        {
+          "name": "href",
+          "description": ""
+        },
+        {
+          "name": "type",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "task-main",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": []
+    },
+    {
+      "name": "task-markdown",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "markdown_url",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "task-overlay",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "auto-focus",
+          "description": ""
+        },
+        {
+          "name": "backdrop-class",
+          "description": ""
+        },
+        {
+          "name": "can-escape-key-close",
+          "description": ""
+        },
+        {
+          "name": "can-outside-click-close",
+          "description": ""
+        },
+        {
+          "name": "container-class",
+          "description": ""
+        },
+        {
+          "name": "enforce-focus",
+          "description": ""
+        },
+        {
+          "name": "has-backdrop",
+          "description": ""
+        },
+        {
+          "name": "is-open",
+          "description": ""
+        },
+        {
+          "name": "should-return-focus-on-close",
+          "description": ""
+        },
+        {
+          "name": "transition-duration",
+          "description": ""
+        },
+        {
+          "name": "transition-name",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "task-progressbar",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "completed-count",
+          "description": ""
+        },
+        {
+          "name": "mode",
+          "description": ""
+        },
+        {
+          "name": "task-count",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "task-row",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": []
+    },
+    {
+      "name": "task-step",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "active",
+          "description": ""
+        },
+        {
+          "name": "label",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "task-steps",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": []
+    },
+    {
+      "name": "task-submit",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "disable-until-complete-mode",
+          "description": ""
+        },
+        {
+          "name": "disabled",
+          "description": ""
+        },
+        {
+          "name": "keyboard-shortcut",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "task-summary",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": []
+    },
+    {
+      "name": "task-tag",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "color",
+          "description": ""
+        },
+        {
+          "name": "interactive",
+          "description": ""
+        },
+        {
+          "name": "large",
+          "description": ""
+        },
+        {
+          "name": "minimal",
+          "description": ""
+        },
+        {
+          "name": "removable",
+          "description": ""
+        },
+        {
+          "name": "round",
+          "description": ""
+        },
+        {
+          "name": "small",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "task-tooltip",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "icon",
+          "description": ""
+        }
+      ]
+    }
+  ]
+}

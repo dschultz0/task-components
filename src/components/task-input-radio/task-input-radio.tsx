@@ -10,6 +10,7 @@ import {
 } from '../../utils/utils';
 import {TaskAnswer} from '../task-answer/task-answer';
 import { TaskAnswerCorrection } from '../task-answer-correction/task-answer-correction';
+import classNames from 'classnames';
 
 @Component({
   tag: 'task-input-radio',
@@ -31,6 +32,7 @@ export class TaskInputRadio implements Input {
   // Note that it appears crowd-form ignores disabled inputs, so we have to use an alt approach here
   @Prop() disabled: boolean = false
   // The tag that will be used to indicate which value is contained in the task-answer
+  @Prop() mode: string = "radio"
   @Prop() answerTag: string = "Answer"
   @Element() host: HTMLElement;
   @State() options: HTMLTaskInputOptionElement[];
@@ -113,32 +115,77 @@ export class TaskInputRadio implements Input {
     this.value = value
   }
 
+  renderRadio() {
+    return this.options.map(option =>
+      <label class={classNames("radio", {"inline": this.inline})}>
+        <input
+          key="input"
+          type="radio"
+          name={this.name}
+          value={option.value}
+          required={this.required}
+          onChange={e => this.handleChange(e)}
+          checked={option.value === this.value}
+          disabled={this.disabled || (this.preventChanges && option.value !== this.value)}
+          ref={el => this.input = el}
+        />
+        { this.mode === "radio" && <span class="indicator" key="indicator"></span> }
+        <div
+          key="content"
+          class={classNames("content", {"inline": this.inline})}
+          innerHTML={option.innerHTML}
+        />
+        {this.answer &&
+          this.answer.value === option.value &&
+          (this.answer.showAnswer || (
+              this.answerCorrection.showAnswer &&
+              this.answerCorrection.displayCorrection)
+          ) &&
+          <task-tag
+            key="answer"
+            round={true}
+            color="red"
+            small={true}
+            style={{marginLeft: "4px"}}
+          >
+            {this.answerTag}
+          </task-tag>}
+      </label>)
+  }
+
+  renderButtonGroup() {
+    return <task-button-group>
+      {this.options.map(option =>
+        <task-button
+          label={true}
+          class={classNames("radio", {"inline": this.inline})}
+          selected={option.value === this.value}
+          onClick={() => this.value = option.value}
+        >
+          <input
+            key="input"
+            type="radio"
+            name={this.name}
+            value={option.value}
+            required={this.required}
+            checked={option.value === this.value}
+            disabled={this.disabled || (this.preventChanges && option.value !== this.value)}
+            ref={el => this.input = el}
+          />
+          <div
+            key="content"
+            class={classNames("content", {"inline": this.inline})}
+            innerHTML={option.innerHTML}
+          />
+        </task-button>)}
+    </task-button-group>
+  }
+
   render() {
     return (
       <Host>
         {this.label && <task-label>{this.label}</task-label>}
-        {this.options.map(option =>
-          <label class={"radio" + (this.inline ? " inline" : "")}>
-            <input
-              type="radio"
-              name={this.name}
-              value={option.value}
-              required={this.required}
-              onChange={e => this.handleChange(e)}
-              checked={option.value === this.value}
-              disabled={this.disabled || (this.preventChanges && option.value !== this.value)}
-              ref={el => this.input = el}
-            />
-            <span class="indicator"></span>
-            <div class={"content" + (this.inline ? " inline" : "")} innerHTML={option.innerHTML}/>
-            {this.answer &&
-              this.answer.value === option.value &&
-              (this.answer.showAnswer || (
-                  this.answerCorrection.showAnswer &&
-                  this.answerCorrection.displayCorrection)
-              ) &&
-              <task-tag round={true} color="red" small={true} style={{marginLeft: "4px"}}>{this.answerTag}</task-tag>}
-          </label>)}
+        {this.mode === "button" ? this.renderButtonGroup() : this.renderRadio()}
         <slot></slot>
       </Host>
     )

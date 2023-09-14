@@ -9,6 +9,9 @@ label {
   margin-bottom: 10px;
   position: relative;
   text-transform: none;
+}
+
+label:not(.button) {
   padding-left: 26px;
 }
 
@@ -17,7 +20,8 @@ label.inline {
   margin-right: 20px;
 }
 
-label input {
+/*label*/
+input {
   left: 0;
   opacity: 0;
   position: absolute;

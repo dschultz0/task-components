@@ -14,6 +14,7 @@
 | `disabled`  | `disabled`   |             | `boolean` | `false`     |
 | `inline`    | `inline`     |             | `boolean` | `undefined` |
 | `label`     | `label`      |             | `string`  | `undefined` |
+| `mode`      | `mode`       |             | `string`  | `"radio"`   |
 | `name`      | `name`       |             | `string`  | `undefined` |
 | `required`  | `required`   |             | `boolean` | `undefined` |
 
@@ -73,14 +74,19 @@ Type: `Promise<boolean>`
 
 ### Depends on
 
-- [task-label](../task-label)
 - [task-tag](../task-tag)
+- [task-button-group](../task-button-group)
+- [task-button](../task-button)
+- [task-label](../task-label)
 
 ### Graph
 ```mermaid
 graph TD;
-  task-input-radio --> task-label
   task-input-radio --> task-tag
+  task-input-radio --> task-button-group
+  task-input-radio --> task-button
+  task-input-radio --> task-label
+  task-button --> task-icon
   style task-input-radio fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

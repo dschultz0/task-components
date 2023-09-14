@@ -1,0 +1,8 @@
+blank
+small-tick
+caret-down
+caret-left
+caret-right
+caret-up
+info-sign
+small-cross

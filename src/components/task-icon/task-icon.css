@@ -1,6 +1,67 @@
+@import url("task-icon-chars.css");
+
 :host {
   display: inline-block;
   color: inherit;
   flex: 0 0 auto;
   vertical-align: text-bottom;
+}
+
+@font-face {
+  font-family: "blueprint-icons-16";
+  src: url("/assets/blueprint-icons-16.woff2") format("woff2");
+}
+@font-face {
+  font-family: "blueprint-icons-20";
+  src: url("/assets/blueprint-icons-20.woff2") format("woff2");
+}
+.icon:not(:empty)::before{
+  content:"" !important;
+  content:unset !important;
+}
+.icon > svg{
+  display:block;
+}
+.icon > svg:not([fill]){
+  fill:currentcolor;
+}
+
+span.icon-standard{
+  font-family:"blueprint-icons-16", sans-serif;
+  font-size:16px;
+  font-style:normal;
+  font-variant:normal;
+  font-weight:400;
+  height:16px;
+  line-height:1;
+  width:16px;
+  -moz-osx-font-smoothing:grayscale;
+  -webkit-font-smoothing:antialiased;
+  display:inline-block;
+}
+
+span.icon-large{
+  font-family:"blueprint-icons-20", sans-serif;
+  font-size:20px;
+  font-style:normal;
+  font-variant:normal;
+  font-weight:400;
+  height:20px;
+  line-height:1;
+  width:20px;
+  -moz-osx-font-smoothing:grayscale;
+  -webkit-font-smoothing:antialiased;
+  display:inline-block;
+}
+
+span.icon_:empty{
+  font-family:"blueprint-icons-20";
+  font-size:inherit;
+  font-style:normal;
+  font-weight:400;
+  line-height:1;
+}
+span.icon_:empty::before{
+  -moz-osx-font-smoothing:grayscale;
+  -webkit-font-smoothing:antialiased;
 }

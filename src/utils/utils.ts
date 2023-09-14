@@ -78,3 +78,23 @@ export function getAnswerElement(host: Element) {
 export function getAnswerCorrectionElement(host: Element) {
   return (host.querySelector("TASK-ANSWER-CORRECTION") as unknown) as TaskAnswerCorrection
 }
+
+export function getActiveElement(element?: HTMLElement | null, options?: GetRootNodeOptions) {
+  if (element == null) {
+    return document.activeElement
+  }
+  const rootNode = (element.getRootNode(options) ?? document) as DocumentOrShadowRoot & Node;
+  return rootNode.activeElement
+}
+
+export function isFunction(value: any): value is Function {
+  return typeof value === "function"
+}
+
+export function isKeyboardClick(event: KeyboardEvent) {
+  return event.key === "Enter" || event.key === " "
+}
+
+export function isArrowKey(event: KeyboardEvent) {
+  return ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].indexOf(event.key) >= 0
+}

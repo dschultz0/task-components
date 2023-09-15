@@ -18,6 +18,7 @@ export class TaskInput implements Input {
   @Prop() name: string;
   @Prop() type: string;
   @Prop() label: string;
+  @Prop() labelClass: string;
   @Prop() rows: number;
   @Prop() cols: number;
   @Prop() maxlength: number;
@@ -139,7 +140,7 @@ export class TaskInput implements Input {
 
   render() {
     return (
-      <label>
+      <label class={this.labelClass}>
         {this.label} {this.required && this.requiredIndicator ? this.requiredIndicator : ""}
         {this.type === "textarea" && this.textarea()}
       </label>

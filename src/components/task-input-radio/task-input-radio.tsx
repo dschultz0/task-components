@@ -31,9 +31,10 @@ export class TaskInputRadio implements Input {
   // Indicates that the input is disabled and can't be edited
   // Note that it appears crowd-form ignores disabled inputs, so we have to use an alt approach here
   @Prop() disabled: boolean = false
-  // The tag that will be used to indicate which value is contained in the task-answer
   @Prop() mode: string = "radio"
+  // The tag that will be used to indicate which value is contained in the task-answer
   @Prop() answerTag: string = "Answer"
+  @Prop() labelClass: string
   @Element() host: HTMLElement;
   @State() options: HTMLTaskInputOptionElement[];
   @State() value: string;
@@ -188,7 +189,7 @@ export class TaskInputRadio implements Input {
   render() {
     return (
       <Host>
-        {this.label && <task-label>{this.label}</task-label>}
+        {this.label && <task-label class={this.labelClass}>{this.label}</task-label>}
         {this.mode === "button" ? this.renderButtonGroup() : this.renderRadio()}
         <slot></slot>
       </Host>

@@ -7,16 +7,17 @@
 
 ## Properties
 
-| Property    | Attribute    | Description | Type      | Default     |
-| ----------- | ------------ | ----------- | --------- | ----------- |
-| `active`    | `active`     |             | `boolean` | `true`      |
-| `answerTag` | `answer-tag` |             | `string`  | `"Answer"`  |
-| `disabled`  | `disabled`   |             | `boolean` | `false`     |
-| `inline`    | `inline`     |             | `boolean` | `undefined` |
-| `label`     | `label`      |             | `string`  | `undefined` |
-| `mode`      | `mode`       |             | `string`  | `"radio"`   |
-| `name`      | `name`       |             | `string`  | `undefined` |
-| `required`  | `required`   |             | `boolean` | `undefined` |
+| Property     | Attribute     | Description | Type      | Default     |
+| ------------ | ------------- | ----------- | --------- | ----------- |
+| `active`     | `active`      |             | `boolean` | `true`      |
+| `answerTag`  | `answer-tag`  |             | `string`  | `"Answer"`  |
+| `disabled`   | `disabled`    |             | `boolean` | `false`     |
+| `inline`     | `inline`      |             | `boolean` | `undefined` |
+| `label`      | `label`       |             | `string`  | `undefined` |
+| `labelClass` | `label-class` |             | `string`  | `undefined` |
+| `mode`       | `mode`        |             | `string`  | `"radio"`   |
+| `name`       | `name`        |             | `string`  | `undefined` |
+| `required`   | `required`    |             | `boolean` | `undefined` |
 
 
 ## Events

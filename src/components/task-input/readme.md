@@ -13,6 +13,7 @@
 | `cols`              | `cols`               |             | `number`  | `undefined` |
 | `disabled`          | `disabled`           |             | `boolean` | `undefined` |
 | `label`             | `label`              |             | `string`  | `undefined` |
+| `labelClass`        | `label-class`        |             | `string`  | `undefined` |
 | `maxlength`         | `maxlength`          |             | `number`  | `undefined` |
 | `name`              | `name`               |             | `string`  | `undefined` |
 | `placeholder`       | `placeholder`        |             | `string`  | `undefined` |

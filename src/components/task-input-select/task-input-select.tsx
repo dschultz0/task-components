@@ -76,6 +76,11 @@ export class TaskInputSelect implements Input {
     this.value = value
   }
 
+  @Method()
+  async getValue() {
+    return this.value
+  }
+
   @Watch("value")
   handleValueUpdate() {
     this.inputUpdated.emit(this.input.form)

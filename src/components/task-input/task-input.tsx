@@ -132,6 +132,11 @@ export class TaskInput implements Input {
     this.value = value
   }
 
+  @Method()
+  async getValue() {
+    return this.value
+  }
+
   @Watch("value")
   @Watch("required")
   handleValueUpdate() {

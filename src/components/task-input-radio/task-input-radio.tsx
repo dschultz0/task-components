@@ -116,6 +116,11 @@ export class TaskInputRadio implements Input {
     this.value = value
   }
 
+  @Method()
+  async getValue() {
+    return this.value
+  }
+
   renderRadio() {
     return this.options.map(option =>
       <label class={classNames("radio", {"inline": this.inline})}>

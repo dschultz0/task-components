@@ -135,6 +135,11 @@ export class TaskInputMultiselect implements Input {
     this.value = value
   }
 
+  @Method()
+  async getValue() {
+    return this.value
+  }
+
   @Watch("values")
   handleValueUpdate() {
     this.value = this.values.join(",")

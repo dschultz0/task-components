@@ -41,6 +41,7 @@ export interface Input {
   readyToSubmit(): Promise<boolean>
   validateAgainstAnswer(): Promise<boolean>
   setValue(value: string): Promise<void>
+  getValue(): Promise<string>
   setShowCorrections(value: boolean): Promise<void>
   required: boolean
   active: boolean

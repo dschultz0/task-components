@@ -1,4 +1,4 @@
-import { Component, Event, EventEmitter, h, Method, Prop, State, Watch, Element } from '@stencil/core';
+import { Host, Component, Event, EventEmitter, h, Method, Prop, State, Watch, Element } from '@stencil/core';
 import {
   getAnswerCorrectionElement,
   getAnswerElement,
@@ -29,15 +29,18 @@ export class TaskInput implements Input {
   @Prop() disabled: boolean
   @Prop() requireIf: string
   @Prop() requiredIndicator: string
-  @Element() host
+  @Prop() displayOn: string
+  @Element() host: HTMLElement
   @State() value: string
   @State() preventChanges: boolean
   @State() answer: TaskAnswer
   @State() answerCorrection: TaskAnswerCorrection
+  @State() hidden: boolean
   @Event() inputUpdated: EventEmitter<HTMLElement>
   input!: HTMLInputElement|HTMLTextAreaElement
   loadCallback!: CallbackFunction
   formCallback!: CallbackFunction
+  displayOnCallback!: CallbackFunction
 
   formUpdated() {
     // console.log("formUpdated")
@@ -59,6 +62,12 @@ export class TaskInput implements Input {
     }
   }
 
+  handleParentElementUpdate() {
+    ((this.host.parentElement as unknown) as Input).getValue().then(value => {
+      this.hidden = (value !== this.displayOn)
+    })
+  }
+
   connectedCallback() {
     if (this.requireIf) {
       if (['loaded', 'interactive', 'complete'].includes(document.readyState)) {
@@ -67,6 +76,12 @@ export class TaskInput implements Input {
         this.loadCallback = this.setupDependentInputs.bind(this)
         document.addEventListener("load", this.setupDependentInputs)
       }
+    }
+    // TODO: Modify the check to better check for input type
+    if (this.displayOn && this.host.parentElement.tagName.startsWith("TASK-INPUT")) {
+      this.handleParentElementUpdate()
+      this.displayOnCallback = this.handleParentElementUpdate.bind(this)
+      this.host.parentElement.addEventListener("inputUpdated", this.displayOnCallback)
     }
   }
   componentWillLoad() {
@@ -80,6 +95,9 @@ export class TaskInput implements Input {
     }
     if (this.formCallback) {
       this.input.form.removeEventListener("input", this.formCallback)
+    }
+    if (this.displayOnCallback) {
+      this.host.parentElement.removeEventListener("inputUpdated", this.displayOnCallback)
     }
   }
 
@@ -161,11 +179,13 @@ export class TaskInput implements Input {
 
   render() {
     return (
-      <label class={this.labelClass}>
-        {this.label} {this.required && this.requiredIndicator ? this.requiredIndicator : ""}
-        {this.type === "textarea" && this.textarea()}
-        {this.type === "text" && this.text()}
-      </label>
+      <Host>
+        {!this.hidden && <label class={this.labelClass}>
+          {this.label} {this.required && this.requiredIndicator ? this.requiredIndicator : ""}
+          {this.type === "textarea" && this.textarea()}
+          {this.type === "text" && this.text()}
+        </label>}
+      </Host>
     );
   }
 }

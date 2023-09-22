@@ -27,6 +27,16 @@
 
 ## Methods
 
+### `getValue() => Promise<string>`
+
+
+
+#### Returns
+
+Type: `Promise<string>`
+
+
+
 ### `readyToSubmit() => Promise<boolean>`
 
 

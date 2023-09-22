@@ -118,7 +118,10 @@ export namespace Components {
         "active": boolean;
         "cols": number;
         "disabled": boolean;
+        "displayOn": string;
+        "getValue": () => Promise<string>;
         "label": string;
+        "labelClass": string;
         "maxlength": number;
         "name": string;
         "placeholder": string;
@@ -129,12 +132,14 @@ export namespace Components {
         "rows": number;
         "setShowCorrections": (value: boolean) => Promise<void>;
         "setValue": (value: string) => Promise<void>;
+        "size": number;
         "type": string;
         "validateAgainstAnswer": () => Promise<boolean>;
     }
     interface TaskInputMultiselect {
         "active": boolean;
         "disabled": boolean;
+        "getValue": () => Promise<string>;
         "label": string;
         "name": string;
         "placeholder": string;
@@ -153,8 +158,10 @@ export namespace Components {
         "active": boolean;
         "answerTag": string;
         "disabled": boolean;
+        "getValue": () => Promise<string>;
         "inline": boolean;
         "label": string;
+        "labelClass": string;
         "mode": string;
         "name": string;
         "readyToSubmit": () => Promise<boolean>;
@@ -166,6 +173,7 @@ export namespace Components {
     interface TaskInputSelect {
         "active": boolean;
         "disabled": boolean;
+        "getValue": () => Promise<string>;
         "label": string;
         "name": string;
         "readyToSubmit": () => Promise<boolean>;
@@ -177,6 +185,9 @@ export namespace Components {
     interface TaskInstructions {
         "header": string;
         "tab": string;
+    }
+    interface TaskIterate {
+        "values": string;
     }
     interface TaskKeyboardShortcut {
         "keyboardShortcut": string;
@@ -245,6 +256,9 @@ export namespace Components {
     }
     interface TaskTooltip {
         "icon": string;
+    }
+    interface TaskVar {
+        "name": string;
     }
 }
 export interface TaskAnswerCorrectionCustomEvent<T> extends CustomEvent<T> {
@@ -434,6 +448,12 @@ declare global {
         prototype: HTMLTaskInstructionsElement;
         new (): HTMLTaskInstructionsElement;
     };
+    interface HTMLTaskIterateElement extends Components.TaskIterate, HTMLStencilElement {
+    }
+    var HTMLTaskIterateElement: {
+        prototype: HTMLTaskIterateElement;
+        new (): HTMLTaskIterateElement;
+    };
     interface HTMLTaskKeyboardShortcutElement extends Components.TaskKeyboardShortcut, HTMLStencilElement {
     }
     var HTMLTaskKeyboardShortcutElement: {
@@ -524,6 +544,12 @@ declare global {
         prototype: HTMLTaskTooltipElement;
         new (): HTMLTaskTooltipElement;
     };
+    interface HTMLTaskVarElement extends Components.TaskVar, HTMLStencilElement {
+    }
+    var HTMLTaskVarElement: {
+        prototype: HTMLTaskVarElement;
+        new (): HTMLTaskVarElement;
+    };
     interface HTMLElementTagNameMap {
         "task-answer": HTMLTaskAnswerElement;
         "task-answer-correction": HTMLTaskAnswerCorrectionElement;
@@ -548,6 +574,7 @@ declare global {
         "task-input-radio": HTMLTaskInputRadioElement;
         "task-input-select": HTMLTaskInputSelectElement;
         "task-instructions": HTMLTaskInstructionsElement;
+        "task-iterate": HTMLTaskIterateElement;
         "task-keyboard-shortcut": HTMLTaskKeyboardShortcutElement;
         "task-keyboard-shortcut-list": HTMLTaskKeyboardShortcutListElement;
         "task-label": HTMLTaskLabelElement;
@@ -563,6 +590,7 @@ declare global {
         "task-summary": HTMLTaskSummaryElement;
         "task-tag": HTMLTaskTagElement;
         "task-tooltip": HTMLTaskTooltipElement;
+        "task-var": HTMLTaskVarElement;
     }
 }
 declare namespace LocalJSX {
@@ -677,7 +705,9 @@ declare namespace LocalJSX {
         "active"?: boolean;
         "cols"?: number;
         "disabled"?: boolean;
+        "displayOn"?: string;
         "label"?: string;
+        "labelClass"?: string;
         "maxlength"?: number;
         "name"?: string;
         "onInputUpdated"?: (event: TaskInputCustomEvent<HTMLElement>) => void;
@@ -686,6 +716,7 @@ declare namespace LocalJSX {
         "required"?: boolean;
         "requiredIndicator"?: string;
         "rows"?: number;
+        "size"?: number;
         "type"?: string;
     }
     interface TaskInputMultiselect {
@@ -709,6 +740,7 @@ declare namespace LocalJSX {
         "disabled"?: boolean;
         "inline"?: boolean;
         "label"?: string;
+        "labelClass"?: string;
         "mode"?: string;
         "name"?: string;
         "onInputUpdated"?: (event: TaskInputRadioCustomEvent<HTMLFormElement>) => void;
@@ -727,6 +759,9 @@ declare namespace LocalJSX {
     interface TaskInstructions {
         "header"?: string;
         "tab"?: string;
+    }
+    interface TaskIterate {
+        "values"?: string;
     }
     interface TaskKeyboardShortcut {
         "keyboardShortcut"?: string;
@@ -801,6 +836,9 @@ declare namespace LocalJSX {
     interface TaskTooltip {
         "icon"?: string;
     }
+    interface TaskVar {
+        "name"?: string;
+    }
     interface IntrinsicElements {
         "task-answer": TaskAnswer;
         "task-answer-correction": TaskAnswerCorrection;
@@ -825,6 +863,7 @@ declare namespace LocalJSX {
         "task-input-radio": TaskInputRadio;
         "task-input-select": TaskInputSelect;
         "task-instructions": TaskInstructions;
+        "task-iterate": TaskIterate;
         "task-keyboard-shortcut": TaskKeyboardShortcut;
         "task-keyboard-shortcut-list": TaskKeyboardShortcutList;
         "task-label": TaskLabel;
@@ -840,6 +879,7 @@ declare namespace LocalJSX {
         "task-summary": TaskSummary;
         "task-tag": TaskTag;
         "task-tooltip": TaskTooltip;
+        "task-var": TaskVar;
     }
 }
 export { LocalJSX as JSX };
@@ -869,6 +909,7 @@ declare module "@stencil/core" {
             "task-input-radio": LocalJSX.TaskInputRadio & JSXBase.HTMLAttributes<HTMLTaskInputRadioElement>;
             "task-input-select": LocalJSX.TaskInputSelect & JSXBase.HTMLAttributes<HTMLTaskInputSelectElement>;
             "task-instructions": LocalJSX.TaskInstructions & JSXBase.HTMLAttributes<HTMLTaskInstructionsElement>;
+            "task-iterate": LocalJSX.TaskIterate & JSXBase.HTMLAttributes<HTMLTaskIterateElement>;
             "task-keyboard-shortcut": LocalJSX.TaskKeyboardShortcut & JSXBase.HTMLAttributes<HTMLTaskKeyboardShortcutElement>;
             "task-keyboard-shortcut-list": LocalJSX.TaskKeyboardShortcutList & JSXBase.HTMLAttributes<HTMLTaskKeyboardShortcutListElement>;
             "task-label": LocalJSX.TaskLabel & JSXBase.HTMLAttributes<HTMLTaskLabelElement>;
@@ -884,6 +925,7 @@ declare module "@stencil/core" {
             "task-summary": LocalJSX.TaskSummary & JSXBase.HTMLAttributes<HTMLTaskSummaryElement>;
             "task-tag": LocalJSX.TaskTag & JSXBase.HTMLAttributes<HTMLTaskTagElement>;
             "task-tooltip": LocalJSX.TaskTooltip & JSXBase.HTMLAttributes<HTMLTaskTooltipElement>;
+            "task-var": LocalJSX.TaskVar & JSXBase.HTMLAttributes<HTMLTaskVarElement>;
         }
     }
 }

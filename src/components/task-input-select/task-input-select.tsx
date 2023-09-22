@@ -107,6 +107,7 @@ export class TaskInputSelect implements Input {
             </select>
           </div>
         </label>
+        <slot/>
       </Host>
     )
   }

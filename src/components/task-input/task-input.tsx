@@ -15,14 +15,15 @@ type CallbackFunction = (this: Window, ev: Event) => any
   scoped: true,
 })
 export class TaskInput implements Input {
-  @Prop() name: string;
-  @Prop() type: string;
-  @Prop() label: string;
-  @Prop() labelClass: string;
-  @Prop() rows: number;
-  @Prop() cols: number;
-  @Prop() maxlength: number;
-  @Prop() placeholder: string;
+  @Prop() name: string
+  @Prop() type: string
+  @Prop() label: string
+  @Prop() labelClass: string
+  @Prop() rows: number
+  @Prop() cols: number
+  @Prop() size: number
+  @Prop() maxlength: number
+  @Prop() placeholder: string
   @Prop({mutable: true}) required: boolean
   @Prop() active: boolean
   @Prop() disabled: boolean
@@ -96,6 +97,21 @@ export class TaskInput implements Input {
     >{this.value}</textarea>
   }
 
+  text() {
+    return <input
+      type="text"
+      name={this.name}
+      class="input"
+      placeholder={this.placeholder}
+      size={this.size}
+      maxLength={this.maxlength}
+      required={this.required}
+      onInput={e => this.handleChange(e)}
+      ref={el => this.input = el}
+      value={this.value}
+    ></input>
+  }
+
   handleChange(event: Event) {
     this.value = (event.target as HTMLInputElement).value
   }
@@ -148,6 +164,7 @@ export class TaskInput implements Input {
       <label class={this.labelClass}>
         {this.label} {this.required && this.requiredIndicator ? this.requiredIndicator : ""}
         {this.type === "textarea" && this.textarea()}
+        {this.type === "text" && this.text()}
       </label>
     );
   }

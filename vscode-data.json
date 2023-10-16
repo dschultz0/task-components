@@ -226,6 +226,10 @@
         {
           "name": "active",
           "description": ""
+        },
+        {
+          "name": "width",
+          "description": ""
         }
       ]
     },
@@ -400,7 +404,12 @@
         "kind": "markdown",
         "value": ""
       },
-      "attributes": []
+      "attributes": [
+        {
+          "name": "width",
+          "description": ""
+        }
+      ]
     },
     {
       "name": "task-info-section",
@@ -435,7 +444,15 @@
           "description": ""
         },
         {
+          "name": "display-if",
+          "description": ""
+        },
+        {
           "name": "display-on",
+          "description": ""
+        },
+        {
+          "name": "hidden",
           "description": ""
         },
         {
@@ -481,6 +498,10 @@
         {
           "name": "type",
           "description": ""
+        },
+        {
+          "name": "value",
+          "description": ""
         }
       ]
     },
@@ -500,7 +521,23 @@
           "description": ""
         },
         {
+          "name": "display-if",
+          "description": ""
+        },
+        {
+          "name": "display-on",
+          "description": ""
+        },
+        {
+          "name": "hidden",
+          "description": ""
+        },
+        {
           "name": "label",
+          "description": ""
+        },
+        {
+          "name": "label-class",
           "description": ""
         },
         {
@@ -512,7 +549,19 @@
           "description": ""
         },
         {
+          "name": "require-if",
+          "description": ""
+        },
+        {
           "name": "required",
+          "description": ""
+        },
+        {
+          "name": "required-indicator",
+          "description": ""
+        },
+        {
+          "name": "value",
           "description": ""
         }
       ]
@@ -558,6 +607,18 @@
           "description": ""
         },
         {
+          "name": "display-if",
+          "description": ""
+        },
+        {
+          "name": "display-on",
+          "description": ""
+        },
+        {
+          "name": "hidden",
+          "description": ""
+        },
+        {
           "name": "inline",
           "description": ""
         },
@@ -578,7 +639,19 @@
           "description": ""
         },
         {
+          "name": "require-if",
+          "description": ""
+        },
+        {
           "name": "required",
+          "description": ""
+        },
+        {
+          "name": "required-indicator",
+          "description": ""
+        },
+        {
+          "name": "value",
           "description": ""
         }
       ]
@@ -599,7 +672,23 @@
           "description": ""
         },
         {
+          "name": "display-if",
+          "description": ""
+        },
+        {
+          "name": "display-on",
+          "description": ""
+        },
+        {
+          "name": "hidden",
+          "description": ""
+        },
+        {
           "name": "label",
+          "description": ""
+        },
+        {
+          "name": "label-class",
           "description": ""
         },
         {
@@ -607,7 +696,19 @@
           "description": ""
         },
         {
+          "name": "require-if",
+          "description": ""
+        },
+        {
           "name": "required",
+          "description": ""
+        },
+        {
+          "name": "required-indicator",
+          "description": ""
+        },
+        {
+          "name": "value",
           "description": ""
         }
       ]
@@ -828,7 +929,7 @@
       },
       "attributes": [
         {
-          "name": "disable-until-complete-mode",
+          "name": "disable-until-complete",
           "description": ""
         },
         {

@@ -7,10 +7,8 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { KeyboardShortcut } from "./utils/utils";
 import { TaskCard } from "./components/task-card/task-card";
-import { TaskStep } from "./components/task-step/task-step";
 export { KeyboardShortcut } from "./utils/utils";
 export { TaskCard } from "./components/task-card/task-card";
-export { TaskStep } from "./components/task-step/task-step";
 export namespace Components {
     interface TaskAnswer {
         "showAnswer": boolean;
@@ -67,6 +65,7 @@ export namespace Components {
     interface TaskCard {
         "active": boolean;
         "readyToSubmit": () => Promise<boolean>;
+        "width": number;
     }
     interface TaskCardList {
         "advanceWhenComplete": boolean;
@@ -110,6 +109,7 @@ export namespace Components {
         "width": number;
     }
     interface TaskInfoPane {
+        "width": string;
     }
     interface TaskInfoSection {
         "header": string;
@@ -118,36 +118,42 @@ export namespace Components {
         "active": boolean;
         "cols": number;
         "disabled": boolean;
+        "displayIf": string;
         "displayOn": string;
-        "getValue": () => Promise<string>;
+        "hidden": boolean;
         "label": string;
         "labelClass": string;
         "maxlength": number;
+        "name": string;
+        "placeholder": string;
+        "readyToSubmit": () => Promise<any>;
+        "requireIf": string;
+        "required": boolean;
+        "requiredIndicator": string;
+        "rows": number;
+        "setShowCorrections": () => Promise<any>;
+        "size": number;
+        "type": string;
+        "validateAgainstAnswer": () => Promise<any>;
+        "value": string;
+    }
+    interface TaskInputMultiselect {
+        "active": boolean;
+        "disabled": boolean;
+        "displayIf": string;
+        "displayOn": string;
+        "hidden": boolean;
+        "label": string;
+        "labelClass": string;
         "name": string;
         "placeholder": string;
         "readyToSubmit": () => Promise<boolean>;
         "requireIf": string;
         "required": boolean;
         "requiredIndicator": string;
-        "rows": number;
-        "setShowCorrections": (value: boolean) => Promise<void>;
-        "setValue": (value: string) => Promise<void>;
-        "size": number;
-        "type": string;
-        "validateAgainstAnswer": () => Promise<boolean>;
-    }
-    interface TaskInputMultiselect {
-        "active": boolean;
-        "disabled": boolean;
-        "getValue": () => Promise<string>;
-        "label": string;
-        "name": string;
-        "placeholder": string;
-        "readyToSubmit": () => Promise<boolean>;
-        "required": boolean;
-        "setShowCorrections": (value: boolean) => Promise<void>;
-        "setValue": (value: string) => Promise<void>;
-        "validateAgainstAnswer": () => Promise<boolean>;
+        "setShowCorrections": () => Promise<any>;
+        "validateAgainstAnswer": () => Promise<any>;
+        "value": string;
     }
     interface TaskInputOption {
         "keyboardShortcut": string;
@@ -158,29 +164,38 @@ export namespace Components {
         "active": boolean;
         "answerTag": string;
         "disabled": boolean;
-        "getValue": () => Promise<string>;
+        "displayIf": string;
+        "displayOn": string;
+        "hidden": boolean;
         "inline": boolean;
         "label": string;
         "labelClass": string;
         "mode": string;
         "name": string;
-        "readyToSubmit": () => Promise<boolean>;
+        "readyToSubmit": () => Promise<any>;
+        "requireIf": string;
         "required": boolean;
-        "setShowCorrections": (value: boolean) => Promise<void>;
-        "setValue": (value: string) => Promise<void>;
+        "requiredIndicator": string;
+        "setShowCorrections": () => Promise<any>;
         "validateAgainstAnswer": () => Promise<boolean>;
+        "value": string;
     }
     interface TaskInputSelect {
         "active": boolean;
         "disabled": boolean;
-        "getValue": () => Promise<string>;
+        "displayIf": string;
+        "displayOn": string;
+        "hidden": boolean;
         "label": string;
+        "labelClass": string;
         "name": string;
-        "readyToSubmit": () => Promise<boolean>;
+        "readyToSubmit": () => Promise<any>;
+        "requireIf": string;
         "required": boolean;
-        "setShowCorrections": (value: boolean) => Promise<void>;
-        "setValue": (value: string) => Promise<void>;
-        "validateAgainstAnswer": () => Promise<boolean>;
+        "requiredIndicator": string;
+        "setShowCorrections": () => Promise<any>;
+        "validateAgainstAnswer": () => Promise<any>;
+        "value": string;
     }
     interface TaskInstructions {
         "header": string;
@@ -236,7 +251,7 @@ export namespace Components {
     interface TaskSteps {
     }
     interface TaskSubmit {
-        "disableUntilCompleteMode": string;
+        "disableUntilComplete": boolean;
         "disabled": boolean;
         "keyboardShortcut": string;
         "refreshSubmitReady": () => Promise<void>;
@@ -653,6 +668,7 @@ declare namespace LocalJSX {
         "active"?: boolean;
         "onCardClicked"?: (event: TaskCardCustomEvent<TaskCard>) => void;
         "onCardReadyToSubmit"?: (event: TaskCardCustomEvent<boolean>) => void;
+        "width"?: number;
     }
     interface TaskCardList {
         "advanceWhenComplete"?: boolean;
@@ -697,6 +713,7 @@ declare namespace LocalJSX {
         "width"?: number;
     }
     interface TaskInfoPane {
+        "width"?: string;
     }
     interface TaskInfoSection {
         "header"?: string;
@@ -705,7 +722,9 @@ declare namespace LocalJSX {
         "active"?: boolean;
         "cols"?: number;
         "disabled"?: boolean;
+        "displayIf"?: string;
         "displayOn"?: string;
+        "hidden"?: boolean;
         "label"?: string;
         "labelClass"?: string;
         "maxlength"?: number;
@@ -718,16 +737,24 @@ declare namespace LocalJSX {
         "rows"?: number;
         "size"?: number;
         "type"?: string;
+        "value"?: string;
     }
     interface TaskInputMultiselect {
         "active"?: boolean;
         "disabled"?: boolean;
+        "displayIf"?: string;
+        "displayOn"?: string;
+        "hidden"?: boolean;
         "label"?: string;
+        "labelClass"?: string;
         "name"?: string;
         "onInputUpdated"?: (event: TaskInputMultiselectCustomEvent<HTMLElement>) => void;
         "onRegisterKeyboardShortcut"?: (event: TaskInputMultiselectCustomEvent<KeyboardShortcut>) => void;
         "placeholder"?: string;
+        "requireIf"?: string;
         "required"?: boolean;
+        "requiredIndicator"?: string;
+        "value"?: string;
     }
     interface TaskInputOption {
         "keyboardShortcut"?: string;
@@ -738,23 +765,36 @@ declare namespace LocalJSX {
         "active"?: boolean;
         "answerTag"?: string;
         "disabled"?: boolean;
+        "displayIf"?: string;
+        "displayOn"?: string;
+        "hidden"?: boolean;
         "inline"?: boolean;
         "label"?: string;
         "labelClass"?: string;
         "mode"?: string;
         "name"?: string;
-        "onInputUpdated"?: (event: TaskInputRadioCustomEvent<HTMLFormElement>) => void;
+        "onInputUpdated"?: (event: TaskInputRadioCustomEvent<HTMLElement>) => void;
         "onRegisterKeyboardShortcut"?: (event: TaskInputRadioCustomEvent<KeyboardShortcut>) => void;
+        "requireIf"?: string;
         "required"?: boolean;
+        "requiredIndicator"?: string;
+        "value"?: string;
     }
     interface TaskInputSelect {
         "active"?: boolean;
         "disabled"?: boolean;
+        "displayIf"?: string;
+        "displayOn"?: string;
+        "hidden"?: boolean;
         "label"?: string;
+        "labelClass"?: string;
         "name"?: string;
         "onInputUpdated"?: (event: TaskInputSelectCustomEvent<HTMLElement>) => void;
         "onRegisterKeyboardShortcut"?: (event: TaskInputSelectCustomEvent<KeyboardShortcut>) => void;
+        "requireIf"?: string;
         "required"?: boolean;
+        "requiredIndicator"?: string;
+        "value"?: string;
     }
     interface TaskInstructions {
         "header"?: string;
@@ -814,7 +854,7 @@ declare namespace LocalJSX {
     interface TaskSteps {
     }
     interface TaskSubmit {
-        "disableUntilCompleteMode"?: string;
+        "disableUntilComplete"?: boolean;
         "disabled"?: boolean;
         "keyboardShortcut"?: string;
         "onRegisterKeyboardShortcut"?: (event: TaskSubmitCustomEvent<KeyboardShortcut>) => void;

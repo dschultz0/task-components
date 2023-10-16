@@ -8,6 +8,7 @@ import { childInputs, requiredChildInputs } from '../../utils/utils';
 })
 export class TaskCard {
   @Prop() active: boolean;
+  @Prop() width: number;
   @Element() host;
   @Event() cardClicked: EventEmitter<TaskCard>;
   @Event() cardReadyToSubmit: EventEmitter<boolean>;
@@ -40,9 +41,17 @@ export class TaskCard {
       })
   }
 
+  hostStyle() {
+    if (this.width) {
+      return {width: `${this.width}px`}
+    } else {
+      return {}
+    }
+  }
+
   render() {
     return (
-      <Host class={this.active ? "active" : ""}>
+      <Host class={this.active ? "active" : ""} style={this.hostStyle()}>
         <slot></slot>
       </Host>
     );

@@ -1,4 +1,4 @@
-import { Component, Host, h } from '@stencil/core';
+import { Component, Host, h, Prop } from '@stencil/core';
 
 @Component({
   tag: 'task-info-pane',
@@ -6,10 +6,19 @@ import { Component, Host, h } from '@stencil/core';
   scoped: true,
 })
 export class TaskInfoPane {
+  @Prop() width: string
+
+  hostStyle() {
+    if (this.width) {
+      return {flex: `0 0 ${this.width}px`}
+    } else {
+      return {}
+    }
+  }
 
   render() {
     return (
-      <Host>
+      <Host style={this.hostStyle()}>
         <slot></slot>
       </Host>
     );

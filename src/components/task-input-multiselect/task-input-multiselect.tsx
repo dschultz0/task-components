@@ -1,7 +1,7 @@
-import { Component, Host, h, Prop, Element, State, Event, EventEmitter, Method, Watch } from '@stencil/core';
+import { Component, Host, h, Prop, State, Event, Element, EventEmitter, Method, Watch } from '@stencil/core';
+import { Input, CallbackFunction, InputBase } from '../../utils/inputBase';
 import {
-  gatherInputOptions, getAnswerCorrectionElement, getAnswerElement,
-  Input,
+  gatherInputOptions,
   inputOptionKeyboardShortcuts,
   KeyboardShortcut,
 } from '../../utils/utils';
@@ -15,31 +15,70 @@ import { computePosition, autoUpdate, flip, shift, offset } from '@floating-ui/d
   scoped: true,
 })
 export class TaskInputMultiselect implements Input {
-  @Prop() name: string;
-  @Prop() required: boolean;
-  @Prop() label: string;
-  @Prop() active: boolean = true;
-  @Prop() disabled: boolean = false;
-  @Prop() placeholder: string = "Select options"
-  @Element() host: HTMLElement;
-  @State() options: HTMLTaskInputOptionElement[];
-  @State() optionsMap: Map<string, string> = new Map<string, string>();
-  @State() value: string
-  @State() values: string[] = [];
-  @State() shortcutMap: Map<string, string> = new Map<string, string>();
+  /*
+  The first block of values are common attributes of the Input type that are implemented here
+   */
+  // The name assigned to the input element. This will identify the value in your task results.
+  @Prop() name: string
+  // A label that will be attached to the input
+  @Prop() label: string
+  // Class to apply to the label
+  @Prop() labelClass: string
+  // Indicates that the field is required and must be provided before submit.
+  @Prop({mutable: true}) required: boolean
+  // An attribute that is used in card layouts to indicate that this input is active.
+  @Prop() active: boolean
+  // Indicates that the input is disabled and can't be edited
+  // Note that it appears crowd-form ignores disabled inputs, so we have to use an alt approach here
+  @Prop() disabled: boolean
+  // Specifies that a formula to compute if the field is required
+  @Prop() requireIf: string
+  // Text to append to the label to indicate the field is required
+  @Prop() requiredIndicator: string
+  // Specifies the value of the parent component that will result in displaying this input
+  @Prop() displayOn: string
+  // Specifies a formula to compute if the field will be displayed
+  @Prop() displayIf: string
+  @Prop({mutable: true}) value: string
+  @Prop({mutable: true}) hidden: boolean
+  @State() preventChanges: boolean
   @State() answer: TaskAnswer
   @State() answerCorrection: TaskAnswerCorrection
-  @State() preventChanges: boolean
-  @State() optionsDisplayed: boolean
   @Event() inputUpdated: EventEmitter<HTMLElement>
+  @Element() host: HTMLElement
+  input!: HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement
+  form!: HTMLFormElement
+  loadCallback!: CallbackFunction
+  formCallback!: CallbackFunction
+  displayOnCallback!: CallbackFunction
+
+
+  @Prop() placeholder: string = "Select options"
+  options: HTMLTaskInputOptionElement[];
+  optionsMap: Map<string, string> = new Map<string, string>();
+  @State() values: string[] = [];
+  @State() shortcutMap: Map<string, string> = new Map<string, string>();
+  @State() optionsDisplayed: boolean
   @Event() registerKeyboardShortcut: EventEmitter<KeyboardShortcut>
   button!: HTMLButtonElement
   optionsDropdown!: HTMLDivElement
-  input!: HTMLSelectElement
   cleanup!: Function
   ro: ResizeObserver
 
+  connectedCallback() {
+    InputBase.prototype.connectedCallback.bind(this)()
+  }
+  formUpdated = InputBase.prototype.formUpdated
+  setupDependentInputs = InputBase.prototype.setupDependentInputs
+  hasAnswerToValidate = InputBase.prototype.hasAnswerToValidate
+  handleParentElementUpdate  = InputBase.prototype.handleParentElementUpdate
+  @Method()
+  async validateAgainstAnswer() {return InputBase.prototype.validateAgainstAnswer.bind(this)()}
+  @Method()
+  async setShowCorrections() {return InputBase.prototype.setShowCorrections.bind(this)()}
+
   componentWillLoad() {
+    InputBase.prototype.componentWillLoad.bind(this)()
     this.options = gatherInputOptions(this.host)
     for (let option of this.options) {
       this.optionsMap[option.value] = option.innerHTML
@@ -48,14 +87,18 @@ export class TaskInputMultiselect implements Input {
       this.shortcutMap[ks.keys] = ks.value
       this.registerKeyboardShortcut.emit(ks)
     }
-    this.answer = getAnswerElement(this.host)
-    this.answerCorrection = getAnswerCorrectionElement(this.host)
   }
 
   componentDidLoad() {
     this.button.addEventListener("click", this.handleButtonClick.bind(this))
     document.addEventListener("click", this.handleDocumentClick.bind(this))
     document.addEventListener("blur", this.handleBlur.bind(this), {capture: true})
+  }
+
+  disconnectedCallback() {
+    InputBase.prototype.displayOnCallback.bind(this)()
+    document.removeEventListener("click", this.handleDocumentClick.bind(this))
+    document.removeEventListener("blur", this.handleBlur.bind(this), {capture: true})
   }
 
   handleButtonClick() {
@@ -77,11 +120,6 @@ export class TaskInputMultiselect implements Input {
     if (!this.host.contains(event.target)) {
       this.optionsDisplayed = false
     }
-  }
-
-  disconnectedCallback() {
-    document.removeEventListener("click", this.handleDocumentClick.bind(this))
-    document.removeEventListener("blur", this.handleBlur.bind(this), {capture: true})
   }
 
   updatePosition() {
@@ -108,38 +146,6 @@ export class TaskInputMultiselect implements Input {
     return Boolean(this.values)
   }
 
-  hasAnswerToValidate = () => {
-    return this.answer && this.answerCorrection && this.answerCorrection.displayOn === "submit"
-  }
-
-  @Method()
-  async validateAgainstAnswer() {
-    return !(this.hasAnswerToValidate() && this.value !== this.answer.value)
-  }
-
-  @Method()
-  async setShowCorrections(value: boolean) {
-    if (this.hasAnswerToValidate()) {
-      this.preventChanges = this.answerCorrection.preventChanges && value
-      if (this.value !== this.answer.value) {
-        this.answerCorrection.displayCorrection = value
-        if (value) {
-          this.inputUpdated.emit(this.input.form)
-        }
-      }
-    }
-  }
-
-  @Method()
-  async setValue(value: string) {
-    this.value = value
-  }
-
-  @Method()
-  async getValue() {
-    return this.value
-  }
-
   @Watch("values")
   handleValueUpdate() {
     this.value = this.values.join(",")
@@ -158,7 +164,7 @@ export class TaskInputMultiselect implements Input {
   render() {
     return (
       <Host>
-        <label>
+        {!this.hidden && <label>
           {this.label}
           <div class="multiselect">
             <div class="selectbar">
@@ -193,7 +199,7 @@ export class TaskInputMultiselect implements Input {
               {this.values.map(v => <task-tag small={true}>{this.optionsMap[v]}</task-tag>)}
             </div>
           </div>
-        </label>
+        </label>}
       </Host>
     )
   }

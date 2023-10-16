@@ -10,6 +10,7 @@
 | Property | Attribute | Description | Type      | Default     |
 | -------- | --------- | ----------- | --------- | ----------- |
 | `active` | `active`  |             | `boolean` | `undefined` |
+| `width`  | `width`   |             | `number`  | `undefined` |
 
 
 ## Events

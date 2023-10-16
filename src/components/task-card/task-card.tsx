@@ -1,5 +1,5 @@
 import { Component, Host, h, Prop, Event, EventEmitter, Listen, Element, Watch, Method } from '@stencil/core';
-import { childInputs, requiredChildInputs } from '../../utils/utils';
+import { childInputs, requiredChildInputs } from '../../utils/inputBase';
 
 @Component({
   tag: 'task-card',

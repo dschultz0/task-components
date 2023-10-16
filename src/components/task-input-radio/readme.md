@@ -7,66 +7,52 @@
 
 ## Properties
 
-| Property     | Attribute     | Description | Type      | Default     |
-| ------------ | ------------- | ----------- | --------- | ----------- |
-| `active`     | `active`      |             | `boolean` | `true`      |
-| `answerTag`  | `answer-tag`  |             | `string`  | `"Answer"`  |
-| `disabled`   | `disabled`    |             | `boolean` | `false`     |
-| `inline`     | `inline`      |             | `boolean` | `undefined` |
-| `label`      | `label`       |             | `string`  | `undefined` |
-| `labelClass` | `label-class` |             | `string`  | `undefined` |
-| `mode`       | `mode`        |             | `string`  | `"radio"`   |
-| `name`       | `name`        |             | `string`  | `undefined` |
-| `required`   | `required`    |             | `boolean` | `undefined` |
+| Property            | Attribute            | Description | Type      | Default     |
+| ------------------- | -------------------- | ----------- | --------- | ----------- |
+| `active`            | `active`             |             | `boolean` | `undefined` |
+| `answerTag`         | `answer-tag`         |             | `string`  | `"Answer"`  |
+| `disabled`          | `disabled`           |             | `boolean` | `undefined` |
+| `displayIf`         | `display-if`         |             | `string`  | `undefined` |
+| `displayOn`         | `display-on`         |             | `string`  | `undefined` |
+| `hidden`            | `hidden`             |             | `boolean` | `undefined` |
+| `inline`            | `inline`             |             | `boolean` | `undefined` |
+| `label`             | `label`              |             | `string`  | `undefined` |
+| `labelClass`        | `label-class`        |             | `string`  | `undefined` |
+| `mode`              | `mode`               |             | `string`  | `"radio"`   |
+| `name`              | `name`               |             | `string`  | `undefined` |
+| `requireIf`         | `require-if`         |             | `string`  | `undefined` |
+| `required`          | `required`           |             | `boolean` | `undefined` |
+| `requiredIndicator` | `required-indicator` |             | `string`  | `undefined` |
+| `value`             | `value`              |             | `string`  | `undefined` |
 
 
 ## Events
 
 | Event                      | Description | Type                                                            |
 | -------------------------- | ----------- | --------------------------------------------------------------- |
-| `inputUpdated`             |             | `CustomEvent<HTMLFormElement>`                                  |
+| `inputUpdated`             |             | `CustomEvent<HTMLElement>`                                      |
 | `registerKeyboardShortcut` |             | `CustomEvent<{ label: string; keys: string; value?: string; }>` |
 
 
 ## Methods
 
-### `getValue() => Promise<string>`
+### `readyToSubmit() => Promise<any>`
 
 
 
 #### Returns
 
-Type: `Promise<string>`
+Type: `Promise<any>`
 
 
 
-### `readyToSubmit() => Promise<boolean>`
-
-
-
-#### Returns
-
-Type: `Promise<boolean>`
-
-
-
-### `setShowCorrections(value: boolean) => Promise<void>`
+### `setShowCorrections() => Promise<any>`
 
 
 
 #### Returns
 
-Type: `Promise<void>`
-
-
-
-### `setValue(value: string) => Promise<void>`
-
-
-
-#### Returns
-
-Type: `Promise<void>`
+Type: `Promise<any>`
 
 
 

@@ -1,5 +1,5 @@
 import { Component, Host, h, Prop, State, Watch, Listen, Method, Element, Event, EventEmitter } from '@stencil/core';
-import { childInputs, requiredChildInputs } from '../../utils/utils';
+import { childInputs, requiredChildInputs } from '../../utils/inputBase';
 
 @Component({
   tag: 'task-step',

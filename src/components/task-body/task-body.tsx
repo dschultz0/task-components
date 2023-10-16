@@ -1,7 +1,8 @@
 import { Component, Host, h, Listen, Element, Prop, State, Watch } from '@stencil/core';
 import {TaskProgressbar} from '../task-progressbar/task-progressbar';
 import {TaskSubmit} from '../task-submit/task-submit';
-import { KeyboardShortcut, childInputs, inputsWithAnswers } from '../../utils/utils';
+import { childInputs, inputsWithAnswers } from '../../utils/inputBase';
+import { KeyboardShortcut } from '../../utils/utils';
 import {TaskKeyboardShortcutList} from '../task-keyboard-shortcut-list/task-keyboard-shortcut-list';
 import {context} from '../../utils/context'
 
@@ -32,7 +33,7 @@ export class TaskBody {
     if (this.previous) {
       for (let input of childInputs(this.host)) {
         if (input.name in this.previous) {
-          input.setValue(this.previous[input.name])
+          input.value = this.previous[input.name]
         }
       }
     }
@@ -119,10 +120,6 @@ export class TaskBody {
     const progressBars = (this.host as Element).querySelectorAll("TASK-PROGRESSBAR")
     for (let bar of Array.from(progressBars)) {
       ((bar as unknown) as TaskProgressbar).refreshProgress()
-    }
-    const submitButtons = (this.host as Element).querySelectorAll("TASK-SUBMIT")
-    for (let button of Array.from(submitButtons)) {
-      ((button as unknown) as TaskSubmit).refreshSubmitReady()
     }
   }
 

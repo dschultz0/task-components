@@ -12,7 +12,9 @@
 | `active`            | `active`             |             | `boolean` | `undefined` |
 | `cols`              | `cols`               |             | `number`  | `undefined` |
 | `disabled`          | `disabled`           |             | `boolean` | `undefined` |
+| `displayIf`         | `display-if`         |             | `string`  | `undefined` |
 | `displayOn`         | `display-on`         |             | `string`  | `undefined` |
+| `hidden`            | `hidden`             |             | `boolean` | `undefined` |
 | `label`             | `label`              |             | `string`  | `undefined` |
 | `labelClass`        | `label-class`        |             | `string`  | `undefined` |
 | `maxlength`         | `maxlength`          |             | `number`  | `undefined` |
@@ -23,7 +25,8 @@
 | `requiredIndicator` | `required-indicator` |             | `string`  | `undefined` |
 | `rows`              | `rows`               |             | `number`  | `undefined` |
 | `size`              | `size`               |             | `number`  | `undefined` |
-| `type`              | `type`               |             | `string`  | `undefined` |
+| `type`              | `type`               |             | `string`  | `"text"`    |
+| `value`             | `value`              |             | `string`  | `undefined` |
 
 
 ## Events
@@ -35,53 +38,33 @@
 
 ## Methods
 
-### `getValue() => Promise<string>`
+### `readyToSubmit() => Promise<any>`
 
 
 
 #### Returns
 
-Type: `Promise<string>`
+Type: `Promise<any>`
 
 
 
-### `readyToSubmit() => Promise<boolean>`
-
-
-
-#### Returns
-
-Type: `Promise<boolean>`
-
-
-
-### `setShowCorrections(value: boolean) => Promise<void>`
+### `setShowCorrections() => Promise<any>`
 
 
 
 #### Returns
 
-Type: `Promise<void>`
+Type: `Promise<any>`
 
 
 
-### `setValue(value: string) => Promise<void>`
-
-
-
-#### Returns
-
-Type: `Promise<void>`
-
-
-
-### `validateAgainstAnswer() => Promise<boolean>`
+### `validateAgainstAnswer() => Promise<any>`
 
 
 
 #### Returns
 
-Type: `Promise<boolean>`
+Type: `Promise<any>`
 
 
 

@@ -1,7 +1,6 @@
-import { Component, Event, EventEmitter, h, Host, Listen, Method, Prop, State } from '@stencil/core';
-import { TaskCard } from '../task-card/task-card';
-import { ignoreKeypress, inputsWithAnswers, KeyboardShortcut } from '../../utils/utils';
-import { TaskStep } from '../task-step/task-step';
+import { Component, Event, EventEmitter, h, Host, Listen, Method, Prop, State, Element } from '@stencil/core';
+import { getFormElement, inputsWithAnswers, requiredChildInputs, CallbackFunction } from '../../utils/inputBase';
+import { ignoreKeypress, KeyboardShortcut } from '../../utils/utils';
 
 @Component({
   tag: 'task-submit',
@@ -11,23 +10,54 @@ import { TaskStep } from '../task-step/task-step';
 export class TaskSubmit {
   @Prop() keyboardShortcut: string
   @Prop({mutable: true}) disabled: boolean = false
-  @Prop() disableUntilCompleteMode: string
+  @Prop() disableUntilComplete: boolean = true
   @Event() registerKeyboardShortcut: EventEmitter<KeyboardShortcut>
   @Event() showCorrections: EventEmitter
   @Event() taskSubmit: EventEmitter
   @State() correctionMode: boolean = false
   @State() readyToSubmit: boolean = false
+  @Element() host: HTMLElement
   button!: HTMLButtonElement
+  form!: HTMLFormElement
+  formUpdatedCallback: CallbackFunction
+  loadCallback: CallbackFunction
 
   componentWillLoad() {
     // TODO: This probably needs to be rerun if the mode changes for some reason
-    if (this.disableUntilCompleteMode === "card") {
-      this.refreshSubmitReady()
-    }
+    this.refreshSubmitReady()
     if (this.keyboardShortcut) {
       this.registerKeyboardShortcut.emit(
         {label: "Submit", keys: this.keyboardShortcut}
       )
+    }
+  }
+
+  connectedCallback() {
+    if (['interactive', 'complete'].includes(document.readyState)) {
+      this.setupFormListener()
+    } else {
+      this.loadCallback = this.setupFormListener.bind(this)
+      document.addEventListener("load", this.loadCallback)
+    }
+  }
+
+  setupFormListener() {
+    this.form = getFormElement(this.host)
+    if (this.form) {
+      this.formUpdatedCallback = this.refreshSubmitReady.bind(this)
+      this.form.addEventListener("input", this.formUpdatedCallback)
+      this.refreshSubmitReady()
+    } else {
+      setTimeout(this.setupFormListener, 1000)
+    }
+  }
+
+  disconnectedCallback() {
+    if (this.formUpdatedCallback) {
+      this.form.removeEventListener("input", this.formUpdatedCallback)
+    }
+    if (this.loadCallback) {
+      document.removeEventListener("load", this.loadCallback)
     }
   }
 
@@ -40,16 +70,8 @@ export class TaskSubmit {
 
   @Method()
   async refreshSubmitReady() {
-    if (this.disableUntilCompleteMode === "card") {
-      const cards = document.querySelectorAll("TASK-CARD")
-      Promise.all(Array.from(cards).map(card => ((card as unknown) as TaskCard).readyToSubmit()))
-        .then(values => {
-          this.disabled = !values.every(Boolean)
-        })
-    }
-    if (this.disableUntilCompleteMode === "step") {
-      const steps = document.querySelectorAll("TASK-STEP")
-      Promise.all(Array.from(steps).map(step => ((step as unknown) as TaskStep).readyToSubmit()))
+    if (this.form && this.disableUntilComplete) {
+      Promise.all(requiredChildInputs(this.form).map(i => i.readyToSubmit()))
         .then(values => {
           this.disabled = !values.every(Boolean)
         })

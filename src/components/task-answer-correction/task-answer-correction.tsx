@@ -1,5 +1,5 @@
 import { Component, Host, h, Watch, Listen, Prop, Event, EventEmitter, Element } from '@stencil/core';
-import { childInputs } from '../../utils/utils';
+import { childInputs } from '../../utils/inputBase';
 
 @Component({
   tag: 'task-answer-correction',

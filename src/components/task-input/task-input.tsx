@@ -1,13 +1,8 @@
-import { Host, Component, Event, EventEmitter, h, Method, Prop, State, Watch, Element } from '@stencil/core';
-import {
-  getAnswerCorrectionElement,
-  getAnswerElement,
-  Input,
-} from '../../utils/utils';
+import { Host, Component, h, Prop, State, Event, EventEmitter, Element, Method, Watch } from '@stencil/core';
+import { Input, CallbackFunction, InputBase } from '../../utils/inputBase';
 import { TaskAnswer } from '../task-answer/task-answer';
 import { TaskAnswerCorrection } from '../task-answer-correction/task-answer-correction';
 
-type CallbackFunction = (this: Window, ev: Event) => any
 
 @Component({
   tag: 'task-input',
@@ -15,90 +10,82 @@ type CallbackFunction = (this: Window, ev: Event) => any
   scoped: true,
 })
 export class TaskInput implements Input {
+  /*
+  The first block of values are common attributes of the Input type that are implemented here
+   */
+  // The name assigned to the input element. This will identify the value in your task results.
   @Prop() name: string
-  @Prop() type: string
+  // A label that will be attached to the input
   @Prop() label: string
+  // Class to apply to the label
   @Prop() labelClass: string
+  // Indicates that the field is required and must be provided before submit.
+  @Prop({mutable: true}) required: boolean
+  // An attribute that is used in card layouts to indicate that this input is active.
+  @Prop() active: boolean
+  // Indicates that the input is disabled and can't be edited
+  // Note that it appears crowd-form ignores disabled inputs, so we have to use an alt approach here
+  @Prop() disabled: boolean
+  // Specifies that a formula to compute if the field is required
+  @Prop() requireIf: string
+  // Text to append to the label to indicate the field is required
+  @Prop() requiredIndicator: string
+  // Specifies the value of the parent component that will result in displaying this input
+  @Prop() displayOn: string
+  // Specifies a formula to compute if the field will be displayed
+  @Prop() displayIf: string
+  @Prop({mutable: true}) value: string
+  @Prop({mutable: true}) hidden: boolean
+  @State() preventChanges: boolean
+  @State() answer: TaskAnswer
+  @State() answerCorrection: TaskAnswerCorrection
+  @Event() inputUpdated: EventEmitter<HTMLElement>
+  @Element() host: HTMLElement
+  input!: HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement
+  form!: HTMLFormElement
+  loadCallback!: CallbackFunction
+  formCallback!: CallbackFunction
+  displayOnCallback!: CallbackFunction
+
+  @Prop() type: string = "text"
   @Prop() rows: number
   @Prop() cols: number
   @Prop() size: number
   @Prop() maxlength: number
   @Prop() placeholder: string
-  @Prop({mutable: true}) required: boolean
-  @Prop() active: boolean
-  @Prop() disabled: boolean
-  @Prop() requireIf: string
-  @Prop() requiredIndicator: string
-  @Prop() displayOn: string
-  @Element() host: HTMLElement
-  @State() value: string
-  @State() preventChanges: boolean
-  @State() answer: TaskAnswer
-  @State() answerCorrection: TaskAnswerCorrection
-  @State() hidden: boolean
-  @Event() inputUpdated: EventEmitter<HTMLElement>
-  input!: HTMLInputElement|HTMLTextAreaElement
-  loadCallback!: CallbackFunction
-  formCallback!: CallbackFunction
-  displayOnCallback!: CallbackFunction
 
-  formUpdated() {
-    // console.log("formUpdated")
-    if (this.requireIf.includes("=")) {
-      const parts = this.requireIf.split("=")
-      if (parts[0].startsWith("any(")) {
-        const inputNames = parts[0].substring(4, parts[0].length-1).split(",")
-        // console.log(inputNames.map(name => this.input.form.elements[name].value))
-        const matching = inputNames.filter(name => this.input.form.elements[name].value === parts[1])
-        this.required = matching.length > 0
-      }
-    }
-  }
-
-  setupDependentInputs() {
-    if (this.requireIf && this.input) {
-      this.formCallback = this.formUpdated.bind(this)
-      this.input.form.addEventListener('input', this.formCallback)
-    }
-  }
-
-  handleParentElementUpdate() {
-    ((this.host.parentElement as unknown) as Input).getValue().then(value => {
-      this.hidden = (value !== this.displayOn)
-    })
-  }
-
+  componentWillLoad = InputBase.prototype.componentWillLoad
   connectedCallback() {
-    if (this.requireIf) {
-      if (['loaded', 'interactive', 'complete'].includes(document.readyState)) {
-        this.setupDependentInputs()
-      } else {
-        this.loadCallback = this.setupDependentInputs.bind(this)
-        document.addEventListener("load", this.setupDependentInputs)
-      }
-    }
-    // TODO: Modify the check to better check for input type
-    if (this.displayOn && this.host.parentElement.tagName.startsWith("TASK-INPUT")) {
-      this.handleParentElementUpdate()
-      this.displayOnCallback = this.handleParentElementUpdate.bind(this)
-      this.host.parentElement.addEventListener("inputUpdated", this.displayOnCallback)
-    }
+    InputBase.prototype.connectedCallback.bind(this)()
   }
-  componentWillLoad() {
-    this.answer = getAnswerElement(this.host)
-    this.answerCorrection = getAnswerCorrectionElement(this.host)
-  }
+  disconnectedCallback = InputBase.prototype.disconnectedCallback
+  formUpdated = InputBase.prototype.formUpdated
+  setupDependentInputs = InputBase.prototype.setupDependentInputs
+  hasAnswerToValidate = InputBase.prototype.hasAnswerToValidate
+  handleParentElementUpdate  = InputBase.prototype.handleParentElementUpdate
+  @Method()
+  async readyToSubmit() {return InputBase.prototype.readyToSubmit.bind(this)()}
+  @Method()
+  async validateAgainstAnswer() {return InputBase.prototype.validateAgainstAnswer.bind(this)()}
+  @Method()
+  async setShowCorrections() {return InputBase.prototype.setShowCorrections.bind(this)()}
+  @Watch("value")
+  @Watch("required")
+  async handleValueUpdate() {return InputBase.prototype.handleValueUpdate.bind(this)()}
 
-  disconnectedCallback() {
-    if (this.loadCallback) {
-      document.removeEventListener("load", this.loadCallback)
-    }
-    if (this.formCallback) {
-      this.input.form.removeEventListener("input", this.formCallback)
-    }
-    if (this.displayOnCallback) {
-      this.host.parentElement.removeEventListener("inputUpdated", this.displayOnCallback)
-    }
+  text() {
+    return <input
+      type="text"
+      name={this.name}
+      class="input"
+      placeholder={this.placeholder}
+      size={this.size}
+      maxLength={this.maxlength}
+      required={this.required}
+      onInput={e => this.value = (e.target as HTMLInputElement).value}
+      ref={el => this.input = el}
+      value={this.value}
+    ></input>
   }
 
   textarea() {
@@ -110,71 +97,9 @@ export class TaskInput implements Input {
       placeholder={this.placeholder}
       maxLength={this.maxlength}
       required={this.required}
-      onInput={e => this.handleChange(e)}
+      onInput={e => this.value = (e.target as HTMLTextAreaElement).value}
       ref={el => this.input = el}
     >{this.value}</textarea>
-  }
-
-  text() {
-    return <input
-      type="text"
-      name={this.name}
-      class="input"
-      placeholder={this.placeholder}
-      size={this.size}
-      maxLength={this.maxlength}
-      required={this.required}
-      onInput={e => this.handleChange(e)}
-      ref={el => this.input = el}
-      value={this.value}
-    ></input>
-  }
-
-  handleChange(event: Event) {
-    this.value = (event.target as HTMLInputElement).value
-  }
-
-  @Method()
-  async readyToSubmit() {
-    return Boolean(this.value)
-  }
-
-  hasAnswerToValidate = () => {
-    return this.answer && this.answerCorrection && this.answerCorrection.displayOn === "submit"
-  }
-
-  @Method()
-  async validateAgainstAnswer() {
-    return !(this.hasAnswerToValidate() && this.value !== this.answer.value)
-  }
-
-  @Method()
-  async setShowCorrections(value: boolean) {
-    if (this.hasAnswerToValidate()) {
-      this.preventChanges = this.answerCorrection.preventChanges && value
-      if (this.value !== this.answer.value) {
-        this.answerCorrection.displayCorrection = value
-        if (value) {
-          this.inputUpdated.emit(this.input.form)
-        }
-      }
-    }
-  }
-
-  @Method()
-  async setValue(value: string) {
-    this.value = value
-  }
-
-  @Method()
-  async getValue() {
-    return this.value
-  }
-
-  @Watch("value")
-  @Watch("required")
-  handleValueUpdate() {
-    this.inputUpdated.emit(this.input.form)
   }
 
   render() {

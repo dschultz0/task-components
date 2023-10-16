@@ -1,15 +1,14 @@
-import { Component, Host, h, Prop, State, Element, Listen, Event, EventEmitter, Watch, Method } from '@stencil/core';
+import { Component, Host, h, Prop, Listen, Event, EventEmitter, Watch, Method, Fragment, State, Element } from '@stencil/core';
+import { Input, CallbackFunction, InputBase } from '../../utils/inputBase';
+import { TaskAnswer } from '../task-answer/task-answer';
+import { TaskAnswerCorrection } from '../task-answer-correction/task-answer-correction';
+
 import {
   gatherInputOptions,
   ignoreKeypress,
-  Input,
   inputOptionKeyboardShortcuts,
   KeyboardShortcut,
-  getAnswerElement,
-  getAnswerCorrectionElement
 } from '../../utils/utils';
-import {TaskAnswer} from '../task-answer/task-answer';
-import { TaskAnswerCorrection } from '../task-answer-correction/task-answer-correction';
 import classNames from 'classnames';
 
 @Component({
@@ -18,42 +17,72 @@ import classNames from 'classnames';
   scoped: true,
 })
 export class TaskInputRadio implements Input {
+  /*
+  The first block of values are common attributes of the Input type that are implemented here
+   */
   // The name assigned to the input element. This will identify the value in your task results.
-  @Prop() name: string;
-  // Indicates that the field is required and must be provided before submit.
-  @Prop() required: boolean;
+  @Prop() name: string
   // A label that will be attached to the input
-  @Prop() label: string;
-  // Display the options inline
-  @Prop() inline: boolean;
+  @Prop() label: string
+  // Class to apply to the label
+  @Prop() labelClass: string
+  // Indicates that the field is required and must be provided before submit.
+  @Prop({mutable: true}) required: boolean
   // An attribute that is used in card layouts to indicate that this input is active.
-  @Prop() active: boolean = true;
+  @Prop() active: boolean
   // Indicates that the input is disabled and can't be edited
   // Note that it appears crowd-form ignores disabled inputs, so we have to use an alt approach here
-  @Prop() disabled: boolean = false
-  @Prop() mode: string = "radio"
-  // The tag that will be used to indicate which value is contained in the task-answer
-  @Prop() answerTag: string = "Answer"
-  @Prop() labelClass: string
-  @Element() host: HTMLElement;
-  @State() options: HTMLTaskInputOptionElement[];
-  @State() value: string;
-  @State() shortcutMap: Map<string, string> = new Map<string, string>();
+  @Prop() disabled: boolean
+  // Specifies that a formula to compute if the field is required
+  @Prop() requireIf: string
+  // Text to append to the label to indicate the field is required
+  @Prop() requiredIndicator: string
+  // Specifies the value of the parent component that will result in displaying this input
+  @Prop() displayOn: string
+  // Specifies a formula to compute if the field will be displayed
+  @Prop() displayIf: string
+  @Prop({mutable: true}) value: string
+  @Prop({mutable: true}) hidden: boolean
+  @State() preventChanges: boolean
   @State() answer: TaskAnswer
   @State() answerCorrection: TaskAnswerCorrection
-  @State() preventChanges: boolean
-  @Event() inputUpdated: EventEmitter<HTMLFormElement>
+  @Event() inputUpdated: EventEmitter<HTMLElement>
+  @Element() host: HTMLElement
+  input!: HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement
+  form!: HTMLFormElement
+  loadCallback!: CallbackFunction
+  formCallback!: CallbackFunction
+  displayOnCallback!: CallbackFunction
+
+
+  @Prop() mode: string = "radio"
+  // Display the options inline
+  @Prop() inline: boolean;
+  // The tag that will be used to indicate which value is contained in the task-answer
+  @Prop() answerTag: string = "Answer"
+  options: HTMLTaskInputOptionElement[];
+  shortcutMap: Map<string, string> = new Map<string, string>();
   @Event() registerKeyboardShortcut: EventEmitter<KeyboardShortcut>
-  input!: HTMLInputElement
+
+  connectedCallback() {
+    InputBase.prototype.connectedCallback.bind(this)()
+  }
+  disconnectedCallback = InputBase.prototype.disconnectedCallback
+  formUpdated = InputBase.prototype.formUpdated
+  setupDependentInputs = InputBase.prototype.setupDependentInputs
+  handleParentElementUpdate  = InputBase.prototype.handleParentElementUpdate
+  @Method()
+  async readyToSubmit() {return InputBase.prototype.readyToSubmit.bind(this)()}
+  @Method()
+  async setShowCorrections() {return InputBase.prototype.setShowCorrections.bind(this)()}
 
   componentWillLoad() {
+    InputBase.prototype.componentWillLoad.bind(this)()
     this.options = gatherInputOptions(this.host)
     for (let ks of inputOptionKeyboardShortcuts(this.options)) {
       this.shortcutMap[ks.keys] = ks.value
       this.registerKeyboardShortcut.emit(ks)
     }
-    this.answer = getAnswerElement(this.host)
-    this.answerCorrection = getAnswerCorrectionElement(this.host)
   }
 
   @Listen("keypress", { target: "document" })
@@ -72,53 +101,23 @@ export class TaskInputRadio implements Input {
     }
   }
 
-  handleChange(event: Event) {
-    this.value = (event.target as HTMLInputElement).value
-  }
-
   @Watch("value")
-  handleValueUpdate(value) {
+  handleValueUpdate(value: string) {
+    InputBase.prototype.handleValueUpdate.bind(this)(value)
     if (this.answer && this.answerCorrection && this.answerCorrection.displayOn === "mismatch") {
       this.answerCorrection.displayCorrection = (this.answer.value !== value)
     }
-    this.inputUpdated.emit(this.input.form)
-  }
-
-  @Method()
-  async readyToSubmit() {
-    return Boolean(this.value)
   }
 
   hasAnswerToValidate = () => {
-    return this.answer && this.answerCorrection
+    // TODO: Review why this is different from the others
+    return this.answer && this.answerCorrection && true
   }
 
   @Method()
   async validateAgainstAnswer() {
+    // TODO: Review why this is different from the others
     return !(this.hasAnswerToValidate() && this.answerCorrection.displayOn === "submit" && this.value !== this.answer.value)
-  }
-
-  @Method()
-  async setShowCorrections(value: boolean) {
-    if (this.hasAnswerToValidate()) {
-      this.preventChanges = this.answerCorrection.preventChanges && value
-      if (this.value !== this.answer.value) {
-        this.answerCorrection.displayCorrection = value
-        if (value) {
-          this.inputUpdated.emit(this.input.form)
-        }
-      }
-    }
-  }
-
-  @Method()
-  async setValue(value: string) {
-    this.value = value
-  }
-
-  @Method()
-  async getValue() {
-    return this.value
   }
 
   renderRadio() {
@@ -130,7 +129,7 @@ export class TaskInputRadio implements Input {
           name={this.name}
           value={option.value}
           required={this.required}
-          onChange={e => this.handleChange(e)}
+          onChange={e => this.value = (e.target as HTMLInputElement).value}
           checked={option.value === this.value}
           disabled={this.disabled || (this.preventChanges && option.value !== this.value)}
           ref={el => this.input = el}
@@ -194,8 +193,10 @@ export class TaskInputRadio implements Input {
   render() {
     return (
       <Host>
-        {this.label && <task-label class={this.labelClass}>{this.label}</task-label>}
-        {this.mode === "button" ? this.renderButtonGroup() : this.renderRadio()}
+        {!this.hidden && <Fragment>
+            {this.label && <task-label class={this.labelClass}>{this.label}</task-label>}
+            {this.mode === "button" ? this.renderButtonGroup() : this.renderRadio()}
+          </Fragment>}
         <slot></slot>
       </Host>
     )

@@ -10,44 +10,6 @@ export function ignoreKeypress(): boolean {
   return document.activeElement.nodeName === "TEXTAREA"
 }
 
-export function childInputs(parent: HTMLElement) {
-  return (Array.from(parent.querySelectorAll("*")).filter(element => {
-    return element.nodeName.startsWith("TASK-INPUT")
-      && element.nodeName !== "TASK-INPUT-OPTION"
-  }) as unknown[]) as Input[]
-    /*.filter(element => {
-    return element.parentElement.nodeName !== "TASK-ANSWER" ||
-      ((element.parentElement as unknown) as TaskAnswer).displayCorrection
-  }) as unknown[]) as Input[]*/
-}
-
-export function requiredChildInputs(parent: HTMLElement) {
-  return childInputs(parent).filter(input => input.required && !input.disabled)
-}
-
-export function inputsWithAnswers() {
-  const inputs = Array.from(document.querySelectorAll('*')).filter(element => {
-    return element.nodeName.startsWith("TASK-INPUT")
-      && element.nodeName !== "TASK-INPUT-OPTION"
-      && element.parentElement.nodeName !== "TASK-ANSWER"
-  })
-  return (inputs.filter(element => {
-    return Boolean(element.querySelector("TASK-ANSWER"))
-  }) as unknown) as Input[]
-}
-
-export interface Input {
-  name: string
-  readyToSubmit(): Promise<boolean>
-  validateAgainstAnswer(): Promise<boolean>
-  setValue(value: string): Promise<void>
-  getValue(): Promise<string>
-  setShowCorrections(value: boolean): Promise<void>
-  required: boolean
-  active: boolean
-  disabled: boolean
-}
-
 export type KeyboardShortcut = {
   label: string
   keys: string

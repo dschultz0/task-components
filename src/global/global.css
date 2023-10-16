@@ -9,11 +9,11 @@ html{
 }
 @font-face {
   font-family: "blueprint-icons-16";
-  src: url("/assets/blueprint-icons-16.woff2") format("woff2");
+  src: url("assets/blueprint-icons-16.woff2") format("woff2");
 }
 @font-face {
   font-family: "blueprint-icons-20";
-  src: url("/assets/blueprint-icons-20.woff2") format("woff2");
+  src: url("assets/blueprint-icons-20.woff2") format("woff2");
 }
 body{
   font-size:14px;

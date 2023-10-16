@@ -8,16 +8,15 @@ export const config: Config = {
     {
       type: 'dist',
       esmLoaderPath: '../loader',
-    },
-    {
-      type: 'dist-custom-elements',
       copy: [
         {
-          src: 'src/assets/*.woff2',
-          dest: 'dist/assets',
+          src: 'assets',
           warn: true
         }
       ]
+    },
+    {
+      type: 'dist-custom-elements'
     },
     {
       type: 'docs-readme'
@@ -28,6 +27,10 @@ export const config: Config = {
       copy: [
         {
           src: 'global'
+        },
+        {
+          src: 'assets',
+          dest: 'build/assets'
         }
       ]
     },

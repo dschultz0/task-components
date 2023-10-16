@@ -7,6 +7,7 @@
 }
 .button-group{
   display:inline-flex;
+  margin-bottom: 8px;
 }
 .button-group .button{
   flex:0 0 auto;

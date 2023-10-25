@@ -24,6 +24,7 @@ export class TaskButton {
   @Prop() outlined: boolean = false
   @Prop() text: string
   @Prop() icon: string
+  @Prop() iconSize: number
   @Prop() rightIcon: string
   @Prop() href: string
   @Prop() target: string
@@ -37,12 +38,10 @@ export class TaskButton {
   button?: HTMLAnchorElement|HTMLButtonElement
 
 
-  handleBlur(e: FocusEvent) {
+  handleBlur() {
       if (this.isActive) {
           this.isActive = false
       }
-      console.log(e)
-      //props.onBlur?.(e);
   }
   handleKeyDown(e: KeyboardEvent) {
       if (isKeyboardClick(e)) {
@@ -66,12 +65,12 @@ export class TaskButton {
   renderContents() {
     return <Fragment>
       {this.loading && <task-spinner key="loading" class="button-spinner" size="small"></task-spinner>}
-      {this.icon && <task-icon key="leftIcon" icon={this.icon}></task-icon>}
+      {this.icon && <task-icon key="leftIcon" icon={this.icon} size={this.iconSize}></task-icon>}
       <span key="text" class="button-text">
         {this.text}
         <slot></slot>
       </span>
-      {this.rightIcon && <task-icon key="rightIcon" icon={this.rightIcon}></task-icon>}
+      {this.rightIcon && <task-icon key="rightIcon" icon={this.rightIcon} size={this.iconSize}></task-icon>}
     </Fragment>
   }
 
@@ -102,7 +101,7 @@ export class TaskButton {
             class={classes}
             target={this.newWindow ? "_blank" : this.target}
             ref={el => this.button = el as HTMLAnchorElement}
-            onBlur={e => this.handleBlur(e)}
+            onBlur={() => this.handleBlur()}
             onKeyDown={e => this.handleKeyDown(e)}
             onKeyUp={e => this.handleKeyUp(e)}
             tabindex={disabled ? -1 : this.tabindex}
@@ -120,7 +119,7 @@ export class TaskButton {
             class={classes}
             disabled={disabled}
             ref={el => this.button = el as HTMLButtonElement}
-            onBlur={e => this.handleBlur(e)}
+            onBlur={() => this.handleBlur()}
             onKeyDown={e => this.handleKeyDown(e)}
             onKeyUp={e => this.handleKeyUp(e)}
             tabindex={disabled ? -1 : this.tabindex}

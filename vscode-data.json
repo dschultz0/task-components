@@ -117,6 +117,10 @@
           "description": ""
         },
         {
+          "name": "icon-size",
+          "description": ""
+        },
+        {
           "name": "intent",
           "description": ""
         },
@@ -264,6 +268,14 @@
     },
     {
       "name": "task-columns",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": []
+    },
+    {
+      "name": "task-copyable",
       "description": {
         "kind": "markdown",
         "value": ""
@@ -1007,6 +1019,10 @@
         "value": ""
       },
       "attributes": [
+        {
+          "name": "field",
+          "description": ""
+        },
         {
           "name": "name",
           "description": ""

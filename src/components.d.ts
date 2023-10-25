@@ -37,6 +37,7 @@ export namespace Components {
         "fill": boolean;
         "href": string;
         "icon": string;
+        "iconSize": number;
         "intent": string;
         "label": boolean;
         "large": boolean;
@@ -75,6 +76,8 @@ export namespace Components {
     interface TaskColumn {
     }
     interface TaskColumns {
+    }
+    interface TaskCopyable {
     }
     interface TaskDialog {
         "headerText": string;
@@ -273,6 +276,7 @@ export namespace Components {
         "icon": string;
     }
     interface TaskVar {
+        "field": string;
         "name": string;
     }
 }
@@ -390,6 +394,12 @@ declare global {
     var HTMLTaskColumnsElement: {
         prototype: HTMLTaskColumnsElement;
         new (): HTMLTaskColumnsElement;
+    };
+    interface HTMLTaskCopyableElement extends Components.TaskCopyable, HTMLStencilElement {
+    }
+    var HTMLTaskCopyableElement: {
+        prototype: HTMLTaskCopyableElement;
+        new (): HTMLTaskCopyableElement;
     };
     interface HTMLTaskDialogElement extends Components.TaskDialog, HTMLStencilElement {
     }
@@ -577,6 +587,7 @@ declare global {
         "task-card-list": HTMLTaskCardListElement;
         "task-column": HTMLTaskColumnElement;
         "task-columns": HTMLTaskColumnsElement;
+        "task-copyable": HTMLTaskCopyableElement;
         "task-dialog": HTMLTaskDialogElement;
         "task-icon": HTMLTaskIconElement;
         "task-image": HTMLTaskImageElement;
@@ -637,6 +648,7 @@ declare namespace LocalJSX {
         "fill"?: boolean;
         "href"?: string;
         "icon"?: string;
+        "iconSize"?: number;
         "intent"?: string;
         "label"?: boolean;
         "large"?: boolean;
@@ -679,6 +691,8 @@ declare namespace LocalJSX {
     interface TaskColumn {
     }
     interface TaskColumns {
+    }
+    interface TaskCopyable {
     }
     interface TaskDialog {
         "headerText"?: string;
@@ -877,6 +891,7 @@ declare namespace LocalJSX {
         "icon"?: string;
     }
     interface TaskVar {
+        "field"?: string;
         "name"?: string;
     }
     interface IntrinsicElements {
@@ -891,6 +906,7 @@ declare namespace LocalJSX {
         "task-card-list": TaskCardList;
         "task-column": TaskColumn;
         "task-columns": TaskColumns;
+        "task-copyable": TaskCopyable;
         "task-dialog": TaskDialog;
         "task-icon": TaskIcon;
         "task-image": TaskImage;
@@ -937,6 +953,7 @@ declare module "@stencil/core" {
             "task-card-list": LocalJSX.TaskCardList & JSXBase.HTMLAttributes<HTMLTaskCardListElement>;
             "task-column": LocalJSX.TaskColumn & JSXBase.HTMLAttributes<HTMLTaskColumnElement>;
             "task-columns": LocalJSX.TaskColumns & JSXBase.HTMLAttributes<HTMLTaskColumnsElement>;
+            "task-copyable": LocalJSX.TaskCopyable & JSXBase.HTMLAttributes<HTMLTaskCopyableElement>;
             "task-dialog": LocalJSX.TaskDialog & JSXBase.HTMLAttributes<HTMLTaskDialogElement>;
             "task-icon": LocalJSX.TaskIcon & JSXBase.HTMLAttributes<HTMLTaskIconElement>;
             "task-image": LocalJSX.TaskImage & JSXBase.HTMLAttributes<HTMLTaskImageElement>;

@@ -16,6 +16,7 @@
 | `fill`      | `fill`       |             | `boolean` | `false`     |
 | `href`      | `href`       |             | `string`  | `undefined` |
 | `icon`      | `icon`       |             | `string`  | `undefined` |
+| `iconSize`  | `icon-size`  |             | `number`  | `undefined` |
 | `intent`    | `intent`     |             | `string`  | `undefined` |
 | `label`     | `label`      |             | `boolean` | `false`     |
 | `large`     | `large`      |             | `boolean` | `false`     |
@@ -44,6 +45,7 @@
 
 ### Used by
 
+ - [task-copyable](../task-copyable)
  - [task-dialog](../task-dialog)
  - [task-input-radio](../task-input-radio)
 
@@ -55,6 +57,7 @@
 ```mermaid
 graph TD;
   task-button --> task-icon
+  task-copyable --> task-button
   task-dialog --> task-button
   task-input-radio --> task-button
   style task-button fill:#f9f,stroke:#333,stroke-width:4px

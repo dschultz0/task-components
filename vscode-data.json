@@ -452,6 +452,10 @@
           "description": ""
         },
         {
+          "name": "disable-if",
+          "description": ""
+        },
+        {
           "name": "disabled",
           "description": ""
         },
@@ -514,6 +518,10 @@
         {
           "name": "value",
           "description": ""
+        },
+        {
+          "name": "value-from",
+          "description": ""
         }
       ]
     },
@@ -526,6 +534,10 @@
       "attributes": [
         {
           "name": "active",
+          "description": ""
+        },
+        {
+          "name": "disable-if",
           "description": ""
         },
         {
@@ -575,6 +587,10 @@
         {
           "name": "value",
           "description": ""
+        },
+        {
+          "name": "value-from",
+          "description": ""
         }
       ]
     },
@@ -612,6 +628,10 @@
         },
         {
           "name": "answer-tag",
+          "description": ""
+        },
+        {
+          "name": "disable-if",
           "description": ""
         },
         {
@@ -665,6 +685,10 @@
         {
           "name": "value",
           "description": ""
+        },
+        {
+          "name": "value-from",
+          "description": ""
         }
       ]
     },
@@ -677,6 +701,10 @@
       "attributes": [
         {
           "name": "active",
+          "description": ""
+        },
+        {
+          "name": "disable-if",
           "description": ""
         },
         {
@@ -721,6 +749,10 @@
         },
         {
           "name": "value",
+          "description": ""
+        },
+        {
+          "name": "value-from",
           "description": ""
         }
       ]
@@ -1020,7 +1052,7 @@
       },
       "attributes": [
         {
-          "name": "field",
+          "name": "data",
           "description": ""
         },
         {

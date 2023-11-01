@@ -120,6 +120,7 @@ export namespace Components {
     interface TaskInput {
         "active": boolean;
         "cols": number;
+        "disableIf": string;
         "disabled": boolean;
         "displayIf": string;
         "displayOn": string;
@@ -139,9 +140,11 @@ export namespace Components {
         "type": string;
         "validateAgainstAnswer": () => Promise<any>;
         "value": string;
+        "valueFrom": string;
     }
     interface TaskInputMultiselect {
         "active": boolean;
+        "disableIf": string;
         "disabled": boolean;
         "displayIf": string;
         "displayOn": string;
@@ -157,6 +160,7 @@ export namespace Components {
         "setShowCorrections": () => Promise<any>;
         "validateAgainstAnswer": () => Promise<any>;
         "value": string;
+        "valueFrom": string;
     }
     interface TaskInputOption {
         "keyboardShortcut": string;
@@ -166,6 +170,7 @@ export namespace Components {
     interface TaskInputRadio {
         "active": boolean;
         "answerTag": string;
+        "disableIf": string;
         "disabled": boolean;
         "displayIf": string;
         "displayOn": string;
@@ -182,9 +187,11 @@ export namespace Components {
         "setShowCorrections": () => Promise<any>;
         "validateAgainstAnswer": () => Promise<boolean>;
         "value": string;
+        "valueFrom": string;
     }
     interface TaskInputSelect {
         "active": boolean;
+        "disableIf": string;
         "disabled": boolean;
         "displayIf": string;
         "displayOn": string;
@@ -199,6 +206,7 @@ export namespace Components {
         "setShowCorrections": () => Promise<any>;
         "validateAgainstAnswer": () => Promise<any>;
         "value": string;
+        "valueFrom": string;
     }
     interface TaskInstructions {
         "header": string;
@@ -276,7 +284,7 @@ export namespace Components {
         "icon": string;
     }
     interface TaskVar {
-        "field": string;
+        "data": string;
         "name": string;
     }
 }
@@ -735,6 +743,7 @@ declare namespace LocalJSX {
     interface TaskInput {
         "active"?: boolean;
         "cols"?: number;
+        "disableIf"?: string;
         "disabled"?: boolean;
         "displayIf"?: string;
         "displayOn"?: string;
@@ -752,9 +761,11 @@ declare namespace LocalJSX {
         "size"?: number;
         "type"?: string;
         "value"?: string;
+        "valueFrom"?: string;
     }
     interface TaskInputMultiselect {
         "active"?: boolean;
+        "disableIf"?: string;
         "disabled"?: boolean;
         "displayIf"?: string;
         "displayOn"?: string;
@@ -769,6 +780,7 @@ declare namespace LocalJSX {
         "required"?: boolean;
         "requiredIndicator"?: string;
         "value"?: string;
+        "valueFrom"?: string;
     }
     interface TaskInputOption {
         "keyboardShortcut"?: string;
@@ -778,6 +790,7 @@ declare namespace LocalJSX {
     interface TaskInputRadio {
         "active"?: boolean;
         "answerTag"?: string;
+        "disableIf"?: string;
         "disabled"?: boolean;
         "displayIf"?: string;
         "displayOn"?: string;
@@ -793,9 +806,11 @@ declare namespace LocalJSX {
         "required"?: boolean;
         "requiredIndicator"?: string;
         "value"?: string;
+        "valueFrom"?: string;
     }
     interface TaskInputSelect {
         "active"?: boolean;
+        "disableIf"?: string;
         "disabled"?: boolean;
         "displayIf"?: string;
         "displayOn"?: string;
@@ -809,6 +824,7 @@ declare namespace LocalJSX {
         "required"?: boolean;
         "requiredIndicator"?: string;
         "value"?: string;
+        "valueFrom"?: string;
     }
     interface TaskInstructions {
         "header"?: string;
@@ -891,7 +907,7 @@ declare namespace LocalJSX {
         "icon"?: string;
     }
     interface TaskVar {
-        "field"?: string;
+        "data"?: string;
         "name"?: string;
     }
     interface IntrinsicElements {

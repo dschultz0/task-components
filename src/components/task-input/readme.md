@@ -11,6 +11,7 @@
 | ------------------- | -------------------- | ----------- | --------- | ----------- |
 | `active`            | `active`             |             | `boolean` | `undefined` |
 | `cols`              | `cols`               |             | `number`  | `undefined` |
+| `disableIf`         | `disable-if`         |             | `string`  | `undefined` |
 | `disabled`          | `disabled`           |             | `boolean` | `undefined` |
 | `displayIf`         | `display-if`         |             | `string`  | `undefined` |
 | `displayOn`         | `display-on`         |             | `string`  | `undefined` |
@@ -27,6 +28,7 @@
 | `size`              | `size`               |             | `number`  | `undefined` |
 | `type`              | `type`               |             | `string`  | `"text"`    |
 | `value`             | `value`              |             | `string`  | `undefined` |
+| `valueFrom`         | `value-from`         |             | `string`  | `undefined` |
 
 
 ## Events

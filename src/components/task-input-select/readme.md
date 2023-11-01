@@ -10,6 +10,7 @@
 | Property            | Attribute            | Description | Type      | Default     |
 | ------------------- | -------------------- | ----------- | --------- | ----------- |
 | `active`            | `active`             |             | `boolean` | `undefined` |
+| `disableIf`         | `disable-if`         |             | `string`  | `undefined` |
 | `disabled`          | `disabled`           |             | `boolean` | `undefined` |
 | `displayIf`         | `display-if`         |             | `string`  | `undefined` |
 | `displayOn`         | `display-on`         |             | `string`  | `undefined` |
@@ -21,6 +22,7 @@
 | `required`          | `required`           |             | `boolean` | `undefined` |
 | `requiredIndicator` | `required-indicator` |             | `string`  | `undefined` |
 | `value`             | `value`              |             | `string`  | `undefined` |
+| `valueFrom`         | `value-from`         |             | `string`  | `undefined` |
 
 
 ## Events

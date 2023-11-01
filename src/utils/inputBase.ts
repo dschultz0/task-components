@@ -12,11 +12,13 @@ export interface Input {
   required: boolean
   active: boolean
   disabled: boolean
+  disableIf: string
   requireIf: string
   requiredIndicator: string
   displayOn: string
   displayIf: string
   value: string
+  valueFrom: string
   hidden: boolean
   preventChanges: boolean
   answer: TaskAnswer
@@ -24,15 +26,19 @@ export interface Input {
   inputUpdated: EventEmitter<HTMLElement>
   host: HTMLElement
   input: HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement
+  fromInput: InputEventTarget;
   form: HTMLFormElement
   loadCallback: CallbackFunction
   formCallback: CallbackFunction
   displayOnCallback: CallbackFunction
+  fromInputUpdated: CallbackFunction
 
   readyToSubmit(): Promise<boolean>
   validateAgainstAnswer(): Promise<boolean>
   setShowCorrections(value: boolean): Promise<void>
 }
+
+export type InputEventTarget = Input & EventTarget
 
 export function childInputs(parent: HTMLElement) {
   return (Array.from(parent.querySelectorAll("*")).filter(element => {
@@ -85,6 +91,24 @@ export function getFormElement(host: Element): HTMLFormElement {
   }
 }
 
+export function findInput(name: string): Promise<InputEventTarget> {
+  return new Promise(resolve => {
+    const input = document.querySelector(`[name='${name}']`)
+    if (input) {
+      resolve((input as unknown) as InputEventTarget)
+    } else {
+      setTimeout(() => resolve(findInput(name)), 1000)
+    }
+  })
+}
+
+export function attachInputListener(name: string, callback: CallbackFunction, type="inputUpdated"): Promise<InputEventTarget> {
+  return findInput(name).then((input: InputEventTarget) => {
+    input.addEventListener(type, callback)
+    return input
+  })
+}
+
 export abstract class InputBase implements Input {
 
   /***
@@ -96,7 +120,7 @@ export abstract class InputBase implements Input {
   }
   connectedCallback() {
     this.form = getFormElement(this.host)
-    if (this.requireIf || this.displayIf) {
+    if (this.requireIf || this.displayIf || this.valueFrom) {
       if (['loaded', 'interactive', 'complete'].includes(document.readyState)) {
         this.setupDependentInputs()
       } else {
@@ -120,6 +144,9 @@ export abstract class InputBase implements Input {
     }
     if (this.displayOnCallback) {
       this.host.parentElement.removeEventListener("inputUpdated", this.displayOnCallback)
+    }
+    if (this.fromInput && this.fromInputUpdated) {
+      // this.fromInput.removeEventListener("inputUpdated", this.fromInputUpdated)
     }
   }
   formUpdated() {
@@ -148,6 +175,19 @@ export abstract class InputBase implements Input {
       this.formCallback = this.formUpdated.bind(this)
       this.form.addEventListener('input', this.formCallback)
       this.formUpdated()
+    }
+    if (this.valueFrom) {
+      attachInputListener(this.valueFrom, this.fromInputUpdated)
+        .then(input => {
+          this.fromInput = input
+          this.fromInputUpdated()
+        })
+    }
+  }
+
+  fromInputUpdated() {
+    if (this.fromInput) {
+      this.value = this.fromInput.value
     }
   }
 
@@ -197,11 +237,13 @@ export abstract class InputBase implements Input {
   answer: TaskAnswer;
   answerCorrection: TaskAnswerCorrection;
   disabled: boolean;
+  disableIf: string;
   displayOn: string;
   displayIf: string;
   hidden: boolean;
   host: HTMLElement;
   input: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
+  fromInput: InputEventTarget;
   form: HTMLFormElement
   inputUpdated: EventEmitter<HTMLElement>;
   label: string;
@@ -212,6 +254,7 @@ export abstract class InputBase implements Input {
   required: boolean;
   requiredIndicator: string;
   value: string;
+  valueFrom: string;
   displayOnCallback(_ev: Event): any {}
   formCallback(_ev: Event): any {}
   loadCallback(_ev: Event): any {}

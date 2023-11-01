@@ -1,5 +1,5 @@
 import { Component, Host, h, Prop, State, Event, Element, EventEmitter, Method, Watch } from '@stencil/core';
-import { Input, CallbackFunction, InputBase } from '../../utils/inputBase';
+import { Input, CallbackFunction, InputBase, InputEventTarget } from '../../utils/inputBase';
 import {
   gatherInputOptions,
   inputOptionKeyboardShortcuts,
@@ -30,7 +30,9 @@ export class TaskInputMultiselect implements Input {
   @Prop() active: boolean
   // Indicates that the input is disabled and can't be edited
   // Note that it appears crowd-form ignores disabled inputs, so we have to use an alt approach here
-  @Prop() disabled: boolean
+  @Prop({mutable: true}) disabled: boolean
+  // Specifies a formula to determine whether to disable the field
+  @Prop() disableIf: string
   // Specifies that a formula to compute if the field is required
   @Prop() requireIf: string
   // Text to append to the label to indicate the field is required
@@ -40,6 +42,7 @@ export class TaskInputMultiselect implements Input {
   // Specifies a formula to compute if the field will be displayed
   @Prop() displayIf: string
   @Prop({mutable: true}) value: string
+  @Prop() valueFrom: string
   @Prop({mutable: true}) hidden: boolean
   @State() preventChanges: boolean
   @State() answer: TaskAnswer
@@ -47,6 +50,7 @@ export class TaskInputMultiselect implements Input {
   @Event() inputUpdated: EventEmitter<HTMLElement>
   @Element() host: HTMLElement
   input!: HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement
+  fromInput!: InputEventTarget
   form!: HTMLFormElement
   loadCallback!: CallbackFunction
   formCallback!: CallbackFunction
@@ -72,6 +76,7 @@ export class TaskInputMultiselect implements Input {
   setupDependentInputs = InputBase.prototype.setupDependentInputs
   hasAnswerToValidate = InputBase.prototype.hasAnswerToValidate
   handleParentElementUpdate  = InputBase.prototype.handleParentElementUpdate
+  fromInputUpdated = InputBase.prototype.fromInputUpdated.bind(this)
   @Method()
   async validateAgainstAnswer() {return InputBase.prototype.validateAgainstAnswer.bind(this)()}
   @Method()

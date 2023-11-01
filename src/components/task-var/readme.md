@@ -9,7 +9,7 @@
 
 | Property | Attribute | Description | Type     | Default     |
 | -------- | --------- | ----------- | -------- | ----------- |
-| `field`  | `field`   |             | `string` | `undefined` |
+| `data`   | `data`    |             | `string` | `undefined` |
 | `name`   | `name`    |             | `string` | `undefined` |
 
 

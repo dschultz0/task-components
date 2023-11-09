@@ -6,8 +6,9 @@ export function format(first: string, middle: string, last: string): string {
 }
 
 export function ignoreKeypress(): boolean {
-  // TODO: Also need to add input text field as well
-  return document.activeElement.nodeName === "TEXTAREA"
+  const activeEl = document.activeElement
+  return activeEl.nodeName === "TEXTAREA" ||
+    (activeEl.nodeName === "INPUT" && activeEl.getAttribute("type") === "text")
 }
 
 export type KeyboardShortcut = {

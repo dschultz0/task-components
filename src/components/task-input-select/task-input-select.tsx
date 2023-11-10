@@ -1,7 +1,7 @@
-import { Component, Host, h, Event, EventEmitter, Prop, State, Element, Method, Watch } from '@stencil/core';
+import { Component, Host, h, Event, EventEmitter, Prop, State, Element, Method, Watch, Listen } from '@stencil/core';
 import { Input, CallbackFunction, InputBase, InputEventTarget } from '../../utils/inputBase';
 import {
-  gatherInputOptions,
+  gatherInputOptions, ignoreKeypress,
   inputOptionKeyboardShortcuts,
   KeyboardShortcut,
 } from '../../utils/utils';
@@ -85,6 +85,23 @@ export class TaskInputSelect implements Input {
   @Watch("value")
   @Watch("required")
   async handleValueUpdate() {return InputBase.prototype.handleValueUpdate.bind(this)()}
+
+
+  @Listen("keypress", { target: "document" })
+  keypressHandler(event: KeyboardEvent) {
+    if (event.key in this.shortcutMap && this.active && !ignoreKeypress() && !this.disabled && !this.preventChanges) {
+      const advance = this.value === this.shortcutMap[event.key]
+      this.value = this.shortcutMap[event.key]
+      // If the value doesn't change as a result of the key press, trigger card advance from here
+      if (advance) {
+        this.inputUpdated.emit(this.input.form)
+      }
+      // The following addresses an issue observed with dependent form elements
+      // not receiving form updated events when the value is changed via keypress
+      this.input.form.elements[this.name].value = this.shortcutMap[event.key]
+      this.input.form.dispatchEvent(new InputEvent("input"))
+    }
+  }
 
 
   render() {

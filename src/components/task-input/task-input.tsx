@@ -87,6 +87,7 @@ export class TaskInput implements Input {
       size={this.size}
       maxLength={this.maxlength}
       required={this.required}
+      disabled={this.disabled}
       onInput={e => this.value = (e.target as HTMLInputElement).value}
       ref={el => this.input = el}
       value={this.value}
@@ -102,6 +103,7 @@ export class TaskInput implements Input {
       placeholder={this.placeholder}
       maxLength={this.maxlength}
       required={this.required}
+      disabled={this.disabled}
       onInput={e => this.value = (e.target as HTMLTextAreaElement).value}
       ref={el => this.input = el}
     >{this.value}</textarea>

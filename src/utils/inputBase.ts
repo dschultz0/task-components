@@ -179,7 +179,7 @@ export abstract class InputBase implements Input {
   }
   connectedCallback() {
     this.form = getFormElement(this.host)
-    if (this.requireIf || this.displayIf || this.valueFrom) {
+    if (this.requireIf || this.displayIf || this.disableIf || this.valueFrom) {
       if (['loaded', 'interactive', 'complete'].includes(document.readyState)) {
         this.setupDependentInputs()
       } else {
@@ -226,11 +226,21 @@ export abstract class InputBase implements Input {
           }
         }
       }
+      if (this.disableIf) {
+        const result = evaluateFormula(this.disableIf, this.form)
+        if (result !== undefined) {
+          const previous = this.disabled
+          this.disabled = result
+          if (this.disabled !== previous) {
+            this.inputUpdated.emit(this.form)
+          }
+        }
+      }
     }
   }
 
   setupDependentInputs() {
-    if ((this.requireIf || this.displayIf) && this.form) {
+    if ((this.requireIf || this.displayIf || this.disableIf) && this.form) {
       this.formCallback = this.formUpdated.bind(this)
       this.form.addEventListener('input', this.formCallback)
       this.formUpdated()

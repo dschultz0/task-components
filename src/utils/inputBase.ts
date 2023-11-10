@@ -67,15 +67,74 @@ export function inputsWithAnswers() {
 }
 
 export function evaluateFormula(formula: string, form: HTMLFormElement) {
-  if (formula.includes("=")) {
-    const parts = formula.split("=")
-    if (parts[0].startsWith("any(")) {
-      const inputNames = parts[0].substring(4, parts[0].length-1).split(",")
-      const values = inputNames.map(name => form.elements[name.trim()] && form.elements[name.trim()].value)
-      const matching = values.filter(v => v === parts[1])
-      return matching.length > 0
+  const operators = ["=", " in ", " IN ", " In ", "!=", "<=", ">=", "<", ">"]
+  let operator = null
+  let parts = null
+  let not = false
+  let any = false
+  if (formula.startsWith("not(") && formula.endsWith(")")) {
+    not = true
+    formula = formula.substring(4, formula.length - 1)
+  }
+  for (let op of operators) {
+    if (formula.includes(op)) {
+      operator = op.toLowerCase().trim()
+      parts = formula.split(op).map(p => p.trim())
+      break
     }
   }
+  if (parts) {
+    const inputNames = getFormulaInputNames(parts[0])
+    any = inputNames.length > 1 && parts[0].startsWith("any")
+    const values = inputNames.map(name => form.elements[name] && form.elements[name].value)
+    const evaluation = evaluateOperator(operator, values, parts[1])
+    const success = evaluation.filter(e => e)
+    const evalTrue = success.length === inputNames.length || (any && success.length > 0)
+    return (evalTrue && !not) || (!evalTrue && not)
+  }
+}
+
+function evaluateOperator(op: string, values: string[], formulaSuffix: string) {
+  switch (op) {
+    case "=":
+      return values.map(v => v === formulaSuffix)
+    case "!=":
+      return values.map(v => v !== formulaSuffix)
+    case ">":
+      return values.map(v => parseFloat(v) > parseFloat(formulaSuffix))
+    case ">=":
+      return values.map(v => parseFloat(v) >= parseFloat(formulaSuffix))
+    case "<":
+      return values.map(v => parseFloat(v) < parseFloat(formulaSuffix))
+    case "<=":
+      return values.map(v => parseFloat(v) <= parseFloat(formulaSuffix))
+    case "in":
+      if (formulaSuffix.startsWith("[") && formulaSuffix.endsWith("]")) {
+        formulaSuffix = formulaSuffix.substring(1, formulaSuffix.length - 1)
+        const options = formulaSuffix.split(",").map(o => trimQuotes(o.trim()))
+        return values.map(v => options.includes(v))
+      } else {
+        return []
+      }
+  }
+}
+
+function trimQuotes(value: string): string {
+  if ((value.startsWith("'") && value.endsWith("'")) || (value.startsWith('"') && value.endsWith('"'))) {
+    return value.substring(1, value.length - 1)
+  } else {
+    return value
+  }
+}
+
+function getFormulaInputNames(formulaPrefix: string): string[] {
+  const functions = ["any", "all"]
+  for (let f of functions) {
+    if (formulaPrefix.startsWith(f)) {
+      return formulaPrefix.substring(4, formulaPrefix.length-1).split(",").map(i => i.trim())
+    }
+  }
+  return [formulaPrefix]
 }
 
 export function getFormElement(host: Element): HTMLFormElement {

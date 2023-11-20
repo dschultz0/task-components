@@ -1032,6 +1032,39 @@
       ]
     },
     {
+      "name": "task-telemetry",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "heartbeat-endpoint",
+          "description": ""
+        },
+        {
+          "name": "heartbeat-interval",
+          "description": ""
+        },
+        {
+          "name": "name",
+          "description": ""
+        },
+        {
+          "name": "submit-endpoint",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "task-telemetry-attribute",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": []
+    },
+    {
       "name": "task-tooltip",
       "description": {
         "kind": "markdown",

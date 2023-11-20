@@ -280,6 +280,15 @@ export namespace Components {
         "round": boolean;
         "small": boolean;
     }
+    interface TaskTelemetry {
+        "heartbeatEndpoint": string;
+        "heartbeatInterval": number;
+        "name": string;
+        "setFetchMethod": (func: Function) => Promise<void>;
+        "submitEndpoint": string;
+    }
+    interface TaskTelemetryAttribute {
+    }
     interface TaskTooltip {
         "icon": string;
     }
@@ -343,7 +352,18 @@ declare global {
         prototype: HTMLTaskAnswerElement;
         new (): HTMLTaskAnswerElement;
     };
+    interface HTMLTaskAnswerCorrectionElementEventMap {
+        "display": boolean;
+    }
     interface HTMLTaskAnswerCorrectionElement extends Components.TaskAnswerCorrection, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLTaskAnswerCorrectionElementEventMap>(type: K, listener: (this: HTMLTaskAnswerCorrectionElement, ev: TaskAnswerCorrectionCustomEvent<HTMLTaskAnswerCorrectionElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLTaskAnswerCorrectionElementEventMap>(type: K, listener: (this: HTMLTaskAnswerCorrectionElement, ev: TaskAnswerCorrectionCustomEvent<HTMLTaskAnswerCorrectionElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLTaskAnswerCorrectionElement: {
         prototype: HTMLTaskAnswerCorrectionElement;
@@ -361,7 +381,19 @@ declare global {
         prototype: HTMLTaskBodyElement;
         new (): HTMLTaskBodyElement;
     };
+    interface HTMLTaskButtonElementEventMap {
+        "click": any;
+        "focus": any;
+    }
     interface HTMLTaskButtonElement extends Components.TaskButton, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLTaskButtonElementEventMap>(type: K, listener: (this: HTMLTaskButtonElement, ev: TaskButtonCustomEvent<HTMLTaskButtonElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLTaskButtonElementEventMap>(type: K, listener: (this: HTMLTaskButtonElement, ev: TaskButtonCustomEvent<HTMLTaskButtonElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLTaskButtonElement: {
         prototype: HTMLTaskButtonElement;
@@ -379,13 +411,36 @@ declare global {
         prototype: HTMLTaskCalloutElement;
         new (): HTMLTaskCalloutElement;
     };
+    interface HTMLTaskCardElementEventMap {
+        "cardClicked": TaskCard;
+        "cardReadyToSubmit": boolean;
+    }
     interface HTMLTaskCardElement extends Components.TaskCard, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLTaskCardElementEventMap>(type: K, listener: (this: HTMLTaskCardElement, ev: TaskCardCustomEvent<HTMLTaskCardElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLTaskCardElementEventMap>(type: K, listener: (this: HTMLTaskCardElement, ev: TaskCardCustomEvent<HTMLTaskCardElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLTaskCardElement: {
         prototype: HTMLTaskCardElement;
         new (): HTMLTaskCardElement;
     };
+    interface HTMLTaskCardListElementEventMap {
+        "registerKeyboardShortcut": KeyboardShortcut;
+    }
     interface HTMLTaskCardListElement extends Components.TaskCardList, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLTaskCardListElementEventMap>(type: K, listener: (this: HTMLTaskCardListElement, ev: TaskCardListCustomEvent<HTMLTaskCardListElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLTaskCardListElementEventMap>(type: K, listener: (this: HTMLTaskCardListElement, ev: TaskCardListCustomEvent<HTMLTaskCardListElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLTaskCardListElement: {
         prototype: HTMLTaskCardListElement;
@@ -409,7 +464,18 @@ declare global {
         prototype: HTMLTaskCopyableElement;
         new (): HTMLTaskCopyableElement;
     };
+    interface HTMLTaskDialogElementEventMap {
+        "close": any;
+    }
     interface HTMLTaskDialogElement extends Components.TaskDialog, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLTaskDialogElementEventMap>(type: K, listener: (this: HTMLTaskDialogElement, ev: TaskDialogCustomEvent<HTMLTaskDialogElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLTaskDialogElementEventMap>(type: K, listener: (this: HTMLTaskDialogElement, ev: TaskDialogCustomEvent<HTMLTaskDialogElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLTaskDialogElement: {
         prototype: HTMLTaskDialogElement;
@@ -445,13 +511,36 @@ declare global {
         prototype: HTMLTaskInfoSectionElement;
         new (): HTMLTaskInfoSectionElement;
     };
+    interface HTMLTaskInputElementEventMap {
+        "inputUpdated": HTMLElement;
+    }
     interface HTMLTaskInputElement extends Components.TaskInput, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLTaskInputElementEventMap>(type: K, listener: (this: HTMLTaskInputElement, ev: TaskInputCustomEvent<HTMLTaskInputElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLTaskInputElementEventMap>(type: K, listener: (this: HTMLTaskInputElement, ev: TaskInputCustomEvent<HTMLTaskInputElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLTaskInputElement: {
         prototype: HTMLTaskInputElement;
         new (): HTMLTaskInputElement;
     };
+    interface HTMLTaskInputMultiselectElementEventMap {
+        "inputUpdated": HTMLElement;
+        "registerKeyboardShortcut": KeyboardShortcut;
+    }
     interface HTMLTaskInputMultiselectElement extends Components.TaskInputMultiselect, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLTaskInputMultiselectElementEventMap>(type: K, listener: (this: HTMLTaskInputMultiselectElement, ev: TaskInputMultiselectCustomEvent<HTMLTaskInputMultiselectElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLTaskInputMultiselectElementEventMap>(type: K, listener: (this: HTMLTaskInputMultiselectElement, ev: TaskInputMultiselectCustomEvent<HTMLTaskInputMultiselectElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLTaskInputMultiselectElement: {
         prototype: HTMLTaskInputMultiselectElement;
@@ -463,13 +552,37 @@ declare global {
         prototype: HTMLTaskInputOptionElement;
         new (): HTMLTaskInputOptionElement;
     };
+    interface HTMLTaskInputRadioElementEventMap {
+        "inputUpdated": HTMLElement;
+        "registerKeyboardShortcut": KeyboardShortcut;
+    }
     interface HTMLTaskInputRadioElement extends Components.TaskInputRadio, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLTaskInputRadioElementEventMap>(type: K, listener: (this: HTMLTaskInputRadioElement, ev: TaskInputRadioCustomEvent<HTMLTaskInputRadioElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLTaskInputRadioElementEventMap>(type: K, listener: (this: HTMLTaskInputRadioElement, ev: TaskInputRadioCustomEvent<HTMLTaskInputRadioElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLTaskInputRadioElement: {
         prototype: HTMLTaskInputRadioElement;
         new (): HTMLTaskInputRadioElement;
     };
+    interface HTMLTaskInputSelectElementEventMap {
+        "inputUpdated": HTMLElement;
+        "registerKeyboardShortcut": KeyboardShortcut;
+    }
     interface HTMLTaskInputSelectElement extends Components.TaskInputSelect, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLTaskInputSelectElementEventMap>(type: K, listener: (this: HTMLTaskInputSelectElement, ev: TaskInputSelectCustomEvent<HTMLTaskInputSelectElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLTaskInputSelectElementEventMap>(type: K, listener: (this: HTMLTaskInputSelectElement, ev: TaskInputSelectCustomEvent<HTMLTaskInputSelectElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLTaskInputSelectElement: {
         prototype: HTMLTaskInputSelectElement;
@@ -523,7 +636,22 @@ declare global {
         prototype: HTMLTaskMarkdownElement;
         new (): HTMLTaskMarkdownElement;
     };
+    interface HTMLTaskOverlayElementEventMap {
+        "close": any;
+        "closed": any;
+        "closing": any;
+        "opened": any;
+        "opening": any;
+    }
     interface HTMLTaskOverlayElement extends Components.TaskOverlay, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLTaskOverlayElementEventMap>(type: K, listener: (this: HTMLTaskOverlayElement, ev: TaskOverlayCustomEvent<HTMLTaskOverlayElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLTaskOverlayElementEventMap>(type: K, listener: (this: HTMLTaskOverlayElement, ev: TaskOverlayCustomEvent<HTMLTaskOverlayElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLTaskOverlayElement: {
         prototype: HTMLTaskOverlayElement;
@@ -541,7 +669,19 @@ declare global {
         prototype: HTMLTaskRowElement;
         new (): HTMLTaskRowElement;
     };
+    interface HTMLTaskStepElementEventMap {
+        "cardReadyToSubmit": boolean;
+        "cardClicked": HTMLElement;
+    }
     interface HTMLTaskStepElement extends Components.TaskStep, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLTaskStepElementEventMap>(type: K, listener: (this: HTMLTaskStepElement, ev: TaskStepCustomEvent<HTMLTaskStepElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLTaskStepElementEventMap>(type: K, listener: (this: HTMLTaskStepElement, ev: TaskStepCustomEvent<HTMLTaskStepElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLTaskStepElement: {
         prototype: HTMLTaskStepElement;
@@ -553,7 +693,20 @@ declare global {
         prototype: HTMLTaskStepsElement;
         new (): HTMLTaskStepsElement;
     };
+    interface HTMLTaskSubmitElementEventMap {
+        "registerKeyboardShortcut": KeyboardShortcut;
+        "showCorrections": any;
+        "taskSubmit": any;
+    }
     interface HTMLTaskSubmitElement extends Components.TaskSubmit, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLTaskSubmitElementEventMap>(type: K, listener: (this: HTMLTaskSubmitElement, ev: TaskSubmitCustomEvent<HTMLTaskSubmitElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLTaskSubmitElementEventMap>(type: K, listener: (this: HTMLTaskSubmitElement, ev: TaskSubmitCustomEvent<HTMLTaskSubmitElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLTaskSubmitElement: {
         prototype: HTMLTaskSubmitElement;
@@ -570,6 +723,18 @@ declare global {
     var HTMLTaskTagElement: {
         prototype: HTMLTaskTagElement;
         new (): HTMLTaskTagElement;
+    };
+    interface HTMLTaskTelemetryElement extends Components.TaskTelemetry, HTMLStencilElement {
+    }
+    var HTMLTaskTelemetryElement: {
+        prototype: HTMLTaskTelemetryElement;
+        new (): HTMLTaskTelemetryElement;
+    };
+    interface HTMLTaskTelemetryAttributeElement extends Components.TaskTelemetryAttribute, HTMLStencilElement {
+    }
+    var HTMLTaskTelemetryAttributeElement: {
+        prototype: HTMLTaskTelemetryAttributeElement;
+        new (): HTMLTaskTelemetryAttributeElement;
     };
     interface HTMLTaskTooltipElement extends Components.TaskTooltip, HTMLStencilElement {
     }
@@ -623,6 +788,8 @@ declare global {
         "task-submit": HTMLTaskSubmitElement;
         "task-summary": HTMLTaskSummaryElement;
         "task-tag": HTMLTaskTagElement;
+        "task-telemetry": HTMLTaskTelemetryElement;
+        "task-telemetry-attribute": HTMLTaskTelemetryAttributeElement;
         "task-tooltip": HTMLTaskTooltipElement;
         "task-var": HTMLTaskVarElement;
     }
@@ -878,7 +1045,7 @@ declare namespace LocalJSX {
     interface TaskStep {
         "active"?: boolean;
         "label"?: string;
-        "onCardClicked"?: (event: TaskStepCustomEvent<TaskStep>) => void;
+        "onCardClicked"?: (event: TaskStepCustomEvent<HTMLElement>) => void;
         "onCardReadyToSubmit"?: (event: TaskStepCustomEvent<boolean>) => void;
     }
     interface TaskSteps {
@@ -902,6 +1069,14 @@ declare namespace LocalJSX {
         "removable"?: boolean;
         "round"?: boolean;
         "small"?: boolean;
+    }
+    interface TaskTelemetry {
+        "heartbeatEndpoint"?: string;
+        "heartbeatInterval"?: number;
+        "name"?: string;
+        "submitEndpoint"?: string;
+    }
+    interface TaskTelemetryAttribute {
     }
     interface TaskTooltip {
         "icon"?: string;
@@ -950,6 +1125,8 @@ declare namespace LocalJSX {
         "task-submit": TaskSubmit;
         "task-summary": TaskSummary;
         "task-tag": TaskTag;
+        "task-telemetry": TaskTelemetry;
+        "task-telemetry-attribute": TaskTelemetryAttribute;
         "task-tooltip": TaskTooltip;
         "task-var": TaskVar;
     }
@@ -997,6 +1174,8 @@ declare module "@stencil/core" {
             "task-submit": LocalJSX.TaskSubmit & JSXBase.HTMLAttributes<HTMLTaskSubmitElement>;
             "task-summary": LocalJSX.TaskSummary & JSXBase.HTMLAttributes<HTMLTaskSummaryElement>;
             "task-tag": LocalJSX.TaskTag & JSXBase.HTMLAttributes<HTMLTaskTagElement>;
+            "task-telemetry": LocalJSX.TaskTelemetry & JSXBase.HTMLAttributes<HTMLTaskTelemetryElement>;
+            "task-telemetry-attribute": LocalJSX.TaskTelemetryAttribute & JSXBase.HTMLAttributes<HTMLTaskTelemetryAttributeElement>;
             "task-tooltip": LocalJSX.TaskTooltip & JSXBase.HTMLAttributes<HTMLTaskTooltipElement>;
             "task-var": LocalJSX.TaskVar & JSXBase.HTMLAttributes<HTMLTaskVarElement>;
         }

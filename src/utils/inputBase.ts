@@ -1,9 +1,7 @@
 import { EventEmitter } from '@stencil/core';
-import { getAnswerCorrectionElement, getAnswerElement } from './utils';
+import { CallbackFunction, getAnswerCorrectionElement, getAnswerElement } from './utils';
 import { TaskAnswer } from '../components/task-answer/task-answer';
 import { TaskAnswerCorrection } from '../components/task-answer-correction/task-answer-correction';
-
-export type CallbackFunction = (this: Window, ev: Event) => any
 
 export interface Input {
   name: string

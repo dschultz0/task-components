@@ -62,3 +62,5 @@ export function isKeyboardClick(event: KeyboardEvent) {
 export function isArrowKey(event: KeyboardEvent) {
   return ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].indexOf(event.key) >= 0
 }
+
+export type CallbackFunction = (this: Window, ev: Event) => any

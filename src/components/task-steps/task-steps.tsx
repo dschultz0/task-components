@@ -24,9 +24,10 @@ export class TaskSteps {
   }
 
   @Listen("cardClicked")
-  cardClickedHandler(event: CustomEvent<TaskStep>) {
-    if (this.steps.includes(event.detail as TaskStep)) {
-      this.activeStep = this.steps.indexOf(event.detail as TaskStep)
+  cardClickedHandler(event: CustomEvent<HTMLElement>) {
+    const target = (event.detail as unknown) as TaskStep
+    if (this.steps.includes(target)) {
+      this.activeStep = this.steps.indexOf(target)
     }
   }
 

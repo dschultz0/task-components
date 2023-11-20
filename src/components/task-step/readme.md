@@ -15,10 +15,10 @@
 
 ## Events
 
-| Event               | Description | Type                    |
-| ------------------- | ----------- | ----------------------- |
-| `cardClicked`       |             | `CustomEvent<TaskStep>` |
-| `cardReadyToSubmit` |             | `CustomEvent<boolean>`  |
+| Event               | Description | Type                       |
+| ------------------- | ----------- | -------------------------- |
+| `cardClicked`       |             | `CustomEvent<HTMLElement>` |
+| `cardReadyToSubmit` |             | `CustomEvent<boolean>`     |
 
 
 ## Methods

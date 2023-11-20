@@ -10,9 +10,9 @@ export class TaskStep {
   @Prop() label: string
   @Prop() active: boolean
   @State() open: boolean = false
-  @Element() host;
+  @Element() host: HTMLElement;
   @Event() cardReadyToSubmit: EventEmitter<boolean>;
-  @Event() cardClicked: EventEmitter<TaskStep>;
+  @Event() cardClicked: EventEmitter<HTMLElement>;
 
   componentWillLoad() {
     this.open = this.active

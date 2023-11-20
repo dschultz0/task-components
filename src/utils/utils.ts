@@ -64,3 +64,15 @@ export function isArrowKey(event: KeyboardEvent) {
 }
 
 export type CallbackFunction = (this: Window, ev: Event) => any
+
+const MARK_NAMESPACE = "tc"
+
+export function mark(name: string) {
+  // console.log(`Logging mark: ${name}`)
+  window.performance.mark(`${MARK_NAMESPACE}:${name}`)
+}
+
+export function getMarks() {
+  return window.performance.getEntriesByType("mark")
+    .filter(mark => mark.name.startsWith(`${MARK_NAMESPACE}:`))
+}

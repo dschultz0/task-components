@@ -1,5 +1,6 @@
 import { Component, Host, h, Prop, Element, State } from '@stencil/core';
-import { attachInputListener, CallbackFunction, InputEventTarget } from '../../utils/inputBase';
+import { attachInputListener, InputEventTarget } from '../../utils/inputBase';
+import { CallbackFunction } from '../../utils/utils';
 
 @Component({
   tag: 'task-var',

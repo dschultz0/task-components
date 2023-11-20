@@ -1,7 +1,8 @@
 import { Host, Component, h, Prop, State, Event, EventEmitter, Element, Method, Watch } from '@stencil/core';
-import { Input, CallbackFunction, InputBase, InputEventTarget } from '../../utils/inputBase';
+import { Input, InputBase, InputEventTarget } from '../../utils/inputBase';
 import { TaskAnswer } from '../task-answer/task-answer';
 import { TaskAnswerCorrection } from '../task-answer-correction/task-answer-correction';
+import { CallbackFunction } from '../../utils/utils';
 
 
 @Component({

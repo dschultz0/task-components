@@ -1,6 +1,6 @@
 import { Component, Event, EventEmitter, h, Host, Listen, Method, Prop, State, Element } from '@stencil/core';
-import { getFormElement, inputsWithAnswers, requiredChildInputs, CallbackFunction } from '../../utils/inputBase';
-import { ignoreKeypress, KeyboardShortcut } from '../../utils/utils';
+import { getFormElement, inputsWithAnswers, requiredChildInputs } from '../../utils/inputBase';
+import { CallbackFunction, ignoreKeypress, KeyboardShortcut } from '../../utils/utils';
 
 @Component({
   tag: 'task-submit',

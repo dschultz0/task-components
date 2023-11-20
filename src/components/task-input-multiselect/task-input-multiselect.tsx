@@ -1,6 +1,7 @@
 import { Component, Host, h, Prop, State, Event, Element, EventEmitter, Method, Watch } from '@stencil/core';
-import { Input, CallbackFunction, InputBase, InputEventTarget } from '../../utils/inputBase';
+import { Input, InputBase, InputEventTarget } from '../../utils/inputBase';
 import {
+  CallbackFunction,
   gatherInputOptions,
   inputOptionKeyboardShortcuts,
   KeyboardShortcut,

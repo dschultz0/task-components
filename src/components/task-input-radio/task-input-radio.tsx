@@ -1,9 +1,10 @@
 import { Component, Host, h, Prop, Listen, Event, EventEmitter, Watch, Method, Fragment, State, Element } from '@stencil/core';
-import { Input, CallbackFunction, InputBase, InputEventTarget } from '../../utils/inputBase';
+import { Input, InputBase, InputEventTarget } from '../../utils/inputBase';
 import { TaskAnswer } from '../task-answer/task-answer';
 import { TaskAnswerCorrection } from '../task-answer-correction/task-answer-correction';
 
 import {
+  CallbackFunction,
   gatherInputOptions,
   ignoreKeypress,
   inputOptionKeyboardShortcuts,

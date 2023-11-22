@@ -1047,6 +1047,10 @@
           "description": ""
         },
         {
+          "name": "local-storage-id",
+          "description": ""
+        },
+        {
           "name": "name",
           "description": ""
         },
@@ -1062,7 +1066,16 @@
         "kind": "markdown",
         "value": ""
       },
-      "attributes": []
+      "attributes": [
+        {
+          "name": "name",
+          "description": ""
+        },
+        {
+          "name": "value",
+          "description": ""
+        }
+      ]
     },
     {
       "name": "task-tooltip",

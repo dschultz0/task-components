@@ -1,4 +1,4 @@
-import { Component, Host, h } from '@stencil/core';
+import { Component, Host, h, Prop } from '@stencil/core';
 
 @Component({
   tag: 'task-telemetry-attribute',
@@ -6,6 +6,8 @@ import { Component, Host, h } from '@stencil/core';
   shadow: true,
 })
 export class TaskTelemetryAttribute {
+  @Prop() name: string
+  @Prop() value: string
 
   render() {
     return (

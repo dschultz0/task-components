@@ -6,6 +6,17 @@ type Mark = {
   name: string
   time: number
 }
+type TelemetryValue = {
+  timeMs: object,
+  markCounts: object,
+  attributes: object,
+  startTimestamp: string
+}
+type StoredTelemetry = {
+  timeMs: object,
+  markCounts: object,
+  priorData?: StoredTelemetry
+}
 
 @Component({
   tag: 'task-telemetry',
@@ -18,17 +29,23 @@ export class TaskTelemetry {
   @Prop() heartbeatEndpoint: string
   @Prop() heartbeatInterval: number = 10
   @Prop() localStorageId: string
-  @State() value: object
-  @State() attributes: object = {}
-  @State() recordingActive: boolean = true
-  @State() idle: boolean = false
-  @State() startTimestamp: string
+  @State() value: TelemetryValue
   @Element() host: HTMLElement
   fetchMethod: FetchFunction
+  attributes: object = {}
+  recordingActive: boolean = true
+  idle: boolean = false
   internalHeartbeat: number
   heartbeat: number
-  priorData: object
+  priorData: StoredTelemetry
+  lastHeartbeatTime: object = {}
+  startTimestamp: string
 
+  /*
+   When connected to the DOM two heartbeats are active. The internal heartbeat triggers updating the telemetry
+   value and optionally writing it to localStorage. The second can send a heartbeat message to the specified
+   endpoint.
+   */
   connectedCallback() {
     this.internalHeartbeat = window.setInterval(() => {
       this.persistData()
@@ -37,14 +54,20 @@ export class TaskTelemetry {
       this.sendHeartbeat()
     }, this.heartbeatInterval * 1000)
   }
+  disconnectedCallback() {
+    window.clearInterval(this.internalHeartbeat)
+    window.clearInterval(this.heartbeat)
+  }
 
+  /*
+   Default listeners for expected mark events
+   */
   @Listen('focus', {target: 'window'})
   @Listen('blur', {target: 'window'})
   markFocusEventHandler(event: Event) {
     this.idle = event.type !== 'focus'
     this.markEventHandler(event)
   }
-
   @Listen('all-crowd-elements-ready', {target: 'document'})
   @Listen('keypress', {target: 'document'})
   @Listen('click', {target: 'document'})
@@ -53,7 +76,9 @@ export class TaskTelemetry {
     mark(event.type)
   }
 
-  // This allows us to toggle to an alternate fetch method when provided
+  /*
+   This allows us to toggle to an alternate fetch method when provided
+   */
   fetcher(input: RequestInfo | URL, init?: RequestInit) {
     if (this.fetchMethod) {
       return this.fetchMethod(input, init)
@@ -63,14 +88,17 @@ export class TaskTelemetry {
   }
 
   sendHeartbeat() {
-    // console.log("send heartbeat")
-    if (this.heartbeatEndpoint) {
+    if (this.heartbeatEndpoint && this.recordingActive) {
+      this.persistData()
+      const timeDelta = subtractMeasures(this.value.timeMs, this.lastHeartbeatTime)
+      this.lastHeartbeatTime = this.value.timeMs
       return this.fetcher(this.heartbeatEndpoint, {
         method: "POST",
         body: JSON.stringify({
           attributes: this.attributes,
           timestamp: new Date(Date.now()).toISOString(),
-          idle: this.idle
+          idle: this.idle,
+          timeMs: timeDelta
         }),
         headers: {
           "Accept": "application/json",
@@ -83,10 +111,11 @@ export class TaskTelemetry {
   @Listen('submit', {target: 'document', capture: true})
   handleSubmit() {
     this.persistData(true)
+    const active = this.recordingActive
     this.recordingActive = false
 
     // console.log("send telemetry")
-    if (this.submitEndpoint) {
+    if (this.submitEndpoint && active) {
       return this.fetcher(this.submitEndpoint, {
         method: "POST",
         body: JSON.stringify(this.value),
@@ -109,7 +138,7 @@ export class TaskTelemetry {
       // console.log(marks)
 
       // compute time spent
-      let time = {
+      let timeMs = {
         task: 0,
         blur: 0,
         load: 0
@@ -120,12 +149,12 @@ export class TaskTelemetry {
       for (let m of marks) {
         switch (m.name) {
           case "start":
-            time.task = now - m.time
+            timeMs.task = now - m.time
             lastBlurTime = m.time
-            time.load = m.time
+            timeMs.load = m.time
             break
           case "focus":
-            time.blur += (m.time - lastBlurTime)
+            timeMs.blur += (m.time - lastBlurTime)
             isBlurred = false
             break
           case "blur":
@@ -135,9 +164,9 @@ export class TaskTelemetry {
         }
       }
       if (isBlurred) {
-        time.blur += (now - lastBlurTime)
+        timeMs.blur += (now - lastBlurTime)
       }
-      time["focus"] = time.task - time.blur
+      timeMs["focus"] = timeMs.task - timeMs.blur
       // console.log(time)
 
       // count relevant marks
@@ -169,7 +198,7 @@ export class TaskTelemetry {
           localStorage.removeItem(this.localStorageId)
         } else {
           const data = {
-            time,
+            timeMs,
             markCounts,
             priorData: this.priorData
           }
@@ -177,8 +206,8 @@ export class TaskTelemetry {
         }
       }
       this.value = {
-        time: this.priorData ? sumMeasures(time, this.priorData["time"]) : time,
-        markCounts: this.priorData ? sumMeasures(markCounts, this.priorData["markCounts"]) : markCounts,
+        timeMs: this.priorData ? sumMeasures(timeMs, this.priorData.timeMs, {recentTask: timeMs.task}) : timeMs,
+        markCounts: this.priorData ? sumMeasures(markCounts, this.priorData.markCounts) : markCounts,
         attributes: this.attributes,
         startTimestamp: this.startTimestamp
       }
@@ -190,21 +219,17 @@ export class TaskTelemetry {
     this.fetchMethod = func as FetchFunction
   }
 
-  disconnectedCallback() {
-    window.clearInterval(this.internalHeartbeat)
-    window.clearInterval(this.heartbeat)
-  }
-
   componentWillLoad() {
     // Grab "priorTime" and "priorMarkCounts" from any stored values with this key
     if (this.localStorageId) {
       const priorDataString = localStorage.getItem(this.localStorageId)
       if (priorDataString) {
         this.priorData = JSON.parse(priorDataString)
-        if ("priorData" in this.priorData && this.priorData.priorData) {
+        // flatten if multiple restarts
+        if (this.priorData.priorData) {
           this.priorData = {
-            time: sumMeasures(this.priorData["time"], this.priorData.priorData["time"]),
-            markCounts: sumMeasures(this.priorData["markCounts"], this.priorData.priorData["markCounts"])
+            timeMs: sumMeasures(this.priorData.timeMs, this.priorData.priorData.timeMs),
+            markCounts: sumMeasures(this.priorData.markCounts, this.priorData.priorData.markCounts)
           }
         }
       }
@@ -212,7 +237,6 @@ export class TaskTelemetry {
   }
 
   componentDidLoad() {
-    console.log("componentDidLoad")
     mark("start")
     this.startTimestamp = new Date(Date.now()).toISOString()
     const childAttributes = Array.from(this.host.querySelectorAll("task-telemetry-attribute").values())
@@ -227,7 +251,7 @@ export class TaskTelemetry {
   render() {
     return (
       <Host>
-        <input type="hidden" name="telemetry" value={JSON.stringify(this.value)}/>
+        <input type="hidden" name={this.name} value={JSON.stringify(this.value)}/>
         <slot></slot>
       </Host>
     )
@@ -255,4 +279,14 @@ function sumMeasures(...objs: object[]) {
     }
     return a;
   }, {});
+}
+
+function subtractMeasures(a: object, b: object) {
+  const delta = {...a}
+  for (let k in b) {
+    if (delta.hasOwnProperty(k)) {
+      delta[k] = delta[k] - b[k]
+    }
+  }
+  return delta
 }

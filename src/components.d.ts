@@ -283,6 +283,7 @@ export namespace Components {
     interface TaskTelemetry {
         "heartbeatEndpoint": string;
         "heartbeatInterval": number;
+        "includeResponse": boolean;
         "localStorageId": string;
         "name": string;
         "setFetchMethod": (func: Function) => Promise<void>;
@@ -1076,6 +1077,7 @@ declare namespace LocalJSX {
     interface TaskTelemetry {
         "heartbeatEndpoint"?: string;
         "heartbeatInterval"?: number;
+        "includeResponse"?: boolean;
         "localStorageId"?: string;
         "name"?: string;
         "submitEndpoint"?: string;

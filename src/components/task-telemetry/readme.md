@@ -7,13 +7,14 @@
 
 ## Properties
 
-| Property            | Attribute            | Description | Type     | Default       |
-| ------------------- | -------------------- | ----------- | -------- | ------------- |
-| `heartbeatEndpoint` | `heartbeat-endpoint` |             | `string` | `undefined`   |
-| `heartbeatInterval` | `heartbeat-interval` |             | `number` | `10`          |
-| `localStorageId`    | `local-storage-id`   |             | `string` | `undefined`   |
-| `name`              | `name`               |             | `string` | `"telemetry"` |
-| `submitEndpoint`    | `submit-endpoint`    |             | `string` | `undefined`   |
+| Property            | Attribute            | Description | Type      | Default       |
+| ------------------- | -------------------- | ----------- | --------- | ------------- |
+| `heartbeatEndpoint` | `heartbeat-endpoint` |             | `string`  | `undefined`   |
+| `heartbeatInterval` | `heartbeat-interval` |             | `number`  | `10`          |
+| `includeResponse`   | `include-response`   |             | `boolean` | `false`       |
+| `localStorageId`    | `local-storage-id`   |             | `string`  | `undefined`   |
+| `name`              | `name`               |             | `string`  | `"telemetry"` |
+| `submitEndpoint`    | `submit-endpoint`    |             | `string`  | `undefined`   |
 
 
 ## Methods

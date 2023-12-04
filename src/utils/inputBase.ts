@@ -8,7 +8,6 @@ export interface Input {
   label: string
   labelClass: string
   required: boolean
-  active: boolean
   disabled: boolean
   disableIf: string
   requireIf: string
@@ -21,7 +20,7 @@ export interface Input {
   preventChanges: boolean
   answer: TaskAnswer
   answerCorrection: TaskAnswerCorrection
-  inputUpdated: EventEmitter<HTMLElement>
+  inputUpdated: EventEmitter<InputUpdatedEvent>
   host: HTMLElement
   input: HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement
   fromInput: InputEventTarget;
@@ -37,6 +36,11 @@ export interface Input {
 }
 
 export type InputEventTarget = Input & EventTarget
+export type InputUpdatedEvent = {
+  input: HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement,
+  form: HTMLFormElement,
+  advance?: boolean
+}
 
 export function childInputs(parent: HTMLElement) {
   return (Array.from(parent.querySelectorAll("*")).filter(element => {
@@ -159,7 +163,7 @@ export function findInput(name: string): Promise<InputEventTarget> {
   })
 }
 
-export function attachInputListener(name: string, callback: CallbackFunction, type="inputUpdated"): Promise<InputEventTarget> {
+export function attachInputListener(name: string, callback: CallbackFunction, type="tc:input"): Promise<InputEventTarget> {
   return findInput(name).then((input: InputEventTarget) => {
     input.addEventListener(type, callback)
     return input
@@ -189,7 +193,7 @@ export abstract class InputBase implements Input {
     if (this.displayOn && this.host.parentElement.tagName.startsWith("TASK-INPUT")) {
       this.handleParentElementUpdate()
       this.displayOnCallback = this.handleParentElementUpdate.bind(this)
-      this.host.parentElement.addEventListener("inputUpdated", this.displayOnCallback)
+      this.host.parentElement.addEventListener("tc:input", this.displayOnCallback)
     }
   }
   disconnectedCallback() {
@@ -200,10 +204,10 @@ export abstract class InputBase implements Input {
       this.form.removeEventListener("input", this.formCallback)
     }
     if (this.displayOnCallback) {
-      this.host.parentElement.removeEventListener("inputUpdated", this.displayOnCallback)
+      this.host.parentElement.removeEventListener("tc:input", this.displayOnCallback)
     }
     if (this.fromInput && this.fromInputUpdated) {
-      // this.fromInput.removeEventListener("inputUpdated", this.fromInputUpdated)
+      // this.fromInput.removeEventListener("tc:input", this.fromInputUpdated)
     }
   }
   formUpdated() {
@@ -220,7 +224,7 @@ export abstract class InputBase implements Input {
           const previous = this.hidden
           this.hidden = !result
           if (this.hidden !== previous) {
-            this.inputUpdated.emit(this.form)
+            this.inputUpdated.emit({input: this.input, form: this.form})
           }
         }
       }
@@ -230,7 +234,7 @@ export abstract class InputBase implements Input {
           const previous = this.disabled
           this.disabled = result
           if (this.disabled !== previous) {
-            this.inputUpdated.emit(this.form)
+            this.inputUpdated.emit({input: this.input, form: this.form})
           }
         }
       }
@@ -263,7 +267,7 @@ export abstract class InputBase implements Input {
     const previous = this.hidden
     this.hidden = parent.value !== this.displayOn || parent.hidden
     if (this.hidden !== previous) {
-      this.inputUpdated.emit(this.form)
+      this.inputUpdated.emit({input: this.input, form: this.form})
     }
   }
 
@@ -288,7 +292,7 @@ export abstract class InputBase implements Input {
       if (this.value !== this.answer.value) {
         this.answerCorrection.displayCorrection = value
         if (value) {
-          this.inputUpdated.emit(this.form)
+          this.inputUpdated.emit({input: this.input, form: this.form})
         }
       }
     }
@@ -297,10 +301,9 @@ export abstract class InputBase implements Input {
   //@Watch("value")
   //@Watch("required")
   handleValueUpdate(_value: string) {
-    this.inputUpdated.emit(this.form)
+    this.inputUpdated.emit({input: this.input, form: this.form})
   }
 
-  active: boolean;
   answer: TaskAnswer;
   answerCorrection: TaskAnswerCorrection;
   disabled: boolean;
@@ -312,7 +315,7 @@ export abstract class InputBase implements Input {
   input: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
   fromInput: InputEventTarget;
   form: HTMLFormElement
-  inputUpdated: EventEmitter<HTMLElement>;
+  inputUpdated: EventEmitter<InputUpdatedEvent>;
   label: string;
   labelClass: string;
   name: string;

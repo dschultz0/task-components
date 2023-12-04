@@ -1,5 +1,5 @@
-import { Component, Host, h, Prop, Event, EventEmitter, Listen, Element, Watch, Method } from '@stencil/core';
-import { childInputs, requiredChildInputs } from '../../utils/inputBase';
+import { Component, Host, h, Prop, Event, EventEmitter, Listen, Element, Method } from '@stencil/core';
+import { requiredChildInputs } from '../../utils/inputBase';
 
 @Component({
   tag: 'task-card',
@@ -7,26 +7,22 @@ import { childInputs, requiredChildInputs } from '../../utils/inputBase';
   scoped: true,
 })
 export class TaskCard {
-  @Prop() active: boolean;
-  @Prop() width: number;
+  @Prop() label: string
+  @Prop() width: string;
+  @Prop({mutable: true}) collapsed: boolean;
+  @Prop() collapsable: boolean;
   @Element() host;
   @Event() cardClicked: EventEmitter<TaskCard>;
   @Event() cardReadyToSubmit: EventEmitter<boolean>;
-  // TODO: Props for width and other configurable values
 
   @Listen("click", { capture: true })
-  clickHandler() {
+  clickHandler(e) {
+    console.log(e.target)
     this.cardClicked.emit(this.host)
+    this.host.focus()
   }
 
-  @Watch("active")
-  handleActiveUpdate(newValue: boolean) {
-    for (let input of childInputs(this.host)) {
-      input.active = newValue
-    }
-  }
-
-  @Listen("inputUpdated")
+  @Listen("tc:input")
   handleInputUpdated() {
     this.readyToSubmit().then(ready => {
       this.cardReadyToSubmit.emit(ready)
@@ -49,10 +45,18 @@ export class TaskCard {
     }
   }
 
+  handleOpenToggle() {
+    this.collapsed = !this.collapsed
+    if (!this.collapsed) {
+      this.cardClicked.emit(this.host)
+    }
+  }
+
   render() {
     return (
-      <Host class={this.active ? "active" : ""} style={this.hostStyle()}>
-        <slot></slot>
+      <Host style={this.hostStyle()} tabindex={0}>
+        {this.label && this.collapsable && <h3 onClick={this.handleOpenToggle.bind(this)}><task-icon icon={this.collapsed ? "caret-right" : "caret-down"}/>{this.label}</h3>}
+        <div class={this.collapsed && "content-hidden"}><slot></slot></div>
       </Host>
     );
   }

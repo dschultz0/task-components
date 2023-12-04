@@ -9,7 +9,6 @@
 
 | Property            | Attribute            | Description | Type      | Default     |
 | ------------------- | -------------------- | ----------- | --------- | ----------- |
-| `active`            | `active`             |             | `boolean` | `undefined` |
 | `cols`              | `cols`               |             | `number`  | `undefined` |
 | `disableIf`         | `disable-if`         |             | `string`  | `undefined` |
 | `disabled`          | `disabled`           |             | `boolean` | `undefined` |
@@ -33,9 +32,9 @@
 
 ## Events
 
-| Event          | Description | Type                       |
-| -------------- | ----------- | -------------------------- |
-| `inputUpdated` |             | `CustomEvent<HTMLElement>` |
+| Event      | Description | Type                                                                                                                              |
+| ---------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `tc:input` |             | `CustomEvent<{ input: HTMLInputElement \| HTMLSelectElement \| HTMLTextAreaElement; form: HTMLFormElement; advance?: boolean; }>` |
 
 
 ## Methods

@@ -9,7 +9,6 @@
 
 | Property            | Attribute            | Description | Type      | Default     |
 | ------------------- | -------------------- | ----------- | --------- | ----------- |
-| `active`            | `active`             |             | `boolean` | `undefined` |
 | `answerTag`         | `answer-tag`         |             | `string`  | `"Answer"`  |
 | `disableIf`         | `disable-if`         |             | `string`  | `undefined` |
 | `disabled`          | `disabled`           |             | `boolean` | `undefined` |
@@ -19,6 +18,7 @@
 | `inline`            | `inline`             |             | `boolean` | `undefined` |
 | `label`             | `label`              |             | `string`  | `undefined` |
 | `labelClass`        | `label-class`        |             | `string`  | `undefined` |
+| `labelShortcuts`    | `label-shortcuts`    |             | `boolean` | `undefined` |
 | `mode`              | `mode`               |             | `string`  | `"radio"`   |
 | `name`              | `name`               |             | `string`  | `undefined` |
 | `requireIf`         | `require-if`         |             | `string`  | `undefined` |
@@ -30,10 +30,10 @@
 
 ## Events
 
-| Event                      | Description | Type                                                            |
-| -------------------------- | ----------- | --------------------------------------------------------------- |
-| `inputUpdated`             |             | `CustomEvent<HTMLElement>`                                      |
-| `registerKeyboardShortcut` |             | `CustomEvent<{ label: string; keys: string; value?: string; }>` |
+| Event                      | Description | Type                                                                                                                              |
+| -------------------------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `registerKeyboardShortcut` |             | `CustomEvent<{ label: string; keys: string; value?: string; }>`                                                                   |
+| `tc:input`                 |             | `CustomEvent<{ input: HTMLInputElement \| HTMLSelectElement \| HTMLTextAreaElement; form: HTMLFormElement; advance?: boolean; }>` |
 
 
 ## Methods

@@ -1,5 +1,5 @@
 import { Host, Component, h, Prop, State, Event, EventEmitter, Element, Method, Watch } from '@stencil/core';
-import { Input, InputBase, InputEventTarget } from '../../utils/inputBase';
+import { Input, InputBase, InputEventTarget, InputUpdatedEvent } from '../../utils/inputBase';
 import { TaskAnswer } from '../task-answer/task-answer';
 import { TaskAnswerCorrection } from '../task-answer-correction/task-answer-correction';
 import { CallbackFunction } from '../../utils/utils';
@@ -22,8 +22,6 @@ export class TaskInput implements Input {
   @Prop() labelClass: string
   // Indicates that the field is required and must be provided before submit.
   @Prop({mutable: true}) required: boolean
-  // An attribute that is used in card layouts to indicate that this input is active.
-  @Prop() active: boolean
   // Indicates that the input is disabled and can't be edited
   // Note that it appears crowd-form ignores disabled inputs, so we have to use an alt approach here
   @Prop({mutable: true}) disabled: boolean
@@ -43,7 +41,7 @@ export class TaskInput implements Input {
   @State() preventChanges: boolean
   @State() answer: TaskAnswer
   @State() answerCorrection: TaskAnswerCorrection
-  @Event() inputUpdated: EventEmitter<HTMLElement>
+  @Event({eventName: "tc:input"}) inputUpdated: EventEmitter<InputUpdatedEvent>
   @Element() host: HTMLElement
   input!: HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement
   fromInput!: InputEventTarget

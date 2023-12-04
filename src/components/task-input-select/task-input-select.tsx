@@ -1,8 +1,8 @@
 import { Component, Host, h, Event, EventEmitter, Prop, State, Element, Method, Watch, Listen } from '@stencil/core';
-import { Input, InputBase, InputEventTarget } from '../../utils/inputBase';
+import { Input, InputBase, InputEventTarget, InputUpdatedEvent } from '../../utils/inputBase';
 import {
   CallbackFunction,
-  gatherInputOptions, ignoreKeypress,
+  gatherInputOptions,
   inputOptionKeyboardShortcuts,
   KeyboardShortcut,
 } from '../../utils/utils';
@@ -26,8 +26,6 @@ export class TaskInputSelect implements Input {
   @Prop() labelClass: string
   // Indicates that the field is required and must be provided before submit.
   @Prop({mutable: true}) required: boolean
-  // An attribute that is used in card layouts to indicate that this input is active.
-  @Prop() active: boolean
   // Indicates that the input is disabled and can't be edited
   // Note that it appears crowd-form ignores disabled inputs, so we have to use an alt approach here
   @Prop({mutable: true}) disabled: boolean
@@ -47,7 +45,7 @@ export class TaskInputSelect implements Input {
   @State() preventChanges: boolean
   @State() answer: TaskAnswer
   @State() answerCorrection: TaskAnswerCorrection
-  @Event() inputUpdated: EventEmitter<HTMLElement>
+  @Event({eventName: "tc:input"}) inputUpdated: EventEmitter<InputUpdatedEvent>
   @Element() host: HTMLElement
   input!: HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement
   fromInput!: InputEventTarget
@@ -90,12 +88,16 @@ export class TaskInputSelect implements Input {
 
   @Listen("keypress", { target: "document" })
   keypressHandler(event: KeyboardEvent) {
-    if (event.key in this.shortcutMap && this.active && !ignoreKeypress() && !this.disabled && !this.preventChanges) {
+    if (event.key in this.shortcutMap &&
+      (document.activeElement === this.host || document.activeElement.contains(this.host)) &&
+      !this.disabled &&
+      !this.preventChanges
+    ) {
       const advance = this.value === this.shortcutMap[event.key]
       this.value = this.shortcutMap[event.key]
       // If the value doesn't change as a result of the key press, trigger card advance from here
       if (advance) {
-        this.inputUpdated.emit(this.input.form)
+        this.inputUpdated.emit({input: this.input, form: this.form})
       }
       // The following addresses an issue observed with dependent form elements
       // not receiving form updated events when the value is changed via keypress

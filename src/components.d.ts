@@ -6,8 +6,10 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { KeyboardShortcut } from "./utils/utils";
+import { InputUpdatedEvent } from "./utils/inputBase";
 import { TaskCard } from "./components/task-card/task-card";
 export { KeyboardShortcut } from "./utils/utils";
+export { InputUpdatedEvent } from "./utils/inputBase";
 export { TaskCard } from "./components/task-card/task-card";
 export namespace Components {
     interface TaskAnswer {
@@ -48,7 +50,6 @@ export namespace Components {
         "rightIcon": string;
         "selected": boolean;
         "small": boolean;
-        "tabindex": string;
         "target": string;
         "text": string;
         "type": string;
@@ -64,9 +65,11 @@ export namespace Components {
         "intent": string;
     }
     interface TaskCard {
-        "active": boolean;
+        "collapsable": boolean;
+        "collapsed": boolean;
+        "label": string;
         "readyToSubmit": () => Promise<boolean>;
-        "width": number;
+        "width": string;
     }
     interface TaskCardList {
         "advanceWhenComplete": boolean;
@@ -118,7 +121,6 @@ export namespace Components {
         "header": string;
     }
     interface TaskInput {
-        "active": boolean;
         "cols": number;
         "disableIf": string;
         "disabled": boolean;
@@ -143,7 +145,6 @@ export namespace Components {
         "valueFrom": string;
     }
     interface TaskInputMultiselect {
-        "active": boolean;
         "disableIf": string;
         "disabled": boolean;
         "displayIf": string;
@@ -168,7 +169,6 @@ export namespace Components {
         "value": string;
     }
     interface TaskInputRadio {
-        "active": boolean;
         "answerTag": string;
         "disableIf": string;
         "disabled": boolean;
@@ -178,6 +178,7 @@ export namespace Components {
         "inline": boolean;
         "label": string;
         "labelClass": string;
+        "labelShortcuts": boolean;
         "mode": string;
         "name": string;
         "readyToSubmit": () => Promise<any>;
@@ -190,7 +191,6 @@ export namespace Components {
         "valueFrom": string;
     }
     interface TaskInputSelect {
-        "active": boolean;
         "disableIf": string;
         "disabled": boolean;
         "displayIf": string;
@@ -254,18 +254,13 @@ export namespace Components {
     }
     interface TaskRow {
     }
-    interface TaskStep {
-        "active": boolean;
-        "label": string;
-        "readyToSubmit": () => Promise<boolean>;
-    }
     interface TaskSteps {
     }
     interface TaskSubmit {
         "disableUntilComplete": boolean;
         "disabled": boolean;
         "keyboardShortcut": string;
-        "refreshSubmitReady": () => Promise<void>;
+        "refreshSubmitReady": (form?: HTMLFormElement) => Promise<void>;
         "setShowCorrections": (value: boolean) => Promise<void>;
     }
     interface TaskSummary {
@@ -283,6 +278,7 @@ export namespace Components {
     interface TaskTelemetry {
         "heartbeatEndpoint": string;
         "heartbeatInterval": number;
+        "includeResponse": boolean;
         "localStorageId": string;
         "name": string;
         "setFetchMethod": (func: Function) => Promise<void>;
@@ -303,10 +299,6 @@ export namespace Components {
 export interface TaskAnswerCorrectionCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLTaskAnswerCorrectionElement;
-}
-export interface TaskButtonCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLTaskButtonElement;
 }
 export interface TaskCardCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -339,10 +331,6 @@ export interface TaskInputSelectCustomEvent<T> extends CustomEvent<T> {
 export interface TaskOverlayCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLTaskOverlayElement;
-}
-export interface TaskStepCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLTaskStepElement;
 }
 export interface TaskSubmitCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -384,19 +372,7 @@ declare global {
         prototype: HTMLTaskBodyElement;
         new (): HTMLTaskBodyElement;
     };
-    interface HTMLTaskButtonElementEventMap {
-        "click": any;
-        "focus": any;
-    }
     interface HTMLTaskButtonElement extends Components.TaskButton, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLTaskButtonElementEventMap>(type: K, listener: (this: HTMLTaskButtonElement, ev: TaskButtonCustomEvent<HTMLTaskButtonElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLTaskButtonElementEventMap>(type: K, listener: (this: HTMLTaskButtonElement, ev: TaskButtonCustomEvent<HTMLTaskButtonElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLTaskButtonElement: {
         prototype: HTMLTaskButtonElement;
@@ -515,7 +491,7 @@ declare global {
         new (): HTMLTaskInfoSectionElement;
     };
     interface HTMLTaskInputElementEventMap {
-        "inputUpdated": HTMLElement;
+        "tc:input": InputUpdatedEvent;
     }
     interface HTMLTaskInputElement extends Components.TaskInput, HTMLStencilElement {
         addEventListener<K extends keyof HTMLTaskInputElementEventMap>(type: K, listener: (this: HTMLTaskInputElement, ev: TaskInputCustomEvent<HTMLTaskInputElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -532,7 +508,7 @@ declare global {
         new (): HTMLTaskInputElement;
     };
     interface HTMLTaskInputMultiselectElementEventMap {
-        "inputUpdated": HTMLElement;
+        "tc:input": InputUpdatedEvent;
         "registerKeyboardShortcut": KeyboardShortcut;
     }
     interface HTMLTaskInputMultiselectElement extends Components.TaskInputMultiselect, HTMLStencilElement {
@@ -556,7 +532,7 @@ declare global {
         new (): HTMLTaskInputOptionElement;
     };
     interface HTMLTaskInputRadioElementEventMap {
-        "inputUpdated": HTMLElement;
+        "tc:input": InputUpdatedEvent;
         "registerKeyboardShortcut": KeyboardShortcut;
     }
     interface HTMLTaskInputRadioElement extends Components.TaskInputRadio, HTMLStencilElement {
@@ -574,7 +550,7 @@ declare global {
         new (): HTMLTaskInputRadioElement;
     };
     interface HTMLTaskInputSelectElementEventMap {
-        "inputUpdated": HTMLElement;
+        "tc:input": InputUpdatedEvent;
         "registerKeyboardShortcut": KeyboardShortcut;
     }
     interface HTMLTaskInputSelectElement extends Components.TaskInputSelect, HTMLStencilElement {
@@ -672,24 +648,6 @@ declare global {
         prototype: HTMLTaskRowElement;
         new (): HTMLTaskRowElement;
     };
-    interface HTMLTaskStepElementEventMap {
-        "cardReadyToSubmit": boolean;
-        "cardClicked": HTMLElement;
-    }
-    interface HTMLTaskStepElement extends Components.TaskStep, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLTaskStepElementEventMap>(type: K, listener: (this: HTMLTaskStepElement, ev: TaskStepCustomEvent<HTMLTaskStepElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLTaskStepElementEventMap>(type: K, listener: (this: HTMLTaskStepElement, ev: TaskStepCustomEvent<HTMLTaskStepElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLTaskStepElement: {
-        prototype: HTMLTaskStepElement;
-        new (): HTMLTaskStepElement;
-    };
     interface HTMLTaskStepsElement extends Components.TaskSteps, HTMLStencilElement {
     }
     var HTMLTaskStepsElement: {
@@ -786,7 +744,6 @@ declare global {
         "task-overlay": HTMLTaskOverlayElement;
         "task-progressbar": HTMLTaskProgressbarElement;
         "task-row": HTMLTaskRowElement;
-        "task-step": HTMLTaskStepElement;
         "task-steps": HTMLTaskStepsElement;
         "task-submit": HTMLTaskSubmitElement;
         "task-summary": HTMLTaskSummaryElement;
@@ -833,13 +790,10 @@ declare namespace LocalJSX {
         "loading"?: boolean;
         "minimal"?: boolean;
         "newWindow"?: boolean;
-        "onClick"?: (event: TaskButtonCustomEvent<any>) => void;
-        "onFocus"?: (event: TaskButtonCustomEvent<any>) => void;
         "outlined"?: boolean;
         "rightIcon"?: string;
         "selected"?: boolean;
         "small"?: boolean;
-        "tabindex"?: string;
         "target"?: string;
         "text"?: string;
         "type"?: string;
@@ -855,10 +809,12 @@ declare namespace LocalJSX {
         "intent"?: string;
     }
     interface TaskCard {
-        "active"?: boolean;
+        "collapsable"?: boolean;
+        "collapsed"?: boolean;
+        "label"?: string;
         "onCardClicked"?: (event: TaskCardCustomEvent<TaskCard>) => void;
         "onCardReadyToSubmit"?: (event: TaskCardCustomEvent<boolean>) => void;
-        "width"?: number;
+        "width"?: string;
     }
     interface TaskCardList {
         "advanceWhenComplete"?: boolean;
@@ -911,7 +867,6 @@ declare namespace LocalJSX {
         "header"?: string;
     }
     interface TaskInput {
-        "active"?: boolean;
         "cols"?: number;
         "disableIf"?: string;
         "disabled"?: boolean;
@@ -922,7 +877,7 @@ declare namespace LocalJSX {
         "labelClass"?: string;
         "maxlength"?: number;
         "name"?: string;
-        "onInputUpdated"?: (event: TaskInputCustomEvent<HTMLElement>) => void;
+        "onTc:input"?: (event: TaskInputCustomEvent<InputUpdatedEvent>) => void;
         "placeholder"?: string;
         "requireIf"?: string;
         "required"?: boolean;
@@ -934,7 +889,6 @@ declare namespace LocalJSX {
         "valueFrom"?: string;
     }
     interface TaskInputMultiselect {
-        "active"?: boolean;
         "disableIf"?: string;
         "disabled"?: boolean;
         "displayIf"?: string;
@@ -943,8 +897,8 @@ declare namespace LocalJSX {
         "label"?: string;
         "labelClass"?: string;
         "name"?: string;
-        "onInputUpdated"?: (event: TaskInputMultiselectCustomEvent<HTMLElement>) => void;
         "onRegisterKeyboardShortcut"?: (event: TaskInputMultiselectCustomEvent<KeyboardShortcut>) => void;
+        "onTc:input"?: (event: TaskInputMultiselectCustomEvent<InputUpdatedEvent>) => void;
         "placeholder"?: string;
         "requireIf"?: string;
         "required"?: boolean;
@@ -958,7 +912,6 @@ declare namespace LocalJSX {
         "value"?: string;
     }
     interface TaskInputRadio {
-        "active"?: boolean;
         "answerTag"?: string;
         "disableIf"?: string;
         "disabled"?: boolean;
@@ -968,10 +921,11 @@ declare namespace LocalJSX {
         "inline"?: boolean;
         "label"?: string;
         "labelClass"?: string;
+        "labelShortcuts"?: boolean;
         "mode"?: string;
         "name"?: string;
-        "onInputUpdated"?: (event: TaskInputRadioCustomEvent<HTMLElement>) => void;
         "onRegisterKeyboardShortcut"?: (event: TaskInputRadioCustomEvent<KeyboardShortcut>) => void;
+        "onTc:input"?: (event: TaskInputRadioCustomEvent<InputUpdatedEvent>) => void;
         "requireIf"?: string;
         "required"?: boolean;
         "requiredIndicator"?: string;
@@ -979,7 +933,6 @@ declare namespace LocalJSX {
         "valueFrom"?: string;
     }
     interface TaskInputSelect {
-        "active"?: boolean;
         "disableIf"?: string;
         "disabled"?: boolean;
         "displayIf"?: string;
@@ -988,8 +941,8 @@ declare namespace LocalJSX {
         "label"?: string;
         "labelClass"?: string;
         "name"?: string;
-        "onInputUpdated"?: (event: TaskInputSelectCustomEvent<HTMLElement>) => void;
         "onRegisterKeyboardShortcut"?: (event: TaskInputSelectCustomEvent<KeyboardShortcut>) => void;
+        "onTc:input"?: (event: TaskInputSelectCustomEvent<InputUpdatedEvent>) => void;
         "requireIf"?: string;
         "required"?: boolean;
         "requiredIndicator"?: string;
@@ -1045,12 +998,6 @@ declare namespace LocalJSX {
     }
     interface TaskRow {
     }
-    interface TaskStep {
-        "active"?: boolean;
-        "label"?: string;
-        "onCardClicked"?: (event: TaskStepCustomEvent<HTMLElement>) => void;
-        "onCardReadyToSubmit"?: (event: TaskStepCustomEvent<boolean>) => void;
-    }
     interface TaskSteps {
     }
     interface TaskSubmit {
@@ -1076,6 +1023,7 @@ declare namespace LocalJSX {
     interface TaskTelemetry {
         "heartbeatEndpoint"?: string;
         "heartbeatInterval"?: number;
+        "includeResponse"?: boolean;
         "localStorageId"?: string;
         "name"?: string;
         "submitEndpoint"?: string;
@@ -1126,7 +1074,6 @@ declare namespace LocalJSX {
         "task-overlay": TaskOverlay;
         "task-progressbar": TaskProgressbar;
         "task-row": TaskRow;
-        "task-step": TaskStep;
         "task-steps": TaskSteps;
         "task-submit": TaskSubmit;
         "task-summary": TaskSummary;
@@ -1175,7 +1122,6 @@ declare module "@stencil/core" {
             "task-overlay": LocalJSX.TaskOverlay & JSXBase.HTMLAttributes<HTMLTaskOverlayElement>;
             "task-progressbar": LocalJSX.TaskProgressbar & JSXBase.HTMLAttributes<HTMLTaskProgressbarElement>;
             "task-row": LocalJSX.TaskRow & JSXBase.HTMLAttributes<HTMLTaskRowElement>;
-            "task-step": LocalJSX.TaskStep & JSXBase.HTMLAttributes<HTMLTaskStepElement>;
             "task-steps": LocalJSX.TaskSteps & JSXBase.HTMLAttributes<HTMLTaskStepsElement>;
             "task-submit": LocalJSX.TaskSubmit & JSXBase.HTMLAttributes<HTMLTaskSubmitElement>;
             "task-summary": LocalJSX.TaskSummary & JSXBase.HTMLAttributes<HTMLTaskSummaryElement>;

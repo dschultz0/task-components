@@ -33,8 +33,9 @@ export class TaskCardList {
     }
   }
 
-  scrollIntoView(cardIndex: number ) {
-    this.cards[cardIndex].scrollIntoView({ behavior: "smooth", block: "end" })
+  scrollIntoView(cardIndex: number) {
+    console.log(cardIndex)
+    // this.cards[cardIndex].scrollIntoView({ behavior: "smooth", block: "end" })
   }
 
   @Listen("keydown", { target: "document" })

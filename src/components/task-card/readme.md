@@ -7,10 +7,12 @@
 
 ## Properties
 
-| Property | Attribute | Description | Type      | Default     |
-| -------- | --------- | ----------- | --------- | ----------- |
-| `active` | `active`  |             | `boolean` | `undefined` |
-| `width`  | `width`   |             | `number`  | `undefined` |
+| Property      | Attribute     | Description | Type      | Default     |
+| ------------- | ------------- | ----------- | --------- | ----------- |
+| `collapsable` | `collapsable` |             | `boolean` | `undefined` |
+| `collapsed`   | `collapsed`   |             | `boolean` | `undefined` |
+| `label`       | `label`       |             | `string`  | `undefined` |
+| `width`       | `width`       |             | `string`  | `undefined` |
 
 
 ## Events
@@ -33,6 +35,19 @@ Type: `Promise<boolean>`
 
 
 
+
+## Dependencies
+
+### Depends on
+
+- [task-icon](../task-icon)
+
+### Graph
+```mermaid
+graph TD;
+  task-card --> task-icon
+  style task-card fill:#f9f,stroke:#333,stroke-width:4px
+```
 
 ----------------------------------------------
 

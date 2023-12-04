@@ -1,6 +1,6 @@
 import { Component, Event, EventEmitter, h, Host, Listen, Method, Prop, State, Element } from '@stencil/core';
-import { getFormElement, inputsWithAnswers, requiredChildInputs } from '../../utils/inputBase';
-import { CallbackFunction, ignoreKeypress, KeyboardShortcut } from '../../utils/utils';
+import { getFormElement, inputsWithAnswers, InputUpdatedEvent, requiredChildInputs } from '../../utils/inputBase';
+import { ignoreKeypress, KeyboardShortcut } from '../../utils/utils';
 
 @Component({
   tag: 'task-submit',
@@ -18,13 +18,8 @@ export class TaskSubmit {
   @State() readyToSubmit: boolean = false
   @Element() host: HTMLElement
   button!: HTMLButtonElement
-  form!: HTMLFormElement
-  formUpdatedCallback: CallbackFunction
-  loadCallback: CallbackFunction
 
   componentWillLoad() {
-    // TODO: This probably needs to be rerun if the mode changes for some reason
-    this.refreshSubmitReady()
     if (this.keyboardShortcut) {
       this.registerKeyboardShortcut.emit(
         {label: "Submit", keys: this.keyboardShortcut}
@@ -32,33 +27,10 @@ export class TaskSubmit {
     }
   }
 
-  connectedCallback() {
-    if (['interactive', 'complete'].includes(document.readyState)) {
-      this.setupFormListener()
-    } else {
-      this.loadCallback = this.setupFormListener.bind(this)
-      document.addEventListener("load", this.loadCallback)
-    }
-  }
-
-  setupFormListener() {
-    this.form = getFormElement(this.host)
-    if (this.form) {
-      this.formUpdatedCallback = this.refreshSubmitReady.bind(this)
-      this.form.addEventListener("input", this.formUpdatedCallback)
-      this.refreshSubmitReady()
-    } else {
-      setTimeout(this.setupFormListener, 1000)
-    }
-  }
-
-  disconnectedCallback() {
-    if (this.formUpdatedCallback) {
-      this.form.removeEventListener("input", this.formUpdatedCallback)
-    }
-    if (this.loadCallback) {
-      document.removeEventListener("load", this.loadCallback)
-    }
+  // TODO: Add listener triggered from tc body and/or new form
+  @Listen("all-crowd-elements-ready", {target: "document"})
+  taskReady() {
+    this.refreshSubmitReady()
   }
 
   @Listen("keydown", { target: "document" })
@@ -68,10 +40,18 @@ export class TaskSubmit {
     }
   }
 
+  @Listen("tc:input", {target: "body"})
+  inputUpdatedHandler(event: CustomEvent<InputUpdatedEvent>) {
+    this.refreshSubmitReady(event.detail.form)
+  }k
+
   @Method()
-  async refreshSubmitReady() {
-    if (this.form && this.disableUntilComplete) {
-      Promise.all(requiredChildInputs(this.form).map(i => i.readyToSubmit()))
+  async refreshSubmitReady(form?: HTMLFormElement) {
+    if (!form) {
+      form = getFormElement(this.host)
+    }
+    if (form && this.disableUntilComplete) {
+      Promise.all(requiredChildInputs(form).map(i => i.readyToSubmit()))
         .then(values => {
           this.disabled = !values.every(Boolean)
         })

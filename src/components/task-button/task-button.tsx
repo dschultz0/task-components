@@ -1,4 +1,4 @@
-import { Component, Host, Fragment, h, Prop, EventEmitter, Event, State, Element } from '@stencil/core';
+import { Component, Host, Fragment, h, Prop, State, Element } from '@stencil/core';
 import classNames from 'classnames'
 import { isKeyboardClick } from '../../utils/utils';
 
@@ -29,11 +29,8 @@ export class TaskButton {
   @Prop() href: string
   @Prop() target: string
   @Prop() newWindow: boolean = false
-  @Prop() tabindex: string
   @State() isActive: boolean = false
   @State() currentKeyPressed: string
-  @Event() click: EventEmitter
-  @Event() focus: EventEmitter
   @Element() host: HTMLElement
   button?: HTMLAnchorElement|HTMLButtonElement
 
@@ -76,6 +73,10 @@ export class TaskButton {
 
   render() {
     const disabled = this.disabled || this.loading
+    let tabIndex = "tabindex" in this.host.attributes ? this.host.tabIndex : 0
+    if (disabled) {
+      tabIndex = -1
+    }
     const classes = classNames(
       "button",
       {
@@ -93,7 +94,7 @@ export class TaskButton {
       this.alignText ? `align-${this.alignText}` : undefined
     )
     return (
-      <Host>
+      <Host tabindex={tabIndex}>
         {this.anchor ?
           <a
             key="anchorButton"
@@ -104,7 +105,7 @@ export class TaskButton {
             onBlur={() => this.handleBlur()}
             onKeyDown={e => this.handleKeyDown(e)}
             onKeyUp={e => this.handleKeyUp(e)}
-            tabindex={disabled ? -1 : this.tabindex}
+            tabIndex={-1}
           >
             {this.renderContents()}
           </a>
@@ -122,7 +123,7 @@ export class TaskButton {
             onBlur={() => this.handleBlur()}
             onKeyDown={e => this.handleKeyDown(e)}
             onKeyUp={e => this.handleKeyUp(e)}
-            tabindex={disabled ? -1 : this.tabindex}
+            tabIndex={-1}
           >
             {this.renderContents()}
           </button>)

@@ -1,12 +1,11 @@
 import { Component, Host, h, Prop, Listen, Event, EventEmitter, Watch, Method, Fragment, State, Element } from '@stencil/core';
-import { Input, InputBase, InputEventTarget } from '../../utils/inputBase';
+import { Input, InputBase, InputEventTarget, InputUpdatedEvent } from '../../utils/inputBase';
 import { TaskAnswer } from '../task-answer/task-answer';
 import { TaskAnswerCorrection } from '../task-answer-correction/task-answer-correction';
 
 import {
   CallbackFunction,
   gatherInputOptions,
-  ignoreKeypress,
   inputOptionKeyboardShortcuts,
   KeyboardShortcut,
 } from '../../utils/utils';
@@ -27,10 +26,10 @@ export class TaskInputRadio implements Input {
   @Prop() label: string
   // Class to apply to the label
   @Prop() labelClass: string
+  // Display the keyboard shortcut behind the label
+  @Prop() labelShortcuts: boolean
   // Indicates that the field is required and must be provided before submit.
   @Prop({mutable: true}) required: boolean
-  // An attribute that is used in card layouts to indicate that this input is active.
-  @Prop() active: boolean
   // Indicates that the input is disabled and can't be edited
   // Note that it appears crowd-form ignores disabled inputs, so we have to use an alt approach here
   @Prop({mutable: true}) disabled: boolean
@@ -50,7 +49,7 @@ export class TaskInputRadio implements Input {
   @State() preventChanges: boolean
   @State() answer: TaskAnswer
   @State() answerCorrection: TaskAnswerCorrection
-  @Event() inputUpdated: EventEmitter<HTMLElement>
+  @Event({eventName: "tc:input"}) inputUpdated: EventEmitter<InputUpdatedEvent>
   @Element() host: HTMLElement
   input!: HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement
   fromInput!: InputEventTarget
@@ -91,19 +90,21 @@ export class TaskInputRadio implements Input {
     }
   }
 
-  @Listen("keypress", { target: "document" })
+  @Listen("keypress", { target: "document", capture: false })
   keypressHandler(event: KeyboardEvent) {
-    if (event.key in this.shortcutMap && this.active && !ignoreKeypress() && !this.disabled && !this.preventChanges) {
+    if (event.key in this.shortcutMap &&
+      (document.activeElement === this.host || this.host.contains(document.activeElement) || document.activeElement.contains(this.host)) &&
+      !this.disabled &&
+      !this.preventChanges
+    ) {
       const advance = this.value === this.shortcutMap[event.key]
       this.value = this.shortcutMap[event.key]
-      // If the value will not change as a result of the key press, trigger card advance from here
-      if (advance) {
-        this.inputUpdated.emit(this.input.form)
-      }
+      this.inputUpdated.emit({input: this.input, form: this.form, advance})
+      event.stopImmediatePropagation()
       // The following addresses an issue observed with dependent form elements
       // not receiving form updated events when the value is changed via keypress
-      this.input.form.elements[this.name].value = this.shortcutMap[event.key]
-      this.input.form.dispatchEvent(new InputEvent("input"))
+      //this.input.form.elements[this.name].value = this.shortcutMap[event.key]
+      //this.input.form.dispatchEvent(new InputEvent("input"))
     }
   }
 
@@ -126,9 +127,13 @@ export class TaskInputRadio implements Input {
     return !(this.hasAnswerToValidate() && this.answerCorrection.displayOn === "submit" && this.value !== this.answer.value)
   }
 
+  handleRadioChange(event: Event) {
+    this.value = (event.target as HTMLInputElement).value
+  }
+
   renderRadio() {
-    return this.options.map(option =>
-      <label class={classNames("radio", {"inline": this.inline})}>
+    return this.options.map((option, i) =>
+      <label class={classNames("radio", {"inline": this.inline})} id={`${this.name}${i}`} tabindex={-1}>
         <input
           key="input"
           type="radio"
@@ -139,15 +144,25 @@ export class TaskInputRadio implements Input {
           checked={option.value === this.value}
           disabled={this.disabled || (this.preventChanges && option.value !== this.value)}
           ref={el => this.input = el}
+          tabindex={-1}
           // Prevents the input getting focus and changing values using arrow keys
-          onClick={(e) => (e.target as HTMLInputElement).blur()}
+          // onClick={(e) => (e.target as HTMLInputElement).blur()}
         />
         { this.mode === "radio" && <span class="indicator" key="indicator"></span> }
-        <div
-          key="content"
-          class={classNames("content", {"inline": this.inline})}
-          innerHTML={option.innerHTML}
-        />
+        { this.labelShortcuts && option.keyboardShortcut ?
+          <div
+            key="content"
+            class={classNames("content", {"inline": this.inline})}
+          >
+            <div style={{display: "inline"}}
+              innerHTML={option.innerHTML}/>
+            <sup>&nbsp;{option.keyboardShortcut}</sup>
+          </div>
+        : <div
+            key="content"
+            class={classNames("content", {"inline": this.inline})}
+            innerHTML={option.innerHTML}
+          />}
         {this.answer &&
           this.answer.value === option.value &&
           (this.answer.showAnswer || (
@@ -185,7 +200,7 @@ export class TaskInputRadio implements Input {
             disabled={this.disabled || (this.preventChanges && option.value !== this.value)}
             ref={el => this.input = el}
             // Prevents the input getting focus and changing values using arrow keys
-            onClick={(e) => (e.target as HTMLInputElement).blur()}
+            // onClick={(e) => (e.target as HTMLInputElement).blur()}
           />
           <div
             key="content"
@@ -197,8 +212,13 @@ export class TaskInputRadio implements Input {
   }
 
   render() {
+    /*
+    let tabIndex = "tabindex" in this.host.attributes ? this.host.tabIndex : 0
+    if (this.disabled || this.hidden) {
+      tabIndex = -1
+    }*/
     return (
-      <Host>
+      <Host tabindex={0}>
         {!this.hidden && <Fragment>
             {this.label && <task-label class={this.labelClass}>{this.label}</task-label>}
             {this.mode === "button" ? this.renderButtonGroup() : this.renderRadio()}

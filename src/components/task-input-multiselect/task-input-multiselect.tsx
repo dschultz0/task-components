@@ -1,5 +1,5 @@
 import { Component, Host, h, Prop, State, Event, Element, EventEmitter, Method, Watch } from '@stencil/core';
-import { Input, InputBase, InputEventTarget } from '../../utils/inputBase';
+import { Input, InputBase, InputEventTarget, InputUpdatedEvent } from '../../utils/inputBase';
 import {
   CallbackFunction,
   gatherInputOptions,
@@ -27,8 +27,6 @@ export class TaskInputMultiselect implements Input {
   @Prop() labelClass: string
   // Indicates that the field is required and must be provided before submit.
   @Prop({mutable: true}) required: boolean
-  // An attribute that is used in card layouts to indicate that this input is active.
-  @Prop() active: boolean
   // Indicates that the input is disabled and can't be edited
   // Note that it appears crowd-form ignores disabled inputs, so we have to use an alt approach here
   @Prop({mutable: true}) disabled: boolean
@@ -48,7 +46,7 @@ export class TaskInputMultiselect implements Input {
   @State() preventChanges: boolean
   @State() answer: TaskAnswer
   @State() answerCorrection: TaskAnswerCorrection
-  @Event() inputUpdated: EventEmitter<HTMLElement>
+  @Event({eventName: "tc:input"}) inputUpdated: EventEmitter<InputUpdatedEvent>
   @Element() host: HTMLElement
   input!: HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement
   fromInput!: InputEventTarget
@@ -155,7 +153,7 @@ export class TaskInputMultiselect implements Input {
   @Watch("values")
   handleValueUpdate() {
     this.value = this.values.join(",")
-    this.inputUpdated.emit(this.input.form)
+    this.inputUpdated.emit({input: this.input, form: this.form})
   }
 
   handleOptionSelect(e: Event, value: string) {

@@ -27,18 +27,9 @@
 | `rightIcon` | `right-icon` |             | `string`  | `undefined` |
 | `selected`  | `selected`   |             | `boolean` | `false`     |
 | `small`     | `small`      |             | `boolean` | `false`     |
-| `tabindex`  | `tabindex`   |             | `string`  | `undefined` |
 | `target`    | `target`     |             | `string`  | `undefined` |
 | `text`      | `text`       |             | `string`  | `undefined` |
 | `type`      | `type`       |             | `string`  | `"button"`  |
-
-
-## Events
-
-| Event   | Description | Type               |
-| ------- | ----------- | ------------------ |
-| `click` |             | `CustomEvent<any>` |
-| `focus` |             | `CustomEvent<any>` |
 
 
 ## Dependencies

@@ -161,10 +161,6 @@
           "description": ""
         },
         {
-          "name": "tabindex",
-          "description": ""
-        },
-        {
           "name": "target",
           "description": ""
         },
@@ -228,7 +224,15 @@
       },
       "attributes": [
         {
-          "name": "active",
+          "name": "collapsable",
+          "description": ""
+        },
+        {
+          "name": "collapsed",
+          "description": ""
+        },
+        {
+          "name": "label",
           "description": ""
         },
         {
@@ -444,10 +448,6 @@
       },
       "attributes": [
         {
-          "name": "active",
-          "description": ""
-        },
-        {
           "name": "cols",
           "description": ""
         },
@@ -532,10 +532,6 @@
         "value": ""
       },
       "attributes": [
-        {
-          "name": "active",
-          "description": ""
-        },
         {
           "name": "disable-if",
           "description": ""
@@ -623,10 +619,6 @@
       },
       "attributes": [
         {
-          "name": "active",
-          "description": ""
-        },
-        {
           "name": "answer-tag",
           "description": ""
         },
@@ -660,6 +652,10 @@
         },
         {
           "name": "label-class",
+          "description": ""
+        },
+        {
+          "name": "label-shortcuts",
           "description": ""
         },
         {
@@ -699,10 +695,6 @@
         "value": ""
       },
       "attributes": [
-        {
-          "name": "active",
-          "description": ""
-        },
         {
           "name": "disable-if",
           "description": ""
@@ -941,23 +933,6 @@
       "attributes": []
     },
     {
-      "name": "task-step",
-      "description": {
-        "kind": "markdown",
-        "value": ""
-      },
-      "attributes": [
-        {
-          "name": "active",
-          "description": ""
-        },
-        {
-          "name": "label",
-          "description": ""
-        }
-      ]
-    },
-    {
       "name": "task-steps",
       "description": {
         "kind": "markdown",
@@ -1044,6 +1019,10 @@
         },
         {
           "name": "heartbeat-interval",
+          "description": ""
+        },
+        {
+          "name": "include-response",
           "description": ""
         },
         {

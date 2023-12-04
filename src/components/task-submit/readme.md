@@ -25,7 +25,7 @@
 
 ## Methods
 
-### `refreshSubmitReady() => Promise<void>`
+### `refreshSubmitReady(form?: HTMLFormElement) => Promise<void>`
 
 
 

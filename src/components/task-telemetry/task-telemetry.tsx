@@ -7,17 +7,17 @@ type Mark = {
   time: number
 }
 type TelemetryValue = {
-  seconds: object,
-  markCounts: object,
-  attributes: object,
+  seconds: object
+  markCounts: object
+  totalSeconds: object
+  totalMarkCounts: object
+  attributes: object
   startTimestamp: string
   response?: object
-  latestSeconds?: object,
-  latestMarkCounts?: object,
 }
 type StoredTelemetry = {
-  seconds: object,
-  markCounts: object,
+  seconds: object
+  markCounts: object
   priorData?: StoredTelemetry
 }
 type BaseTime = {
@@ -236,14 +236,12 @@ export class TaskTelemetry {
         }
       }
       this.value = {
-        seconds: roundTime(this.priorData ? sumMeasures(seconds, this.priorData.seconds) : seconds),
-        markCounts: this.priorData ? sumMeasures(markCounts, this.priorData.markCounts) : markCounts,
+        seconds,
+        markCounts,
+        totalSeconds: roundTime(this.priorData ? sumMeasures(seconds, this.priorData.seconds) : seconds),
+        totalMarkCounts: this.priorData ? sumMeasures(markCounts, this.priorData.markCounts) : markCounts,
         attributes: this.attributes,
         startTimestamp: this.startTimestamp
-      }
-      if (this.priorData) {
-        this.value.latestSeconds = seconds
-        this.value.latestMarkCounts = markCounts
       }
     }
   }

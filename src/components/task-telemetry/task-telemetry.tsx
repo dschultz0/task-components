@@ -7,15 +7,24 @@ type Mark = {
   time: number
 }
 type TelemetryValue = {
-  timeMs: object,
+  seconds: object,
   markCounts: object,
   attributes: object,
   startTimestamp: string
+  response?: object
+  latestSeconds?: object,
+  latestMarkCounts?: object,
 }
 type StoredTelemetry = {
-  timeMs: object,
+  seconds: object,
   markCounts: object,
   priorData?: StoredTelemetry
+}
+type BaseTime = {
+  task: number
+  blur: number
+  load: number
+  focus: number
 }
 
 @Component({
@@ -29,8 +38,10 @@ export class TaskTelemetry {
   @Prop() heartbeatEndpoint: string
   @Prop() heartbeatInterval: number = 10
   @Prop() localStorageId: string
+  @Prop() includeResponse: boolean = false
   @State() value: TelemetryValue
   @Element() host: HTMLElement
+  input: HTMLInputElement
   fetchMethod: FetchFunction
   attributes: object = {}
   recordingActive: boolean = true
@@ -90,20 +101,22 @@ export class TaskTelemetry {
   sendHeartbeat() {
     if (this.heartbeatEndpoint && this.recordingActive) {
       this.persistData()
-      const timeDelta = subtractMeasures(this.value.timeMs, this.lastHeartbeatTime)
-      this.lastHeartbeatTime = this.value.timeMs
+      const timeDelta = subtractMeasures(this.value.seconds, this.lastHeartbeatTime)
+      this.lastHeartbeatTime = this.value.seconds
       return this.fetcher(this.heartbeatEndpoint, {
         method: "POST",
         body: JSON.stringify({
           attributes: this.attributes,
           timestamp: new Date(Date.now()).toISOString(),
           idle: this.idle,
-          timeMs: timeDelta
+          seconds: timeDelta
         }),
         headers: {
           "Accept": "application/json",
           "Content-type": "application/json"
         }
+      }).catch(() => {
+        console.error("Sending heartbeat failed")
       })
     }
   }
@@ -114,8 +127,11 @@ export class TaskTelemetry {
     const active = this.recordingActive
     this.recordingActive = false
 
-    // console.log("send telemetry")
     if (this.submitEndpoint && active) {
+      if (this.includeResponse) {
+        const formData = new FormData(this.input.form)
+        this.value.response = Object.fromEntries(formData.entries())
+      }
       return this.fetcher(this.submitEndpoint, {
         method: "POST",
         body: JSON.stringify(this.value),
@@ -123,6 +139,8 @@ export class TaskTelemetry {
           "Accept": "application/json",
           "Content-Type": "application/json"
         }
+      }).catch(() => {
+        console.error("Sending telemetry failed")
       })
     }
   }
@@ -138,10 +156,11 @@ export class TaskTelemetry {
       // console.log(marks)
 
       // compute time spent
-      let timeMs = {
+      const milliseconds: BaseTime = {
         task: 0,
         blur: 0,
-        load: 0
+        load: 0,
+        focus: 0
       }
       let lastBlurTime = 0
       let isBlurred = false
@@ -149,12 +168,12 @@ export class TaskTelemetry {
       for (let m of marks) {
         switch (m.name) {
           case "start":
-            timeMs.task = now - m.time
+            milliseconds.task = now - m.time
             lastBlurTime = m.time
-            timeMs.load = m.time
+            milliseconds.load = m.time
             break
           case "focus":
-            timeMs.blur += (m.time - lastBlurTime)
+            milliseconds.blur += (m.time - lastBlurTime)
             isBlurred = false
             break
           case "blur":
@@ -164,10 +183,21 @@ export class TaskTelemetry {
         }
       }
       if (isBlurred) {
-        timeMs.blur += (now - lastBlurTime)
+        milliseconds.blur += (now - lastBlurTime)
       }
-      timeMs["focus"] = timeMs.task - timeMs.blur
-      // console.log(time)
+      milliseconds.focus = milliseconds.task - milliseconds.blur
+      const seconds: BaseTime = {
+        task: milliseconds.task / 1000,
+        focus: milliseconds.focus / 1000,
+        blur: milliseconds.blur / 1000,
+        load: milliseconds.load / 1000
+      }
+
+        Object.keys(milliseconds).reduce((r, key) => {
+        r[key] = milliseconds[key] / 1000
+        return r
+      }, {})
+      // console.log(seconds)
 
       // count relevant marks
       const excludedMarks = ["start", "all-crowd-elements-ready"]
@@ -198,7 +228,7 @@ export class TaskTelemetry {
           localStorage.removeItem(this.localStorageId)
         } else {
           const data = {
-            timeMs,
+            seconds,
             markCounts,
             priorData: this.priorData
           }
@@ -206,10 +236,14 @@ export class TaskTelemetry {
         }
       }
       this.value = {
-        timeMs: this.priorData ? sumMeasures(timeMs, this.priorData.timeMs, {recentTask: timeMs.task}) : timeMs,
+        seconds: roundTime(this.priorData ? sumMeasures(seconds, this.priorData.seconds) : seconds),
         markCounts: this.priorData ? sumMeasures(markCounts, this.priorData.markCounts) : markCounts,
         attributes: this.attributes,
         startTimestamp: this.startTimestamp
+      }
+      if (this.priorData) {
+        this.value.latestSeconds = seconds
+        this.value.latestMarkCounts = markCounts
       }
     }
   }
@@ -220,15 +254,16 @@ export class TaskTelemetry {
   }
 
   componentWillLoad() {
-    // Grab "priorTime" and "priorMarkCounts" from any stored values with this key
+    // Grab "priorData" from any stored values with this key
     if (this.localStorageId) {
       const priorDataString = localStorage.getItem(this.localStorageId)
       if (priorDataString) {
         this.priorData = JSON.parse(priorDataString)
+        mark("restart")
         // flatten if multiple restarts
         if (this.priorData.priorData) {
           this.priorData = {
-            timeMs: sumMeasures(this.priorData.timeMs, this.priorData.priorData.timeMs),
+            seconds: sumMeasures(this.priorData.seconds, this.priorData.priorData.seconds),
             markCounts: sumMeasures(this.priorData.markCounts, this.priorData.priorData.markCounts)
           }
         }
@@ -251,7 +286,12 @@ export class TaskTelemetry {
   render() {
     return (
       <Host>
-        <input type="hidden" name={this.name} value={JSON.stringify(this.value)}/>
+        <input
+          type="hidden"
+          name={this.name}
+          value={JSON.stringify(this.value)}
+          ref={el => this.input = el}
+        />
         <slot></slot>
       </Host>
     )
@@ -289,4 +329,13 @@ function subtractMeasures(a: object, b: object) {
     }
   }
   return delta
+}
+
+function roundTime(seconds: object) {
+  return Object.keys(seconds).reduce((r, k) => {
+    if (seconds[k] > 0) {
+      r[k] = Math.round(seconds[k] * 100) / 100
+    }
+    return r
+  }, {})
 }

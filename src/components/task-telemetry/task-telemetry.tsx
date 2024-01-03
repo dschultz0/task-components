@@ -13,6 +13,7 @@ type TelemetryValue = {
   totalMarkCounts: object
   attributes: object
   startTimestamp: string
+  submitTimestamp?: string
   response?: object
 }
 type StoredTelemetry = {
@@ -131,6 +132,7 @@ export class TaskTelemetry {
       if (this.includeResponse) {
         const formData = new FormData(this.input.form)
         this.value.response = Object.fromEntries(formData.entries())
+        this.value.submitTimestamp = new Date(Date.now()).toISOString()
       }
       return this.fetcher(this.submitEndpoint, {
         method: "POST",

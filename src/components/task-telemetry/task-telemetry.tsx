@@ -27,6 +27,11 @@ type BaseTime = {
   load: number
   focus: number
 }
+type TimeMeasure = {
+  name: string
+  startMark: string
+  endMark: string
+}
 
 @Component({
   tag: 'task-telemetry',
@@ -52,6 +57,7 @@ export class TaskTelemetry {
   priorData: StoredTelemetry
   lastHeartbeatTime: object = {}
   startTimestamp: string
+  timeMeasures: TimeMeasure[] = []
 
   /*
    When connected to the DOM two heartbeats are active. The internal heartbeat triggers updating the telemetry
@@ -124,6 +130,7 @@ export class TaskTelemetry {
 
   @Listen('submit', {target: 'document', capture: true})
   handleSubmit() {
+    mark("submit")
     this.persistData(true)
     const active = this.recordingActive
     this.recordingActive = false
@@ -194,15 +201,12 @@ export class TaskTelemetry {
         blur: milliseconds.blur / 1000,
         load: milliseconds.load / 1000
       }
-
-        Object.keys(milliseconds).reduce((r, key) => {
-        r[key] = milliseconds[key] / 1000
-        return r
-      }, {})
-      // console.log(seconds)
+      const timeMeasures = this.computeTimeMeasures(marks)
+      const combinedSeconds = {...seconds, ...timeMeasures}
+      // console.log(combinedSeconds)
 
       // count relevant marks
-      const excludedMarks = ["start", "all-crowd-elements-ready"]
+      const excludedMarks = ["start", "all-crowd-elements-ready", "submit"]
       const cMarks = marks.filter(m => !excludedMarks.includes(m.name))
       const markCounts = cMarks.reduce((counts, { name }) => {
         if (name in counts) {
@@ -238,19 +242,53 @@ export class TaskTelemetry {
         }
       }
       this.value = {
-        seconds,
+        seconds: combinedSeconds,
         markCounts,
-        totalSeconds: roundTime(this.priorData ? sumMeasures(seconds, this.priorData.seconds) : seconds),
+        totalSeconds: roundTime(this.priorData ? sumMeasures(combinedSeconds, this.priorData.seconds) : combinedSeconds),
         totalMarkCounts: this.priorData ? sumMeasures(markCounts, this.priorData.markCounts) : markCounts,
         attributes: this.attributes,
-        startTimestamp: this.startTimestamp
+        startTimestamp: this.startTimestamp,
       }
     }
+  }
+
+  computeTimeMeasures(marks: Mark[]) {
+    const result = {}
+    for (let tm of this.timeMeasures) {
+      let lastStart = null
+      let millis = 0
+      for (let mark of marks) {
+        switch (mark.name) {
+          case tm.startMark:
+            lastStart = mark.time
+            break
+          case tm.endMark:
+            if (lastStart !== null) {
+              millis += (mark.time - lastStart)
+            }
+            break
+        }
+        if (millis > 0) {
+          result[tm.name] = millis / 1000
+        }
+      }
+    }
+    return result
   }
 
   @Method()
   async setFetchMethod(func: Function) {
     this.fetchMethod = func as FetchFunction
+  }
+
+  @Method()
+  async mark(name: string) {
+    mark(name)
+  }
+
+  @Method()
+  async addTimeMeasure(name: string, startMark: string, endMark: string) {
+    this.timeMeasures.push({name, startMark, endMark})
   }
 
   componentWillLoad() {

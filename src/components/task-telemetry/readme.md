@@ -19,6 +19,26 @@
 
 ## Methods
 
+### `addTimeMeasure(name: string, startMark: string, endMark: string) => Promise<void>`
+
+
+
+#### Returns
+
+Type: `Promise<void>`
+
+
+
+### `mark(name: string) => Promise<void>`
+
+
+
+#### Returns
+
+Type: `Promise<void>`
+
+
+
 ### `setFetchMethod(func: Function) => Promise<void>`
 
 

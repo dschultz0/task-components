@@ -281,10 +281,12 @@ export namespace Components {
         "small": boolean;
     }
     interface TaskTelemetry {
+        "addTimeMeasure": (name: string, startMark: string, endMark: string) => Promise<void>;
         "heartbeatEndpoint": string;
         "heartbeatInterval": number;
         "includeResponse": boolean;
         "localStorageId": string;
+        "mark": (name: string) => Promise<void>;
         "name": string;
         "setFetchMethod": (func: Function) => Promise<void>;
         "submitEndpoint": string;

@@ -13,6 +13,7 @@ import { TaskAnswerCorrection } from '../task-answer-correction/task-answer-corr
   tag: 'task-input-select',
   styleUrl: 'task-input-select.css',
   scoped: true,
+  formAssociated: true,
 })
 export class TaskInputSelect implements Input {
   /*

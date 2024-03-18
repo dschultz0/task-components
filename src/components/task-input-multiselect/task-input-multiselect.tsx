@@ -14,6 +14,7 @@ import { computePosition, autoUpdate, flip, shift, offset } from '@floating-ui/d
   tag: 'task-input-multiselect',
   styleUrl: 'task-input-multiselect.css',
   scoped: true,
+  formAssociated: true,
 })
 export class TaskInputMultiselect implements Input {
   /*

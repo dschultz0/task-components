@@ -84,6 +84,10 @@ export namespace Components {
         "isCloseButtonShown": boolean;
         "isOpen": boolean;
     }
+    interface TaskForm {
+        "localId": string;
+        "saveLocal": boolean;
+    }
     interface TaskIcon {
         "icon": string;
         "size": number;
@@ -265,6 +269,7 @@ export namespace Components {
         "disableUntilComplete": boolean;
         "disabled": boolean;
         "keyboardShortcut": string;
+        "label": string;
         "refreshSubmitReady": () => Promise<void>;
         "setShowCorrections": (value: boolean) => Promise<void>;
     }
@@ -486,6 +491,12 @@ declare global {
     var HTMLTaskDialogElement: {
         prototype: HTMLTaskDialogElement;
         new (): HTMLTaskDialogElement;
+    };
+    interface HTMLTaskFormElement extends Components.TaskForm, HTMLStencilElement {
+    }
+    var HTMLTaskFormElement: {
+        prototype: HTMLTaskFormElement;
+        new (): HTMLTaskFormElement;
     };
     interface HTMLTaskIconElement extends Components.TaskIcon, HTMLStencilElement {
     }
@@ -768,6 +779,7 @@ declare global {
         "task-columns": HTMLTaskColumnsElement;
         "task-copyable": HTMLTaskCopyableElement;
         "task-dialog": HTMLTaskDialogElement;
+        "task-form": HTMLTaskFormElement;
         "task-icon": HTMLTaskIconElement;
         "task-image": HTMLTaskImageElement;
         "task-image-box": HTMLTaskImageBoxElement;
@@ -880,6 +892,10 @@ declare namespace LocalJSX {
         "isCloseButtonShown"?: boolean;
         "isOpen"?: boolean;
         "onClose"?: (event: TaskDialogCustomEvent<any>) => void;
+    }
+    interface TaskForm {
+        "localId"?: string;
+        "saveLocal"?: boolean;
     }
     interface TaskIcon {
         "icon"?: string;
@@ -1060,6 +1076,7 @@ declare namespace LocalJSX {
         "disableUntilComplete"?: boolean;
         "disabled"?: boolean;
         "keyboardShortcut"?: string;
+        "label"?: string;
         "onRegisterKeyboardShortcut"?: (event: TaskSubmitCustomEvent<KeyboardShortcut>) => void;
         "onShowCorrections"?: (event: TaskSubmitCustomEvent<any>) => void;
         "onTaskSubmit"?: (event: TaskSubmitCustomEvent<any>) => void;
@@ -1109,6 +1126,7 @@ declare namespace LocalJSX {
         "task-columns": TaskColumns;
         "task-copyable": TaskCopyable;
         "task-dialog": TaskDialog;
+        "task-form": TaskForm;
         "task-icon": TaskIcon;
         "task-image": TaskImage;
         "task-image-box": TaskImageBox;
@@ -1158,6 +1176,7 @@ declare module "@stencil/core" {
             "task-columns": LocalJSX.TaskColumns & JSXBase.HTMLAttributes<HTMLTaskColumnsElement>;
             "task-copyable": LocalJSX.TaskCopyable & JSXBase.HTMLAttributes<HTMLTaskCopyableElement>;
             "task-dialog": LocalJSX.TaskDialog & JSXBase.HTMLAttributes<HTMLTaskDialogElement>;
+            "task-form": LocalJSX.TaskForm & JSXBase.HTMLAttributes<HTMLTaskFormElement>;
             "task-icon": LocalJSX.TaskIcon & JSXBase.HTMLAttributes<HTMLTaskIconElement>;
             "task-image": LocalJSX.TaskImage & JSXBase.HTMLAttributes<HTMLTaskImageElement>;
             "task-image-box": LocalJSX.TaskImageBox & JSXBase.HTMLAttributes<HTMLTaskImageBoxElement>;

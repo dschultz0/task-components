@@ -1,4 +1,4 @@
-import { Host, Component, h, Prop, State, Event, EventEmitter, Element, Method, Watch } from '@stencil/core';
+import { Host, Component, h, Prop, State, Event, EventEmitter, Element, Method, Watch, AttachInternals } from '@stencil/core';
 import { Input, InputBase, InputEventTarget } from '../../utils/inputBase';
 import { TaskAnswer } from '../task-answer/task-answer';
 import { TaskAnswerCorrection } from '../task-answer-correction/task-answer-correction';
@@ -9,6 +9,7 @@ import { CallbackFunction } from '../../utils/utils';
   tag: 'task-input',
   styleUrl: 'task-input.css',
   scoped: true,
+  formAssociated: true,
 })
 export class TaskInput implements Input {
   /*
@@ -59,6 +60,8 @@ export class TaskInput implements Input {
   @Prop() maxlength: number
   @Prop() placeholder: string
 
+  @AttachInternals() internals: ElementInternals
+
   componentWillLoad = InputBase.prototype.componentWillLoad
   connectedCallback() {
     InputBase.prototype.connectedCallback.bind(this)()
@@ -89,7 +92,10 @@ export class TaskInput implements Input {
       maxLength={this.maxlength}
       required={this.required}
       disabled={this.disabled}
-      onInput={e => this.value = (e.target as HTMLInputElement).value}
+      onInput={e => {
+        this.value = (e.target as HTMLInputElement).value
+        this.internals.setFormValue((e.target as HTMLInputElement).value)
+      }}
       ref={el => this.input = el}
       value={this.value}
     ></input>

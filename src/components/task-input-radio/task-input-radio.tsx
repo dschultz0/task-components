@@ -16,6 +16,7 @@ import classNames from 'classnames';
   tag: 'task-input-radio',
   styleUrl: 'task-input-radio.css',
   scoped: true,
+  formAssociated: true,
 })
 export class TaskInputRadio implements Input {
   /*

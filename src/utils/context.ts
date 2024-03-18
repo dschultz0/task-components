@@ -1,5 +1,5 @@
 type Mode = 'working' | 'requester-preview' | 'worker-preview' | 'example'
-type Site = 'mturk' | 'requester' | 'private-worker'
+type Site = 'mturk' | 'requester' | 'private-worker' | 'open-event'
 const PREVIEW_ASSIGNMENT_ID: string = 'ASSIGNMENT_ID_NOT_AVAILABLE'
 
 export class Context {
@@ -10,6 +10,7 @@ export class Context {
   context: string
   domain: string
   endpoint: string
+  submitEventType: string
 
   // MTurk attributes
   assignmentId: string
@@ -25,8 +26,30 @@ export class Context {
     this.hitId = this.params.get('hitId')
     this.workerId = this.params.get('workerId')
 
+    this.loadSite()
+    this.loadMode()
+
+    window.parent.postMessage({type: 'requestTaskContext'}, window.origin)
+    window.addEventListener(
+      "message",
+      (event) => {
+        console.log(`received ${event.data.type} message to task`)
+        if (event.data.type === 'taskContext') {
+          this.submitEventType = event.data.submitEventType
+          this.assignmentId = event.data.assignmentId
+          this.context = event.data.context
+          this.workerId = event.data.workerId
+          this.loadSite(event.data.site)
+          this.loadMode(event.data.mode)
+        }
+      },
+      false,
+    )
+  }
+
+  loadSite(site?: Site) {
     // @ts-ignore
-    this.site = this.params.get('site')
+    this.site = site || this.params.get('site')
     if (!this.site) {
       if (this.context && this.domain) {
         this.site = 'private-worker'
@@ -36,8 +59,11 @@ export class Context {
         this.site = 'requester'
       }
     }
+  }
+
+  loadMode(mode? : Mode) {
     // @ts-ignore
-    this.mode = this.params.get('mode')
+    this.mode = mode || this.params.get('mode')
     if (!this.mode) {
       if (this.site === 'mturk' && this.assignmentId === PREVIEW_ASSIGNMENT_ID) {
         this.mode = 'worker-preview'
@@ -54,6 +80,11 @@ export class Context {
 }
 
 function _params(location?: Location) {
+  /*
+  Retrieves the URLSearchParams for the provided location or the current
+  window.location. To enable values passed via the hash (SMGT?) those are
+  included as well.
+   */
   location = location || window.location
   return new URLSearchParams(`${location.search}&${location.hash.substring(1)}`)
 }

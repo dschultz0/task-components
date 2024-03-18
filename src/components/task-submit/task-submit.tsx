@@ -11,6 +11,7 @@ export class TaskSubmit {
   @Prop() keyboardShortcut: string
   @Prop({mutable: true}) disabled: boolean = false
   @Prop() disableUntilComplete: boolean = true
+  @Prop() label: string = "Submit"
   @Event() registerKeyboardShortcut: EventEmitter<KeyboardShortcut>
   @Event() showCorrections: EventEmitter
   @Event() taskSubmit: EventEmitter
@@ -89,10 +90,10 @@ export class TaskSubmit {
   }
 
   handleSubmit(event: Event) {
-    const inputs = inputsWithAnswers()
-    if (inputs && !this.readyToSubmit && !this.correctionMode) {
+    const answeredInputs = inputsWithAnswers()
+    if (answeredInputs && answeredInputs.length > 0 && !this.readyToSubmit && !this.correctionMode) {
       event.preventDefault()
-      Promise.all(inputs.map(input => input.validateAgainstAnswer()))
+      Promise.all(answeredInputs.map(input => input.validateAgainstAnswer()))
         .then(values => this.handleValidationResult(values))
     } else {
       this.taskSubmit.emit()
@@ -111,7 +112,7 @@ export class TaskSubmit {
         <button type="submit"
                 ref={el => this.button = el as HTMLButtonElement}
                 disabled={this.disabled}
-                onClick={this.handleSubmit.bind(this)}>Submit</button>
+                onClick={this.handleSubmit.bind(this)}>{this.label}</button>
         <div class={this.correctionMode ? "" : "message-hidden"}>
           <slot></slot>
         </div>

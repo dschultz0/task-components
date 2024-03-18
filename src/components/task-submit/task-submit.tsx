@@ -48,7 +48,7 @@ export class TaskSubmit {
       this.form.addEventListener("input", this.formUpdatedCallback)
       this.refreshSubmitReady()
     } else {
-      setTimeout(this.setupFormListener, 1000)
+      setTimeout(() => this.setupFormListener(), 100)
     }
   }
 

@@ -130,7 +130,6 @@ export class TaskTelemetry {
 
   @Listen('submit', {target: 'document', capture: true})
   handleSubmit() {
-    mark("submit")
     this.persistData(true)
     const active = this.recordingActive
     this.recordingActive = false
@@ -154,7 +153,7 @@ export class TaskTelemetry {
     }
   }
 
-  persistData(clearStorage = false) {
+  persistData(isSubmit = false) {
     if (this.recordingActive) {
       // Get the list of marks
       let marks: Mark[] = getMarks()
@@ -201,12 +200,12 @@ export class TaskTelemetry {
         blur: milliseconds.blur / 1000,
         load: milliseconds.load / 1000
       }
-      const timeMeasures = this.computeTimeMeasures(marks)
+      const timeMeasures = this.computeTimeMeasures(marks, isSubmit)
       const combinedSeconds = {...seconds, ...timeMeasures}
       // console.log(combinedSeconds)
 
       // count relevant marks
-      const excludedMarks = ["start", "all-crowd-elements-ready", "submit"]
+      const excludedMarks = ["all-crowd-elements-ready"]
       const cMarks = marks.filter(m => !excludedMarks.includes(m.name))
       const markCounts = cMarks.reduce((counts, { name }) => {
         if (name in counts) {
@@ -230,7 +229,7 @@ export class TaskTelemetry {
       storage.
        */
       if (this.localStorageId) {
-        if (clearStorage) {
+        if (isSubmit) {
           localStorage.removeItem(this.localStorageId)
         } else {
           const data = {
@@ -252,10 +251,10 @@ export class TaskTelemetry {
     }
   }
 
-  computeTimeMeasures(marks: Mark[]) {
+  computeTimeMeasures(marks: Mark[], isSubmit: boolean = false) {
     const result = {}
+    let lastStart = null
     for (let tm of this.timeMeasures) {
-      let lastStart = null
       let millis = 0
       for (let mark of marks) {
         switch (mark.name) {
@@ -271,6 +270,9 @@ export class TaskTelemetry {
         if (millis > 0) {
           result[tm.name] = millis / 1000
         }
+      }
+      if (lastStart !== null && ((isSubmit && tm.endMark === "submit") || tm.endMark === "now")) {
+        result[tm.name] = Math.round(window.performance.now() - lastStart) / 1000
       }
     }
     return result

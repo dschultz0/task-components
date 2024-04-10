@@ -11,6 +11,12 @@
 
 
 
+#### Parameters
+
+| Name       | Type                                               | Description |
+| ---------- | -------------------------------------------------- | ----------- |
+| `shortcut` | `{ label: string; keys: string; value?: string; }` |             |
+
 #### Returns
 
 Type: `Promise<void>`

@@ -24,6 +24,15 @@
 
 
 
+#### Parameters
+
+| Name      | Type                       | Description |
+| --------- | -------------------------- | ----------- |
+| `context` | `CanvasRenderingContext2D` |             |
+| `scalar`  | `number`                   |             |
+| `xOffset` | `number`                   |             |
+| `yOffset` | `number`                   |             |
+
 #### Returns
 
 Type: `Promise<void>`

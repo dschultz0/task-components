@@ -23,6 +23,14 @@
 
 
 
+#### Parameters
+
+| Name        | Type     | Description |
+| ----------- | -------- | ----------- |
+| `name`      | `string` |             |
+| `startMark` | `string` |             |
+| `endMark`   | `string` |             |
+
 #### Returns
 
 Type: `Promise<void>`
@@ -33,6 +41,12 @@ Type: `Promise<void>`
 
 
 
+#### Parameters
+
+| Name   | Type     | Description |
+| ------ | -------- | ----------- |
+| `name` | `string` |             |
+
 #### Returns
 
 Type: `Promise<void>`
@@ -42,6 +56,12 @@ Type: `Promise<void>`
 ### `setFetchMethod(func: Function) => Promise<void>`
 
 
+
+#### Parameters
+
+| Name   | Type       | Description |
+| ------ | ---------- | ----------- |
+| `func` | `Function` |             |
 
 #### Returns
 

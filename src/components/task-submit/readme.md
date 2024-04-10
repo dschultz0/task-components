@@ -12,6 +12,7 @@
 | `disableUntilComplete` | `disable-until-complete` |             | `boolean` | `true`      |
 | `disabled`             | `disabled`               |             | `boolean` | `false`     |
 | `keyboardShortcut`     | `keyboard-shortcut`      |             | `string`  | `undefined` |
+| `label`                | `label`                  |             | `string`  | `"Submit"`  |
 
 
 ## Events
@@ -38,6 +39,12 @@ Type: `Promise<void>`
 ### `setShowCorrections(value: boolean) => Promise<void>`
 
 
+
+#### Parameters
+
+| Name    | Type      | Description |
+| ------- | --------- | ----------- |
+| `value` | `boolean` |             |
 
 #### Returns
 

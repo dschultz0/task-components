@@ -76,3 +76,13 @@ export function getMarks() {
   return window.performance.getEntriesByType("mark")
     .filter(mark => mark.name.startsWith(`${MARK_NAMESPACE}:`))
 }
+
+export function debounce(callback, wait = 300) {
+  let timeoutId = null;
+  return (...args) => {
+    window.clearTimeout(timeoutId)
+    timeoutId = window.setTimeout(() => {
+      callback.apply(null, args)
+    }, wait)
+  }
+}

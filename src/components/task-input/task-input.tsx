@@ -85,7 +85,6 @@ export class TaskInput implements Input {
   text() {
     return <input
       type="text"
-      name={this.name}
       class="input"
       placeholder={this.placeholder}
       size={this.size}
@@ -103,7 +102,6 @@ export class TaskInput implements Input {
 
   textarea() {
     return <textarea
-      name={this.name}
       class="input"
       rows={this.rows}
       cols={this.cols}

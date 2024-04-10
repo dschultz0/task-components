@@ -28,23 +28,15 @@ export class Context {
 
     this.loadSite()
     this.loadMode()
+  }
 
-    window.parent.postMessage({type: 'requestTaskContext'}, window.origin)
-    window.addEventListener(
-      "message",
-      (event) => {
-        console.log(`received ${event.data.type} message to task`)
-        if (event.data.type === 'taskContext') {
-          this.submitEventType = event.data.submitEventType
-          this.assignmentId = event.data.assignmentId
-          this.context = event.data.context
-          this.workerId = event.data.workerId
-          this.loadSite(event.data.site)
-          this.loadMode(event.data.mode)
-        }
-      },
-      false,
-    )
+  updateFromContextMessage(message: any) {
+    this.submitEventType = message.submitEventType
+    this.assignmentId = message.assignmentId
+    this.context = message.context
+    this.workerId = message.workerId
+    this.loadSite(message.site)
+    this.loadMode(message.mode)
   }
 
   loadSite(site?: Site) {

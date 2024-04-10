@@ -304,6 +304,23 @@
       ]
     },
     {
+      "name": "task-form",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "local-id",
+          "description": ""
+        },
+        {
+          "name": "save-local",
+          "description": ""
+        }
+      ]
+    },
+    {
       "name": "task-icon",
       "description": {
         "kind": "markdown",
@@ -982,6 +999,10 @@
         },
         {
           "name": "keyboard-shortcut",
+          "description": ""
+        },
+        {
+          "name": "label",
           "description": ""
         }
       ]

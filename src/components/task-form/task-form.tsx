@@ -14,7 +14,7 @@ export class TaskForm {
   @Element() host
   formElement: HTMLFormElement
   context: Context
-  sendFormState = debounce(() => sendFormState(this.formElement))
+  sendFormState = debounce(() => sendFormState(this.formElement, this.context))
 
   componentDidLoad() {
     // TODO: do something when we don't have a form...
@@ -47,7 +47,7 @@ export class TaskForm {
       console.log("received taskContext")
       this.context.updateFromContextMessage(event.data)
       if (event.data.response) {
-        console.log("updating form from response")
+        console.log(`updating form response for assignment ${event.data.assignmentId}`)
         console.log(event.data.response)
         if (this.formElement) {
           for (const [key, value] of Object.entries(event.data.response)) {
@@ -71,7 +71,9 @@ export class TaskForm {
       console.log("sending form data to parent")
       window.parent.postMessage({
         type: eventType,
-        formResponse: formResponse,
+        assignmentId: this.context.assignmentId,
+        formData: formResponse,
+        formState: null
       }, window.origin);
     }
   }
@@ -97,10 +99,12 @@ function buildFormResponse(form: HTMLFormElement) {
   return response
 }
 
-function sendFormState(form: HTMLFormElement) {
+function sendFormState(form: HTMLFormElement, context: Context) {
   const formResponse = buildFormResponse(form)
   window.parent.postMessage({
     type: "formUpdated",
-    formResponse: formResponse,
+    assignmentId: context.assignmentId,
+    formData: formResponse,
+    formState: null
   }, window.origin)
 }
